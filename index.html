@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лінійні системи — метод Гаусса–Жордана</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+:root{--primary:#3157a4;--bg:#f3f5f9;--border:#dce2ed;--text:#202b3c;--muted:#68758a;--green:#16845b;--red:#c43d48}
+*{box-sizing:border-box}body{margin:0;padding:24px;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+.container{max-width:1200px;margin:auto}h1{color:#20375f;font-size:27px;margin:0 0 8px}h2{font-size:19px;margin:0 0 15px}.panel-heading{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.panel-heading .operation-help{flex:0 0 auto}.panel-heading .operation-help-popup{font-weight:400}h3{font-size:15px;margin:16px 0 10px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:19px;margin-bottom:17px}
+.subtitle,.muted{color:var(--muted);font-size:13px}.toolbar,.row{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.toolbar{margin-bottom:16px}
+button{border:1px solid var(--border);background:#fff;color:var(--text);border-radius:8px;padding:9px 12px;cursor:pointer;font-size:13px}button:hover{background:#edf2fa}button.primary{background:var(--primary);color:white}button.danger{color:var(--red)}button:disabled{opacity:.45;cursor:not-allowed}
+input,select{border:1px solid #cbd4e2;border-radius:7px;padding:8px;font-size:14px;min-width:65px}label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted)}
+.system-toolbar{gap:8px}.system-toolbar button{white-space:nowrap}.random-settings{padding-top:0;border-top:0;align-items:end;gap:8px}.random-settings input{width:82px}.random-settings label{gap:3px}.system-controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px}.system-toolbar{gap:8px}.system-toolbar button{white-space:nowrap}
+.matrix-area{overflow-x:auto;padding:10px 0}.matrix-wrapper{display:flex;justify-content:center;align-items:center;width:max-content;margin:8px auto;gap:5px}.matrix-table{border-collapse:separate;border-spacing:5px 7px}.matrix-table td{text-align:center;padding:0}.matrix-table td.rhs{border-left:2px solid #26334d;padding-left:10px}.matrix-table input{width:75px;height:39px;text-align:center;font-family:"Times New Roman",serif;font-size:17px}
+.matrix-table input.selected{background:#dceaff!important;border:2px solid var(--primary)!important;box-shadow:0 0 0 2px rgba(49,87,164,.12)}.matrix-table input.leader{background:#d9f5e5!important;border:2px solid var(--green)!important;font-weight:bold}.matrix-table input.pivot-zero{background:#f5eee5!important;border-color:#e7d8c5!important}.matrix-table input.active-leader{background:#c5efd8!important;border:3px solid #16845b!important;box-shadow:0 0 0 3px rgba(22,132,91,.18);font-weight:800}.matrix-table input.selected.leader{box-shadow:0 0 0 3px rgba(49,87,164,.25)}.matrix-table tr.changed-row{background:#fff1bd}.matrix-table tr.changed-row input:not(.leader):not(.selected){background:#fff1bd!important;border:2px solid #d8a91b!important}
+.matrix-label{text-align:center;color:var(--muted)}.equations{font-size:18px;overflow-x:auto}.analysis-info{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding:12px;border-radius:8px;background:#f5f7fb}.analysis-info strong{color:var(--primary)}
+.status{margin-top:12px;padding:12px;border-radius:8px;background:#eef3fb;line-height:1.5}.status.success{background:#eaf7f0;color:#176b4c}.status.error{background:#fff0f0;color:#a52f39}.completion-banner{margin-top:12px;padding:13px 15px;border:1px solid #a8dec4;border-radius:9px;background:#eaf7f0;color:#176b4c;line-height:1.55}.completion-banner strong{display:block;font-size:15px;margin-bottom:3px}.completion-banner.error{border-color:#efb4b8;background:#fff0f0;color:#a52f39}
+.dual-panels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:17px;align-items:start}.dual-panels>.panel{margin-bottom:0;min-width:0}.display-options{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:10px}.display-options label{display:flex;flex-direction:row;align-items:center;gap:5px;white-space:nowrap;font-size:12px}.display-options input{min-width:0;margin:0}.display-options .detail-toggle{flex:0 0 100%;width:100%;box-sizing:border-box;margin-top:0;min-height:34px;padding:6px 9px;border:1px solid var(--border);border-radius:7px;background:#fff;white-space:normal}.operation-tabs{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 10px}.operation-tabs button{padding:7px 11px;font-size:12px}.operation-tabs button.active{background:var(--primary);color:#fff;border-color:var(--primary)}.operation-grid{display:block}.operation-box{border:1px solid var(--border);border-radius:9px;padding:10px 12px;background:#fafbfe;min-width:0}.operation-box.hidden{display:none!important}.operation-box h3{font-size:14px;margin:0 0 5px}.operation-box .row{margin:6px 0;gap:6px}.operation-box label{gap:3px;font-size:11px}.operation-box select,.operation-box input{min-width:54px;padding:5px 6px;font-size:13px}.operation-box button{padding:7px 10px;font-size:12px}.operation-formula{font-size:13px;white-space:nowrap;margin:0 0 0 8px;color:var(--muted);flex:0 0 auto}.operation-equation{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px;margin:13px 0 10px}.equation-target{display:inline-flex;align-items:center;padding:3px;border:2px solid var(--primary);border-radius:8px;background:#edf3ff}.equation-target select{min-width:65px;height:35px;border:0;background:transparent;color:var(--primary);font-size:16px;font-weight:700;text-align:center}.equation-equals,.equation-operator{font-size:22px;font-weight:600;color:var(--text);line-height:1}.equation-bracket-field{display:inline-flex;align-items:center;gap:2px;color:var(--primary);font-size:21px;font-weight:600}.equation-bracket-field input,.equation-bracket-field select{width:66px;min-width:0;height:37px;padding:5px 6px;border:1px solid #cbd4e2;border-radius:6px;background:#fff;color:var(--text);font-size:14px;font-weight:500;text-align:center}.equation-bracket-field input[readonly]{background:#f0f2f6;color:#68758a;border-style:dashed;cursor:default}.equation-bracket-field.coefficient-field input{width:72px}.equation-bracket-field>span{line-height:1}.operation-formula{font-size:13px;white-space:nowrap;margin:7px 0;color:var(--muted)}.history-item .history-math{display:inline-block;margin:0 3px}
+.step-description{background:#f5f7fb;padding:12px;border-radius:8px;margin:12px 0}.detail-toggle{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);margin-top:12px}.detail-toggle input{min-width:0}.calculation-details{margin-top:10px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;overflow-x:auto}.calculation-line{padding:5px 0;border-bottom:1px dashed #e5e9f0}.calculation-line:last-child{border-bottom:0}.matrix-table tr.row-animate{animation:rowSlide .55s ease-out}@keyframes rowSlide{from{transform:translateX(-18px);opacity:.25}to{transform:translateX(0);opacity:1}}.view-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}.view-tabs button.active{background:var(--primary);color:white}.result{overflow-x:auto;line-height:1.8}.history-list{max-height:300px;overflow:auto;font-size:13px}.history-item{padding:7px;border-bottom:1px solid var(--border)}.hidden{display:none!important}.math-block{overflow-x:auto}
+.closeness-panel{margin:9px 0 0;padding:8px 10px;border:1px solid var(--border);border-radius:9px;background:#f7f9fc}.closeness-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.closeness-head strong{font-size:14px;color:var(--text)}.closeness-caption{margin-top:3px;color:var(--muted);font-size:11px}.closeness-value{font-size:20px;font-weight:800;color:var(--primary);font-variant-numeric:tabular-nums}.closeness-track{height:6px;margin:6px 0 5px;border-radius:99px;background:#e4e9f1;overflow:hidden}.closeness-bar{height:100%;width:0;background:var(--green);border-radius:99px;transition:width .22s ease}.closeness-details{display:flex;flex-wrap:wrap;gap:5px 14px;color:var(--muted);font-size:11px;line-height:1.5}.closeness-details strong{color:var(--text)}.closeness-status{margin-top:3px;font-size:11px;font-weight:600;color:var(--muted)}body[data-theme="dark"] .closeness-panel{background:#202a39;border-color:#465267}body[data-theme="dark"] .closeness-track{background:#3a4659}body[data-theme="dark"] .closeness-head strong,body[data-theme="dark"] .closeness-details strong{color:var(--text)}
+
+/* Ігровий режим */
+.game-shell{position:relative;overflow:hidden;background:linear-gradient(125deg,#111c36 0%,#243b68 52%,#44316f 100%);border:1px solid #344b78;border-radius:18px;padding:20px;color:#f5f7ff;margin:0 0 18px;box-shadow:0 12px 32px #1a2c501c}
+.game-shell:before{content:"";position:absolute;width:260px;height:260px;right:-90px;top:-150px;border-radius:50%;background:#8b79ff2b;filter:blur(4px);pointer-events:none}
+.game-top,.game-stats,.game-levels,.game-achievements{position:relative;z-index:1}.game-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.game-kicker{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#b9c8f5;font-weight:700}.game-title{font-size:23px;font-weight:800;margin:4px 0}.game-description{font-size:12px;color:#c7d2ee;max-width:600px;line-height:1.5}.game-toggle{background:#fff;color:#25365d;border:0;font-weight:700}.game-toggle:hover{background:#e9edff}.game-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin:16px 0}.game-stat{background:#ffffff12;border:1px solid #ffffff24;border-radius:12px;padding:11px}.game-stat span{display:block;font-size:10px;color:#c2cdec;margin-bottom:4px}.game-stat strong{font-size:21px;color:#fff;font-variant-numeric:tabular-nums}.game-score-progress{height:9px;background:#ffffff20;border:1px solid #ffffff25;border-radius:99px;overflow:hidden;margin-top:7px}.game-score-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#74d9ae,#b8e986);border-radius:99px;transition:width .25s ease}.game-progress-caption{display:flex;justify-content:space-between;gap:8px;color:#c7d2ee;font-size:10px;margin-top:5px}.game-content{position:relative;z-index:1;border-top:1px solid #ffffff26;padding-top:14px}.game-levels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0 14px}.game-level{background:#ffffff12;border:1px solid #ffffff30;color:#f6f7ff;text-align:left;padding:10px;border-radius:11px;min-height:94px}.game-level:hover:not(:disabled){background:#ffffff25}.game-level.active{border-color:#b8a8ff;background:#8c79ff38;box-shadow:0 0 0 2px #b8a8ff33}.game-level:disabled{opacity:.4}.game-level b{display:block;font-size:12px;margin-bottom:5px}.game-level small{font-size:10px;color:#c7d2ee}.game-level .level-desc{display:block;line-height:1.35;min-height:26px;margin-bottom:4px}.game-level .stars{color:#ffd66b;letter-spacing:1px}.game-challenge{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#ffffff12;border:1px solid #ffffff26;border-radius:12px;padding:12px}.game-challenge strong{display:block;font-size:14px}.game-challenge p{margin:4px 0 0;color:#c7d2ee;font-size:11px}.game-actions{display:flex;gap:7px;flex-wrap:wrap}.game-actions button{background:#fff;color:#25365d;border:0;font-weight:700}.game-actions button.secondary{background:#ffffff18;color:#fff;border:1px solid #ffffff38}.game-achievements{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.game-achievement{font-size:10px;padding:6px 9px;border-radius:99px;background:#ffffff12;border:1px solid #ffffff24;color:#d7def2}.game-achievement.earned{background:#f7d66c20;border-color:#e9c35c;color:#ffe18a}.game-result{margin-top:10px;padding:10px 12px;border-radius:10px;background:#1d9c7040;border:1px solid #74d9ae;color:#e3fff1;font-size:12px;line-height:1.5}.game-result.hidden{display:none}
+.system-toolbar.game-size-locked #addRow,.system-toolbar.game-size-locked #removeRow,.system-toolbar.game-size-locked #addCol,.system-toolbar.game-size-locked #removeCol,.system-toolbar.game-size-locked #exampleBtn,.system-toolbar.game-size-locked #resetBtn{opacity:.42;cursor:not-allowed;filter:grayscale(.35)}
+body[data-theme="dark"] .game-shell{box-shadow:0 12px 32px #0004}
+@media(max-width:700px){.game-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.game-levels{grid-template-columns:repeat(2,minmax(0,1fr))}.game-title{font-size:20px}}
+
+@media(max-width:850px){.dual-panels{grid-template-columns:1fr}}@media(max-width:600px){body{padding:12px}.panel{padding:13px}.system-toolbar button{flex:1 1 auto}.matrix-table input{width:55px}.analysis-info{gap:10px}.operation-equation{gap:5px}.equation-target select{min-width:55px}.equation-bracket-field input,.equation-bracket-field select{width:58px;padding:5px 3px;font-size:12px}.equation-bracket-field.coefficient-field input{width:62px}.equation-equals,.equation-operator{font-size:19px}}
+
+.operation-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;margin:0 0 8px!important}.operation-heading .operation-formula{display:inline-flex;align-items:center;margin:0;color:var(--muted);font-size:13px;white-space:nowrap}.operation-equation{display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;gap:7px;margin:10px 0}.equation-field{display:inline-flex;align-items:center;justify-content:center;min-width:68px;height:41px;padding:2px 5px;border:2px solid var(--primary);border-radius:8px;background:#edf3ff}.equation-field select,.equation-field input{display:block;width:100%;min-width:0;height:33px;padding:3px 4px;border:0!important;outline:0;background:transparent!important;color:var(--primary);font-size:16px;font-weight:700;text-align:center;box-shadow:none!important}.equation-field input{width:68px;color:var(--text);font-weight:600}.equation-field.coefficient-field{min-width:76px}.equation-field.coefficient-field input{width:64px}.equation-field input[readonly]{color:var(--primary);cursor:default;opacity:1}.equation-equals,.equation-operator{font-size:22px;font-weight:600;color:var(--text);line-height:1}.operation-box button{margin-top:4px;padding:10px 16px;min-height:40px;font-size:14px;font-weight:650;min-width:116px}
+@media(max-width:600px){.operation-heading{align-items:flex-start;gap:4px}.operation-equation{gap:5px}.equation-field{min-width:58px;height:38px}.equation-field select,.equation-field input{height:30px;font-size:14px}.equation-field input{width:58px}.equation-field.coefficient-field{min-width:66px}.equation-field.coefficient-field input{width:54px}}
+
+.manual-toolbar{display:flex;align-items:center;gap:9px;margin:0 0 10px}.manual-step-counter{display:inline-flex;align-items:center;gap:6px;margin:0;padding:6px 10px;border:1px solid var(--border);border-radius:7px;background:var(--panel, #f5f7fb);color:var(--muted);font-size:12px;font-weight:600}.manual-step-counter strong{color:var(--primary);font-size:14px}
+.operation-heading-main{display:inline-flex;align-items:center;gap:8px;min-width:0}.operation-heading-main>.operation-help{margin-left:1px}.operation-help{position:relative;display:inline-flex;align-items:center}.operation-help-trigger{width:auto;height:auto;min-width:0;padding:0 2px!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:var(--primary)!important;font-size:16px!important;font-weight:700;line-height:1;box-shadow:none!important}.operation-help-trigger:hover,.operation-help-trigger[aria-expanded="true"]{background:transparent!important;border:0!important;text-decoration:underline;text-underline-offset:2px}.operation-help-popup{position:absolute;z-index:40;top:calc(100% + 8px);left:0;width:min(340px,calc(100vw - 54px));padding:12px 14px;border:1px solid #cbd5e3;border-radius:9px;background:#fff;box-shadow:0 8px 24px rgba(32,43,60,.16);color:var(--text);font-size:12px;font-weight:400;line-height:1.55;white-space:normal}.operation-help-popup strong{display:block;margin-bottom:5px;color:var(--primary);font-size:13px}.operation-help-popup p{margin:5px 0}.operation-help-popup .help-example{margin-top:8px;padding:7px 9px;border-radius:6px;background:#f4f7fc;overflow-x:auto;text-align:center;font-size:15px}
+
+/* Кольорові теми */
+body{transition:background-color .2s,color .2s}
+.theme-switcher{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 16px;padding:10px 12px;background:var(--panel-bg,#fff);border:1px solid var(--border);border-radius:10px}
+.theme-switcher-label{font-size:12px;color:var(--muted);font-weight:600;margin-right:3px}
+.theme-choice{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--border);border-radius:7px;background:var(--panel-bg,#fff);color:var(--text);font-size:12px}
+.theme-choice[aria-pressed="true"]{outline:2px solid var(--primary);outline-offset:1px;border-color:var(--primary)}
+.theme-swatch{width:12px;height:12px;border-radius:50%;border:1px solid #0002;background:var(--swatch)}
+:root{--panel-bg:#fff;--control-bg:#fff;--soft-bg:#f5f7fb;--heading:#20375f}
+body{background:var(--bg);color:var(--text)}
+.panel,.theme-switcher{background:var(--panel-bg)}
+h1{color:var(--heading)}
+button,input,select{background-color:var(--control-bg);color:var(--text)}
+.operation-box{background:var(--soft-bg)}
+.analysis-info,.step-description{background:var(--soft-bg)}
+.status{background:var(--soft-bg);color:var(--text)}
+.calculation-details{background:var(--panel-bg)}
+.operation-help-popup{background:var(--panel-bg);color:var(--text)}
+body[data-theme="ocean"]{--primary:#087e8b;--bg:#eaf5f7;--border:#c8e0e4;--text:#173b46;--muted:#557782;--panel-bg:#faffff;--control-bg:#fff;--soft-bg:#edf7f8;--heading:#075965;--green:#16845b;--red:#bd4652}
+body[data-theme="lavender"]{--primary:#7652a8;--bg:#f3eff9;--border:#ded3ec;--text:#332744;--muted:#796b8b;--panel-bg:#fff;--control-bg:#fff;--soft-bg:#f7f3fb;--heading:#503578;--green:#23845f;--red:#bd4652}
+body[data-theme="mint"]{--primary:#287b59;--bg:#edf5ef;--border:#d0e2d4;--text:#263d30;--muted:#687d6e;--panel-bg:#fcfffc;--control-bg:#fff;--soft-bg:#f0f7f1;--heading:#205d40;--green:#16845b;--red:#bd4652}
+body[data-theme="sunset"]{--primary:#b65d35;--bg:#fbf1e9;--border:#ecd7c8;--text:#493326;--muted:#8b7060;--panel-bg:#fffdfb;--control-bg:#fff;--soft-bg:#fcf4ed;--heading:#854326;--green:#39805c;--red:#b63e45}
+body[data-theme="dark"]{--primary:#83aaff;--bg:#171c27;--border:#394456;--text:#e6ebf3;--muted:#a5b0c2;--panel-bg:#222a38;--control-bg:#293345;--soft-bg:#293344;--heading:#d8e4ff;--green:#72d5a5;--red:#ff9299}
+body[data-theme="dark"] button{border-color:var(--border)}
+body[data-theme="dark"] button:hover{background:#354258}
+body[data-theme="dark"] .operation-help-trigger{background:transparent!important;color:var(--primary)!important;border:0!important}
+body[data-theme="dark"] .equation-field{background:#293b5a}
+body[data-theme="dark"] .equation-field select,body[data-theme="dark"] .equation-field input{color:#c8d9ff}
+body[data-theme="dark"] .equation-bracket-field input,body[data-theme="dark"] .equation-bracket-field select{background:#293345;color:var(--text)}
+body[data-theme="dark"] .matrix-table input{background:#293345;color:var(--text)}
+body[data-theme="dark"] .matrix-table input.selected{background:#344b70!important}
+body[data-theme="dark"] .matrix-table input.leader{background:#28513f!important}
+body[data-theme="dark"] .matrix-table input.pivot-zero{background:#514334!important}
+body[data-theme="dark"] .matrix-table tr.changed-row,body[data-theme="dark"] .matrix-table tr.changed-row input:not(.leader):not(.selected){background:#554a2c!important}
+body[data-theme="dark"] .status.success{background:#234536;color:#a9e9c9}
+body[data-theme="dark"] .status.error{background:#512e36;color:#ffc0c4}
+body[data-theme="dark"] .completion-banner{background:#234536;color:#a9e9c9;border-color:#39785b}
+body[data-theme="dark"] .completion-banner.error{background:#512e36;color:#ffc0c4;border-color:#92515a}
+body[data-theme="dark"] .help-example{background:#303b4e!important}
+
+
+.numeric-keypad{width:min(100%,360px);margin:12px auto 8px;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--soft-bg)}.keypad-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;font-size:13px}.keypad-heading .muted{font-size:11px;text-align:right}.keypad-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.matrix-key{min-width:0;min-height:42px;padding:8px 5px;font-size:17px;font-weight:650;background:var(--control-bg);border:1px solid var(--border);border-radius:7px}.matrix-key.operator{color:var(--primary);font-size:20px}.matrix-key.utility{font-size:14px}.matrix-key.apply{background:var(--primary);color:white;font-size:12px}.matrix-key:active{transform:translateY(1px)}.matrix-key:disabled{opacity:.4}.keypad-hint{margin-top:8px;color:var(--muted);font-size:11px;line-height:1.4;text-align:center}body[data-theme="dark"] .matrix-key{background:#293345;color:var(--text);border-color:var(--border)}body[data-theme="dark"] .matrix-key.apply{background:var(--primary);color:#172033}body[data-theme="dark"] .matrix-key.operator{color:var(--primary)}
+@media(max-width:600px){.numeric-keypad{width:100%;padding:9px}.matrix-key{min-height:44px}}
+
+
+/* ===== Matrix Challenge · повний візуальний редизайн v45 ===== */
+:root{--primary:#4f67d8;--bg:#f4f6fb;--border:#e2e7f1;--text:#20283a;--muted:#748097;--green:#16845b;--red:#c43d48;--panel-bg:#fff;--control-bg:#fff;--soft-bg:#f7f8fc;--heading:#26365d;--shadow:0 8px 26px rgba(31,45,83,.055);--radius:18px}
+*{box-sizing:border-box}
+body{padding:30px 24px 56px;background:radial-gradient(ellipse at 12% 0%,rgba(104,126,226,.10),transparent 34%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--text);line-height:1.5}
+.container{max-width:1360px}
+.app-header{display:flex;align-items:center;gap:16px;margin:0 0 22px;padding:4px 2px 10px}
+.brand-mark{display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;border-radius:18px;background:linear-gradient(145deg,#6279e8,#4657b8);color:#fff;font-size:35px;font-family:Georgia,serif;box-shadow:0 8px 20px rgba(79,103,216,.24)}
+.brand-copy{min-width:0}.brand-kicker{font-size:10px;font-weight:800;letter-spacing:1.55px;color:var(--primary);margin-bottom:2px}.app-header h1{font-size:29px;line-height:1.15;letter-spacing:-.7px;color:var(--heading);margin:0 0 5px}.app-header .subtitle{font-size:13px;line-height:1.45}.header-chip{margin-left:auto;display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid var(--border);border-radius:999px;background:var(--panel-bg);color:var(--muted);font-size:11px;font-weight:650;white-space:nowrap}.header-chip-dot{width:7px;height:7px;border-radius:50%;background:#25a879;box-shadow:0 0 0 4px rgba(37,168,121,.12)}
+.theme-switcher{padding:9px 12px;border-radius:13px;box-shadow:0 3px 12px rgba(31,45,83,.025);margin-bottom:18px}.theme-switcher-label{font-size:11px;letter-spacing:.2px}.theme-choice{border-radius:999px!important;padding:7px 10px!important;font-size:11px!important;background:transparent!important}.theme-choice[aria-pressed="true"]{background:rgba(79,103,216,.10)!important;border-color:rgba(79,103,216,.28)!important;color:var(--primary)!important}.theme-swatch{width:9px;height:9px;border-radius:50%;display:inline-block}
+.panel{background:var(--panel-bg);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:18px;box-shadow:var(--shadow)}
+h2{font-size:17px;letter-spacing:-.25px;color:var(--heading);margin:0 0 15px}.panel-heading{gap:10px}.panel-heading:before{content:"";display:block;width:4px;height:19px;border-radius:9px;background:var(--primary);margin-right:2px}.panel-heading .operation-help{margin-left:1px}
+h3{color:var(--heading)}.muted,.subtitle{color:var(--muted)}
+button{font:inherit;font-size:12px;font-weight:650;border:1px solid var(--border);border-radius:10px;padding:9px 13px;background:var(--panel-bg);color:var(--text);transition:background .16s ease,border-color .16s ease,transform .16s ease,box-shadow .16s ease}
+button:hover:not(:disabled){background:var(--soft-bg);border-color:color-mix(in srgb,var(--primary) 34%,var(--border));transform:translateY(-1px)}button:active:not(:disabled){transform:translateY(0)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--primary) 28%,transparent);outline-offset:2px}button.primary,.operation-box>button{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 5px 12px color-mix(in srgb,var(--primary) 20%,transparent)}button.primary:hover,.operation-box>button:hover{background:color-mix(in srgb,var(--primary) 88%,#111);color:#fff}.operation-box>button{display:block;width:100%;min-height:46px;margin-top:14px;font-size:14px;font-weight:750;border-radius:12px}.danger{color:var(--red)}
+input,select{background:var(--control-bg);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:9px 10px}label{font-size:11px;font-weight:600;color:var(--muted)}
+.system-toolbar{display:flex;gap:8px}.system-toolbar button{min-height:38px}.random-settings{margin-left:auto}.random-settings input{width:78px}.system-toolbar #matrixSizeInfo{flex-basis:100%;padding-top:5px}
+.dual-panels{grid-template-columns:minmax(0,1.08fr) minmax(380px,.92fr);gap:18px;align-items:start}.dual-panels>.panel{height:100%}.dual-panels>.panel:first-child{min-width:0}
+.matrix-area{padding:15px 8px 18px;border:1px solid var(--border);border-radius:15px;background:linear-gradient(180deg,var(--soft-bg),var(--panel-bg));margin-top:12px}.matrix-label{font-size:10px;text-transform:uppercase;letter-spacing:1.1px;font-weight:800;margin-bottom:7px}.matrix-wrapper{margin:5px auto}.matrix-table{border-spacing:7px 8px}.matrix-table input{width:78px;height:44px;border-radius:9px;border:1px solid var(--border);background:var(--panel-bg);font-size:17px;font-weight:600;color:var(--text);transition:background .15s,border-color .15s,box-shadow .15s}.matrix-table input:hover:not(:disabled){border-color:var(--primary)}.matrix-table td.rhs{border-left:2px solid var(--primary);padding-left:12px}.matrix-table input.selected{background:#e8edff!important;border:2px solid var(--primary)!important;box-shadow:0 0 0 3px rgba(79,103,216,.10)}.matrix-table input.leader{background:#e3f6ed!important;border:2px solid #29a675!important}.matrix-table input.active-leader{background:#c9f0dc!important;border:3px solid #16845b!important}
+.display-options{gap:9px 14px;margin-top:16px}.display-options label{font-size:11px;color:var(--muted);font-weight:550}.display-options .detail-toggle{border:1px solid var(--border);border-radius:10px;padding:9px 11px;background:var(--soft-bg)}.display-options input{accent-color:var(--primary)}.step-description{background:var(--soft-bg);border:1px solid var(--border);padding:13px 14px;border-radius:12px;font-size:12px}
+.operation-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:5px;border:1px solid var(--border);background:var(--soft-bg);border-radius:13px;margin:2px 0 13px}.operation-tabs button{min-width:0;padding:9px 7px;border:0;border-radius:9px;background:transparent;font-size:11px;line-height:1.3}.operation-tabs button.active{background:var(--panel-bg);color:var(--primary);box-shadow:0 2px 8px rgba(25,40,80,.09);border:1px solid var(--border)}.operation-box{padding:17px;border-radius:14px;border:1px solid var(--border);background:var(--soft-bg)}.operation-heading{margin-bottom:12px!important;align-items:center}.operation-heading-main{display:flex;align-items:center;gap:7px;font-weight:750;color:var(--heading)}.operation-formula{font-size:12px!important;color:var(--muted)}.operation-equation{justify-content:center;gap:9px;margin:18px 0}.equation-field{min-width:72px;height:45px;border-radius:11px;background:var(--panel-bg);border:1px solid color-mix(in srgb,var(--primary) 35%,var(--border));box-shadow:0 2px 5px rgba(20,30,60,.035)}.equation-field select,.equation-field input{height:38px;font-size:15px;font-weight:650;color:var(--text);text-align:center;background:transparent}.equation-operator,.equation-equals{font-size:23px;color:var(--primary)}.operation-help-trigger{width:23px;height:23px;padding:0;border:0!important;background:transparent!important;color:var(--primary)!important;font-size:15px;font-weight:800;border-radius:50%;box-shadow:none!important}.operation-help-trigger:hover{background:color-mix(in srgb,var(--primary) 10%,transparent)!important}.operation-help-popup{z-index:30;box-shadow:0 12px 30px rgba(20,30,60,.16);border:1px solid var(--border);border-radius:12px;background:var(--panel-bg);padding:14px;max-width:310px;font-size:12px}
+.numeric-keypad{border-radius:14px;background:var(--soft-bg);border:1px solid var(--border);padding:13px}.matrix-key{border-radius:10px;min-height:45px;font-size:17px}.matrix-key.apply{background:var(--primary)}.manual-toolbar{display:flex;align-items:center;gap:8px;margin-top:15px;padding-top:13px;border-top:1px solid var(--border)}.manual-step-counter{font-size:11px;color:var(--muted);font-weight:650;margin-right:auto}.manual-toolbar button{min-height:38px}.closeness-panel{margin-top:13px;padding:13px 14px;border:1px solid var(--border);border-radius:13px;background:var(--soft-bg)}.closeness-head strong{font-size:12px}.closeness-value{font-size:22px}.closeness-track{height:7px}.closeness-details{font-size:10px}
+.status,.completion-banner{border-radius:12px;padding:12px 14px;font-size:12px}.analysis-info{background:var(--soft-bg);border:1px solid var(--border);border-radius:12px}.view-tabs{padding:4px;background:var(--soft-bg);border-radius:12px}.view-tabs button{border:0;background:transparent}.view-tabs button.active{background:var(--panel-bg);color:var(--primary);box-shadow:0 2px 7px rgba(20,30,60,.08)}.result{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--soft-bg);min-height:70px}.history-list{border:1px solid var(--border);border-radius:12px;padding:6px 12px;background:var(--soft-bg)}.history-item{padding:10px 5px}
+.game-shell{border:0;border-radius:22px;padding:22px 24px;background:linear-gradient(120deg,#1d2a50 0%,#344a8a 58%,#51417e 100%);box-shadow:0 14px 34px rgba(37,48,99,.18);margin-bottom:18px}.game-shell:before{width:330px;height:330px;right:-100px;top:-205px;background:#a9a0ff24}.game-title{font-size:25px;letter-spacing:-.5px}.game-kicker{font-size:10px;letter-spacing:1.35px}.game-description{font-size:12px;max-width:650px}.game-stats{gap:10px;margin:18px 0 13px}.game-stat{border-radius:13px;background:#ffffff12;padding:13px}.game-stat span{font-size:10px}.game-stat strong{font-size:22px}.game-level{border-radius:13px;transition:transform .16s,background .16s}.game-level:hover:not(:disabled){transform:translateY(-2px)}.game-challenge{border-radius:14px;padding:15px}.game-toggle{border-radius:11px;padding:10px 15px}
+@media(max-width:1000px){.dual-panels{grid-template-columns:1fr}.dual-panels>.panel{height:auto}}
+@media(max-width:700px){body{padding:15px 12px 36px}.app-header{gap:11px;align-items:flex-start;margin-bottom:15px}.brand-mark{width:45px;height:45px;flex-basis:45px;border-radius:14px;font-size:28px}.app-header h1{font-size:24px}.brand-kicker{font-size:9px}.app-header .subtitle{font-size:11px}.header-chip{display:none}.panel{padding:15px;border-radius:15px;margin-bottom:14px}.game-shell{padding:17px;border-radius:17px}.game-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.game-stats .game-stat:last-child{grid-column:span 2}.game-title{font-size:22px}.system-toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.system-toolbar button{width:100%;white-space:normal}.random-settings{grid-column:span 2;margin:3px 0}.system-toolbar #matrixSizeInfo{grid-column:span 2}.matrix-area{padding:10px 3px}.matrix-table{border-spacing:4px 6px}.matrix-table input{width:54px;height:40px;font-size:15px}.operation-tabs button{font-size:10px;padding:8px 4px}.operation-box{padding:12px}.operation-heading{align-items:flex-start}.operation-heading .operation-formula{font-size:10px!important}.operation-equation{gap:5px}.equation-field{min-width:58px;height:41px}.equation-field select,.equation-field input{font-size:13px}.manual-toolbar{flex-wrap:wrap}.manual-step-counter{flex-basis:100%;order:-1}.manual-toolbar button{flex:1}.closeness-head{gap:6px}.closeness-caption{max-width:230px}.display-options{gap:9px}.display-options label{white-space:normal}.theme-switcher{gap:5px}.theme-switcher-label{flex-basis:100%}}
+@media(max-width:390px){.matrix-table{border-spacing:2px 5px}.matrix-table input{width:46px;height:37px;font-size:14px}.operation-tabs button{font-size:9px}.game-stat strong{font-size:19px}}
+body[data-theme="dark"]{--bg:#111827;--panel-bg:#1c2636;--control-bg:#222e40;--soft-bg:#202c3e;--border:#35445a;--text:#e8edf7;--muted:#a5b2c7;--heading:#edf2ff;--shadow:0 8px 26px rgba(0,0,0,.16)}
+body[data-theme="dark"] .matrix-area,body[data-theme="dark"] .operation-box,body[data-theme="dark"] .result,body[data-theme="dark"] .history-list{background:var(--soft-bg)}body[data-theme="dark"] .equation-field{background:#26354d}body[data-theme="dark"] .equation-field select,body[data-theme="dark"] .equation-field input{color:var(--text)}body[data-theme="dark"] .operation-tabs button.active{background:#2a3850}body[data-theme="dark"] .display-options .detail-toggle{background:var(--soft-bg)}body[data-theme="dark"] .app-header h1{color:var(--heading)}
+
+
+/* v2.1 operation panel redesign */
+.panel-heading.operation-redesign{font-size:22px}
+.operation-tabs{margin:0 0 18px;padding:6px;border-radius:16px;background:#f5f7fc;border:1px solid #dfe5f2;gap:8px}
+.operation-tabs button{min-height:48px;padding:10px 12px;border-radius:12px;font-size:14px;font-weight:700;letter-spacing:0}
+.operation-tabs button.active{background:#fff;color:var(--primary);border:1px solid #e1e7f5;box-shadow:0 5px 16px rgba(30,55,110,.08)}
+.operation-box{padding:22px 26px;border-radius:18px;background:linear-gradient(180deg,#f8f9fd 0%,#f5f7fc 100%);border:1px solid #dfe5f2}
+.operation-heading{justify-content:flex-start!important;margin:0 0 18px!important}
+.operation-heading-main{font-size:17px;font-weight:800;color:var(--heading)}
+.operation-formula{display:none!important}
+.operation-equation{margin:18px 0 22px;justify-content:center;gap:12px}
+.equation-field{min-width:108px;height:58px;padding:4px 8px;border-radius:16px;background:#fff;border:1.5px solid color-mix(in srgb,var(--primary) 38%,#dfe5f2);box-shadow:0 6px 16px rgba(30,55,110,.05)}
+.equation-field select,.equation-field input{height:46px;font-size:17px;font-weight:750;color:var(--text)}
+.equation-field input[readonly]{color:var(--primary);background:transparent!important}
+.equation-field.coefficient-field{min-width:112px}
+.equation-field.coefficient-field input{width:100%}
+.equation-equals,.equation-operator{font-size:26px;font-weight:800;color:var(--primary)}
+.operation-box>button{width:100%;min-height:64px;margin:0;padding:15px 24px;border-radius:17px;font-size:18px;font-weight:800;letter-spacing:.1px;box-shadow:0 10px 22px rgba(50,75,180,.18)}
+@media(max-width:700px){.operation-box{padding:16px}.operation-tabs{gap:4px}.operation-tabs button{font-size:11px;padding:8px 4px;min-height:44px}.operation-heading-main{font-size:15px}.operation-equation{gap:7px}.equation-field{min-width:78px;height:52px}.equation-field select,.equation-field input{font-size:15px}.equation-field.coefficient-field{min-width:82px}.operation-box>button{min-height:58px;font-size:17px}}
+
+/* v2.1.1: operation hints, consistent single-line controls, matrix placement */
+.operation-tabs button{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;overflow:visible}
+.operation-tab-help{display:inline-flex;position:relative;vertical-align:middle;flex:0 0 auto}
+.operation-tab-help .operation-help-trigger{display:inline-flex!important;align-items:center;justify-content:center;width:19px;height:19px;padding:0!important;border:0!important;border-radius:50%!important;background:transparent!important;color:var(--primary)!important;font-size:15px!important;font-weight:800;line-height:1;cursor:pointer}
+.operation-tab-help .operation-help-trigger:hover,.operation-tab-help .operation-help-trigger[aria-expanded="true"]{background:color-mix(in srgb,var(--primary) 12%,transparent)!important;text-decoration:none}
+.operation-tab-help .operation-help-popup{top:calc(100% + 10px);left:50%;transform:translateX(-50%);width:min(320px,calc(100vw - 42px));white-space:normal;text-align:left;font-weight:400}
+.operation-equation{display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:10px;width:100%;overflow-x:auto;overflow-y:hidden;padding:3px 1px 7px;}
+.equation-field,.equation-field.coefficient-field{flex:0 0 94px;width:94px;min-width:94px;height:54px;box-sizing:border-box;}
+.equation-field select,.equation-field input,.equation-field.coefficient-field input{width:100%;height:44px;min-width:0;box-sizing:border-box;font-size:16px;text-align:center;}
+.operation-equals,.equation-equals,.equation-operator{flex:0 0 auto;}
+.operation-box{min-width:0;overflow:hidden}
+.matrix-area{margin-top:14px}
+@media(max-width:600px){.operation-tabs button{font-size:10px;gap:3px;padding:8px 3px;white-space:normal}.operation-tab-help .operation-help-popup{left:auto;right:-12px;transform:none}.operation-equation{justify-content:flex-start;gap:7px}.equation-field,.equation-field.coefficient-field{flex-basis:76px;width:76px;min-width:76px;height:48px}.equation-field select,.equation-field input,.equation-field.coefficient-field input{height:38px;font-size:14px}}
+
+</style>
+</head>
+<body>
+<div class="container">
+<header class="app-header">
+ <div class="brand-mark" aria-hidden="true">∑</div>
+ <div class="brand-copy"><div class="brand-kicker">ІНТЕРАКТИВНИЙ МАТЕМАТИЧНИЙ ТРЕНАЖЕР</div><h1>Лінійні системи</h1><div class="subtitle">Розв’язування методом Гаусса–Жордана · точні дроби · покрокові перетворення</div></div>
+ <div class="header-chip"><span class="header-chip-dot"></span>Навчальна лабораторія</div>
+</header>
+<div class="theme-switcher" role="group" aria-label="Кольорова тема сторінки"><span class="theme-switcher-label">Тема сторінки:</span><button type="button" class="theme-choice" data-theme-choice="default" aria-pressed="true"><span class="theme-swatch" style="--swatch:#3157a4"></span>Класична</button><button type="button" class="theme-choice" data-theme-choice="ocean" aria-pressed="false"><span class="theme-swatch" style="--swatch:#087e8b"></span>Океан</button><button type="button" class="theme-choice" data-theme-choice="lavender" aria-pressed="false"><span class="theme-swatch" style="--swatch:#7652a8"></span>Лаванда</button><button type="button" class="theme-choice" data-theme-choice="mint" aria-pressed="false"><span class="theme-swatch" style="--swatch:#287b59"></span>М’ята</button><button type="button" class="theme-choice" data-theme-choice="sunset" aria-pressed="false"><span class="theme-swatch" style="--swatch:#b65d35"></span>Захід</button><button type="button" class="theme-choice" data-theme-choice="dark" aria-pressed="false"><span class="theme-swatch" style="--swatch:#222a38"></span>Темна</button></div>
+
+<section class="game-shell" id="gameShell" aria-label="Ігровий режим">
+ <div class="game-top"><div><div class="game-kicker">Математична пригода</div><div class="game-title">Matrix Challenge</div><div class="game-description">Обирай будь-який із 8 рівнів у довільному порядку. Для кожної спроби генерується нова сумісна система з контрольованим рангом. За повне проходження всіх рівнів отримай 100 балів.</div></div><button type="button" class="game-toggle" id="gameToggle">Відкрити рівні ▾</button></div>
+ <div class="game-stats"><div class="game-stat"><span>Загальний рахунок</span><strong id="gameXP">0 XP</strong></div><div class="game-stat"><span>Рівень гравця</span><strong id="gameRank">1</strong></div><div class="game-stat"><span>Пройдено завдань</span><strong id="gameWins">0/8</strong></div><div class="game-stat"><span>Найкраща серія</span><strong id="gameStreak">0 🔥</strong></div><div class="game-stat"><span>Підсумкова оцінка</span><strong id="gameGrade">0/100</strong></div></div><div class="game-score-progress" role="progressbar" aria-label="Прогрес підсумкової оцінки" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="gameGradeBar"></span></div><div class="game-progress-caption"><span id="gameGradeCaption">Пройдено 0 із 8 рівнів</span><span>100 балів за всі рівні</span></div>
+ <div class="game-content hidden" id="gameContent">
+  <div class="game-kicker">Обери будь-який рівень у довільному порядку</div><div class="game-levels" id="gameLevels"></div>
+  <div class="game-challenge"><div><strong id="gameCurrentTitle">Рівень 1 — Перші кроки</strong><p id="gameCurrentDesc">Зведи матрицю до приведеного східчастого вигляду (RREF).</p></div><div class="game-actions"><button type="button" id="gameStart">Почати рівень</button><button type="button" class="secondary" id="gameExit">Вийти з гри</button></div></div>
+  <div id="gameResult" class="game-result hidden" aria-live="polite"></div>
+  <div class="game-achievements" id="gameAchievements"></div>
+ </div>
+</section>
+
+<section class="panel">
+<h2 class="panel-heading">Керування системою<span class="operation-help panel-help"><button type="button" class="operation-help-trigger" aria-label="Пояснення: Керування системою" aria-controls="helpControls" aria-expanded="false">?</button><span id="helpControls" class="operation-help-popup hidden" role="tooltip"><strong>Керування системою</strong><p>Тут можна змінювати розмір системи: додавати або вилучати рівняння та невідомі. Кнопки генерації створюють випадкову систему або змінюють вибраний елемент. Межі задають діапазон випадкових цілих коефіцієнтів. Кнопка «Приклад» завантажує демонстраційну систему.</p></span></span></h2>
+<div class="toolbar system-toolbar">
+<button id="addRow">＋ Рядок</button><button id="removeRow">− Рядок</button><button id="addCol">＋ Змінна</button><button id="removeCol">− Змінна</button><span id="gameSizeLockNote" class="muted hidden" role="status">🔒 Розмір матриці зафіксовано на час рівня</span><button id="randomSystem">🎲 Вся система</button><button id="randomElement">🎲 Елемент</button><button id="exampleBtn">Приклад</button>
+<div class="row random-settings"><label>Мінімум<input type="number" id="randomMin" value="-5"></label><label>Максимум<input type="number" id="randomMax" value="8"></label></div><button id="resetBtn" class="danger">Скинути</button><span class="muted" id="matrixSizeInfo"></span>
+</div>
+</section>
+
+<div class="dual-panels">
+<section class="panel">
+<h2 class="panel-heading">Розширена матриця системи<span class="operation-help panel-help"><button type="button" class="operation-help-trigger" aria-label="Пояснення: Введення системи через розширену матрицю" aria-controls="helpMatrix" aria-expanded="false">?</button><span id="helpMatrix" class="operation-help-popup hidden" role="tooltip"><strong>Введення системи через розширену матрицю</strong><p>Кожен рядок відповідає одному рівнянню, стовпці зліва містять коефіцієнти при невідомих, а останній стовпець після вертикальної риски — вільні члени. Дроби можна вводити як 1/2. Виберіть клітинку, щоб указати місце для генерації випадкового елемента. Прапорці нижче керують додатковими поданнями системи та поясненнями.</p><div class="help-example">\( [A\mid b] \)</div></span></span></h2>
+
+<div class="display-options">
+<label><input type="checkbox" id="showSystem"> Показати систему рівнянь</label>
+<label><input type="checkbox" id="showMatrixForm"> Показати систему у матричному вигляді</label>
+<label><input type="checkbox" id="showVectorForm"> Показати систему у векторному вигляді</label>
+<label><input type="checkbox" id="showChangedRow"> Показувати останній змінений рядок</label>
+<label class="detail-toggle"><input type="checkbox" id="detailCalculations"> Детальне пояснення обчислення кожного елемента зміненого рядка</label>
+</div>
+<div id="systemContainer" class="hidden"><h3>Система рівнянь</h3><div id="equations" class="math-block"></div></div>
+<div id="matrixFormContainer" class="hidden"><h3>Матричний вигляд</h3><div id="matrixForm" class="math-block"></div></div>
+<div id="vectorFormContainer" class="hidden"><h3>Векторний вигляд системи</h3><div id="systemVectorForm" class="math-block"></div></div>
+<div id="stepDescription" class="step-description"></div>
+<div class="muted" id="stepCounter"></div>
+<div class="matrix-area"><div class="matrix-label">Розширена матриця</div><div id="matrixContainer"></div>
+
+
+</div>
+</section>
+
+<section class="panel">
+<h2 class="panel-heading operation-redesign">Елементарні перетворення рядків</h2>
+
+
+<div class="operation-tabs" role="tablist" aria-label="Вибір елементарного перетворення">
+<button type="button" class="active" data-operation-tab="add" role="tab" aria-selected="true">Додавання рядків <span class="operation-help operation-tab-help"><span class="operation-help-trigger" role="button" tabindex="0" aria-label="Підказка: Додавання рядків" aria-controls="helpAdd" aria-expanded="false">?</span><span id="helpAdd" class="operation-help-popup hidden" role="tooltip"><strong>Додавання рядків</strong><p>Замініть цільовий рядок сумою самого себе та іншого рядка, помноженого на коефіцієнт k. Виберіть два різні рядки та задайте k. Перетворення застосовується до кожного елемента, включно з вільним членом.</p><div class="help-example">\(R_i\leftarrow R_i+kR_j,\quad i\ne j\)</div></span></span></button>
+<button type="button" data-operation-tab="scale" role="tab" aria-selected="false">Множення рядка <span class="operation-help operation-tab-help"><span class="operation-help-trigger" role="button" tabindex="0" aria-label="Підказка: Множення рядка" aria-controls="helpScale" aria-expanded="false">?</span><span id="helpScale" class="operation-help-popup hidden" role="tooltip"><strong>Множення рядка</strong><p>Помножте кожен елемент вибраного рядка на одне й те саме ненульове число k. Множник не може дорівнювати нулю, оскільки таке перетворення не є еквівалентним.</p><div class="help-example">\(R_i\leftarrow kR_i,\quad k\ne0\)</div></span></span></button>
+<button type="button" data-operation-tab="swap" role="tab" aria-selected="false">Перестановка рядків <span class="operation-help operation-tab-help"><span class="operation-help-trigger" role="button" tabindex="0" aria-label="Підказка: Перестановка рядків" aria-controls="helpSwap" aria-expanded="false">?</span><span id="helpSwap" class="operation-help-popup hidden" role="tooltip"><strong>Перестановка рядків</strong><p>Поміняйте місцями два рядки матриці. Це відповідає зміні порядку рівнянь і не змінює множину розв’язків. Зручно, коли у ведучій позиції стоїть нуль.</p><div class="help-example">\(R_i\leftrightarrow R_j\)</div></span></span></button>
+</div><div class="operation-grid">
+<div class="operation-box" data-operation-panel="add"><h3 class="operation-heading"><span class="operation-heading-main">Додавання рядків</span></h3><div class="operation-equation" aria-label="Операція: цільовий рядок дорівнює тому самому рядку плюс коефіцієнт, помножений на інший рядок"><span class="equation-field"><select id="addI" aria-label="Цільовий рядок"></select></span><span class="equation-equals">=</span><span class="equation-field"><input id="addICopy" type="text" value="R₁" readonly tabindex="-1" aria-label="Копія цільового рядка"></span><span class="equation-operator">+</span><span class="equation-field coefficient-field"><input id="addK" value="1" aria-label="Коефіцієнт k"></span><span class="equation-operator">·</span><span class="equation-field"><select id="addJ" aria-label="Доданок R j"></select></span></div><button id="addOperation">Виконати</button></div>
+<div class="operation-box hidden" data-operation-panel="scale"><h3 class="operation-heading"><span class="operation-heading-main">Множення рядка</span></h3><div class="operation-equation" aria-label="Множення вибраного рядка на коефіцієнт"><span class="equation-field"><select id="scaleI" aria-label="Цільовий рядок"></select></span><span class="equation-equals">=</span><span class="equation-field coefficient-field"><input id="scaleK" value="2" aria-label="Коефіцієнт k"></span><span class="equation-operator">·</span><span class="equation-field"><input id="scaleICopy" type="text" value="R₁" readonly tabindex="-1" aria-label="Копія цільового рядка"></span></div><button id="scaleOperation">Виконати</button></div>
+<div class="operation-box hidden" data-operation-panel="swap"><h3 class="operation-heading"><span class="operation-heading-main">Перестановка рядків</span></h3><div class="operation-equation" aria-label="Перестановка двох рядків"><span class="equation-field"><select id="swapI" aria-label="Перший рядок"></select></span><span class="equation-equals">↔</span><span class="equation-field"><select id="swapJ" aria-label="Другий рядок"></select></span></div><button id="swapOperation">Виконати</button></div>
+</div>
+<div class="numeric-keypad hidden" id="matrixKeypad" aria-label="Цифрова клавіатура для полів операцій та клітинок матриці">
+ <div class="keypad-heading"><strong>Цифрова клавіатура</strong><span class="muted" id="keypadTarget">Виберіть поле операції або клітинку матриці</span></div>
+ <div class="keypad-grid">
+  <button type="button" class="matrix-key" data-key="7">7</button><button type="button" class="matrix-key" data-key="8">8</button><button type="button" class="matrix-key" data-key="9">9</button><button type="button" class="matrix-key utility" data-key="backspace" aria-label="Видалити останній символ">⌫</button>
+  <button type="button" class="matrix-key" data-key="4">4</button><button type="button" class="matrix-key" data-key="5">5</button><button type="button" class="matrix-key" data-key="6">6</button><button type="button" class="matrix-key utility" data-key="clear">C</button>
+  <button type="button" class="matrix-key" data-key="1">1</button><button type="button" class="matrix-key" data-key="2">2</button><button type="button" class="matrix-key" data-key="3">3</button><button type="button" class="matrix-key operator" data-key="-">−</button>
+  <button type="button" class="matrix-key" data-key="0">0</button><button type="button" class="matrix-key operator" data-key="/">/</button><button type="button" class="matrix-key utility" data-key="sign">±</button><button type="button" class="matrix-key apply" data-key="apply">✓ Ввести</button>
+ </div><div class="keypad-hint">Клавіатура вводить коефіцієнти та вибирає номери рядків у трьох операціях, зокрема в режимі гри. Для дробів використовуйте формат −3/4.</div>
+</div>
+<div id="operationMessage" class="status hidden"></div><div id="rrefCompletionMessage" class="completion-banner hidden" role="status" aria-live="polite"></div>
+<div class="row manual-toolbar"><button id="undoBtn">↶ Скасувати</button><div id="manualStepCounter" class="manual-step-counter" aria-live="polite">Виконано кроків: 0</div><button type="button" id="toggleKeypad" aria-controls="matrixKeypad" aria-expanded="false">⌨ Показати клавіатуру</button></div>
+<div class="closeness-panel" aria-live="polite">
+ <div class="closeness-head"><div><strong>Близькість до результату</strong><div class="closeness-caption">Збіг елементів із кінцевою матрицею Гаусса–Жордана (RREF)</div></div><div class="closeness-value" id="closenessPercent">0%</div></div>
+ <div class="closeness-track" id="closenessProgress" role="progressbar" aria-label="Близькість поточної матриці до результату" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="closenessBar" class="closeness-bar"></div></div>
+ <div id="closenessDetails" class="closeness-details">Обчислення близькості…</div>
+ <div id="closenessStatus" class="closeness-status">Порівняння з цільовою матрицею</div>
+</div>
+</section>
+</div>
+
+<section class="panel"><h2 class="panel-heading">Автоматичний метод Гаусса–Жордана<span class="operation-help panel-help"><button type="button" class="operation-help-trigger" aria-label="Пояснення: Автоматичне розв’язування" aria-controls="helpAuto" aria-expanded="false">?</button><span id="helpAuto" class="operation-help-popup hidden" role="tooltip"><strong>Автоматичне розв’язування</strong><p>Кнопка «Побудувати розв’язання» формує послідовність кроків методу Гаусса–Жордана. «Попередній крок» і «Наступний крок» дають змогу переглядати перетворення по черзі, а «Виконати всі кроки» одразу переходить до завершеного результату.</p><div class="help-example">\( [A\mid b] \longrightarrow [I\mid x] \)</div></span></span></h2><div class="row"><button class="primary" id="autoStart">Побудувати розв'язання</button><button id="autoPrev" disabled>← Попередній крок</button><button id="autoNext" disabled>Наступний крок →</button><button id="autoAll" disabled>Виконати всі кроки</button></div></section>
+
+<section class="panel hidden" id="analysisPanel">
+<h2 class="panel-heading">Аналіз системи<span class="operation-help panel-help"><button type="button" class="operation-help-trigger" aria-label="Пояснення: Аналіз сумісності та структури розв’язку" aria-controls="helpAnalysis" aria-expanded="false">?</button><span id="helpAnalysis" class="operation-help-popup hidden" role="tooltip"><strong>Аналіз сумісності та структури розв’язку</strong><p>Порівнюються ранги матриці коефіцієнтів A та розширеної матриці (A|b). Якщо вони різні, система несумісна. Якщо ранги рівні, система сумісна: за рангом, що дорівнює кількості невідомих, розв’язок єдиний; за меншого рангу існує нескінченно багато розв’язків. Нижче наведено базисні та вільні змінні.</p><div class="help-example">\(\operatorname{rank}A=\operatorname{rank}(A|b)\)</div></span></span></h2>
+<div class="analysis-info"><div>\(\operatorname{rank} A=\) <strong id="rankA">—</strong></div><div>\(\operatorname{rank}(A|b)=\) <strong id="rankAug">—</strong></div><div>\(n=\) <strong id="unknownCount">—</strong> невідомих</div></div>
+<div class="analysis-info" id="variableInfo" style="margin-top:12px"><div><strong>Базисні змінні:</strong> <span id="basicVariables">—</span></div><div><strong>Вільні змінні:</strong> <span id="freeVariables">—</span></div></div>
+<div id="classification" class="status"></div><div id="contradictionInfo" class="status error hidden"></div>
+</section>
+
+<section class="panel"><h2 class="panel-heading">Результат<span class="operation-help panel-help"><button type="button" class="operation-help-trigger" aria-label="Пояснення: Подання результату" aria-controls="helpResult" aria-expanded="false">?</button><span id="helpResult" class="operation-help-popup hidden" role="tooltip"><strong>Подання результату</strong><p>Перемикачі дають змогу переглянути результат у вигляді системи рівнянь, матриці або загального розв’язку. Якщо є вільні змінні, загальний розв’язок записується через параметри; для однорідної системи також може бути наведена фундаментальна система розв’язків.</p><div class="help-example">\(x=x_0+t_1v_1+\cdots+t_kv_k\)</div></span></span></h2><div class="view-tabs"><button class="active" data-view="system">Система</button><button data-view="matrix">Матриця</button><button data-view="solution">Загальний розв'язок</button></div><div id="resultMatrix" class="result math-block"></div><div id="resultSystem" class="result math-block hidden"></div><div id="resultSolution" class="result math-block hidden"></div></section>
+
+<section class="panel"><h2 class="panel-heading">Історія перетворень<span class="operation-help panel-help"><button type="button" class="operation-help-trigger" aria-label="Пояснення: Журнал операцій" aria-controls="helpHistory" aria-expanded="false">?</button><span id="helpHistory" class="operation-help-popup hidden" role="tooltip"><strong>Журнал операцій</strong><p>У журналі послідовно відображаються виконані перетворення матриці. Записи допомагають відстежити хід обчислень; скасовані згодом дії також залишаються в журналі як частина історії.</p></span></span></h2><div class="muted" style="margin-bottom:8px">Журнал зберігає всі дії, зокрема ті, які згодом було скасовано.</div><div id="historyList" class="history-list muted">Дій ще не виконано.</div></section>
+</div>
+
+<script>
+// Раціональна арифметика на BigInt
+function gcd(a,b){a=a<0n?-a:a;b=b<0n?-b:b;while(b!==0n){const t=a%b;a=b;b=t;}return a||1n;}
+class Q{
+ constructor(n=0n,d=1n){n=BigInt(n);d=BigInt(d);if(d===0n)throw Error('Ділення на нуль');if(d<0n){n=-n;d=-d;}const g=gcd(n,d);this.n=n/g;this.d=d/g;}
+ static parse(v){const s=String(v).trim().replace(',','.');if(!s)return new Q();if(s.includes('/')){const p=s.split('/');if(p.length!==2||!p[0].trim()||!p[1].trim())throw Error('Некоректний дріб');return new Q(BigInt(p[0].trim()),BigInt(p[1].trim()));}if(s.includes('.')){const neg=s.startsWith('-'),clean=neg?s.slice(1):s,[w,d]=clean.split('.');if(!d||!/^\\d+$/.test(d)||!(w||'0').match(/^\\d+$/))throw Error('Некоректне число');const n=BigInt((w||'0')+d);return new Q(neg?-n:n,10n**BigInt(d.length));}return new Q(BigInt(s));}
+ add(q){return new Q(this.n*q.d+q.n*this.d,this.d*q.d)} sub(q){return new Q(this.n*q.d-q.n*this.d,this.d*q.d)} mul(q){return new Q(this.n*q.n,this.d*q.d)} div(q){if(q.n===0n)throw Error('Ділення на нуль');return new Q(this.n*q.d,this.d*q.n)} neg(){return new Q(-this.n,this.d)} isZero(){return this.n===0n} equals(q){return this.n===q.n&&this.d===q.d} toString(){return this.d===1n?String(this.n):`${this.n}/${this.d}`}
+}
+const GAME_LEVELS=[
+ {name:'Перші кроки',short:'2 рівняння · 2 невідомі',desc:'Розв’яжи систему 2 × 2. Відпрацюй базові перетворення рядків і пошук ведучого елемента. Для кожної спроби генерується нова сумісна система з єдиним розв’язком.',par:4,rows:2,vars:2,rank:2},
+ {name:'Сила ведучого',short:'Вибір і перестановка рядків',desc:'У першому рядку початковий елемент першого стовпця дорівнює нулю. Перестав рядки, знайди ведучий елемент і розв’яжи нову систему 2 × 2.',par:5,rows:2,vars:2,rank:2,swapFirst:true},
+ {name:'Три невідомі',short:'3 рівняння · 3 невідомі',desc:'Зведи систему 3 × 3 до одиничної матриці. Кожна спроба має нові коефіцієнти та єдиний розв’язок.',par:9,rows:3,vars:3,rank:3},
+ {name:'Дробовий лабіринт',short:'Точні дробові обчислення',desc:'Розв’яжи систему 3 × 3 з цілими початковими коефіцієнтами, підібраними так, щоб у процесі виключення виникали дроби. Обчислюй точно, без округлення.',par:9,rows:3,vars:3,rank:3,fractional:true},
+ {name:'Вільна змінна',short:'3 невідомі · 1 вільна змінна',desc:'Досліди сумісну невизначену систему 3 × 3 рангу 2. Після зведення до RREF визнач одну вільну змінну та запиши загальний розв’язок.',par:6,rows:3,vars:3,rank:2},
+ {name:'Нульовий рядок',short:'Матриця 3 × 4 · нульовий рядок',desc:'Система має 3 рівняння та 3 невідомі (розширена матриця 3 × 4). Її ранг дорівнює 2: після виключення обов’язково з’явиться нульовий рядок.',par:7,rows:3,vars:3,rank:2},
+ {name:'Четвертий вимір',short:'4 невідомі · 2 вільні змінні',desc:'Система 4 × 4 має ранг 2. Після зведення до RREF визнач дві вільні змінні та подай загальний розв’язок через два параметри.',par:11,rows:4,vars:4,rank:2},
+ {name:'Фінальний виклик',short:'3 рівняння · 5 невідомих',desc:'Система має 3 рівняння та 5 невідомих (розширена матриця 3 × 6), ранг 3 і дві вільні змінні. Знайди RREF та запиши загальний розв’язок.',par:12,rows:3,vars:5,rank:3}
+];
+// Генератор контрольованих систем: A = U·V має наперед заданий ранг r;
+// права частина b=A·x0 гарантує сумісність, а n-r задає кількість вільних змінних.
+function detInteger(M){const n=M.length;if(n===1)return M[0][0];let d=0;for(let j=0;j<n;j++){const minor=M.slice(1).map(row=>row.filter((_,k)=>k!==j));d+=(j%2?-1:1)*M[0][j]*detInteger(minor);}return d;}
+function generateControlledGameMatrix(level){
+ const m=level.rows,n=level.vars,r=level.rank;
+ let B,det=0,tries=0;
+ do{
+  B=Array.from({length:r},()=>Array.from({length:r},()=>rnd(-4,4)));
+  if(level.swapFirst&&r===2){B[0][0]=0;if(B[0][1]===0)B[0][1]=rnd(1,4);if(B[1][0]===0)B[1][0]=rnd(1,4);}
+  if(level.fractional&&r>=2){B[0][0]=(Math.random()<.5?-1:1)*rnd(2,4);B[0][1]=[1,-1,3,-3][rnd(0,3)];}
+  det=detInteger(B);tries++;
+ }while((det===0||(level.fractional&&Math.abs(det)===1))&&tries<500);
+ if(det===0||(level.fractional&&Math.abs(det)===1))throw Error('Не вдалося побудувати матрицю потрібного типу. Спробуй ще раз.');
+ const U=Array.from({length:m},(_,i)=>Array.from({length:r},(_,j)=>i<r?B[i][j]:rnd(-4,4)));
+ const V=Array.from({length:r},(_,i)=>Array.from({length:n},(_,j)=>j<r?(i===j?1:0):rnd(-4,4)));
+ const A=Array.from({length:m},(_,i)=>Array.from({length:n},(_,j)=>U[i].reduce((sum,u,k)=>sum+u*V[k][j],0)));
+ const x0=Array.from({length:n},()=>rnd(-3,3));if(x0.every(v=>v===0))x0[n-1]=1;
+ return A.map(row=>[...row,row.reduce((sum,a,j)=>sum+a*x0[j],0)]);
+}
+
+const GAME_ACHIEVEMENTS=[{id:'first',name:'Перший тріумф',desc:'Пройди перший рівень',test:p=>p.wins.length>=1},{id:'five',name:'Колекціонер систем',desc:'Пройди 5 рівнів',test:p=>p.wins.length>=5},{id:'perfect',name:'Без зайвих рухів',desc:'Отримай 3 зірки',test:p=>p.threeStars>=1},{id:'master',name:'Майстер матриць',desc:'Пройди всі 8 рівнів',test:p=>p.wins.length===8}];
+let gameProfile={xp:0,wins:[],records:{},threeStars:0,streak:0,bestStreak:0,achievements:[]};
+let gameSelectedLevel=0,gameActive=false,gameAwarded=false;
+try{const saved=JSON.parse(localStorage.getItem('linearSolverGameProfile')||'null');if(saved&&typeof saved==='object')gameProfile={...gameProfile,...saved};}catch(e){}
+function saveGameProfile(){try{localStorage.setItem('linearSolverGameProfile',JSON.stringify(gameProfile));}catch(e){}}
+function gameRank(){return 1+Math.floor(Math.max(0,gameProfile.xp)/250);}
+function abandonGameForEdit(){if(gameActive){gameActive=false;gameAwarded=false;msg('Ігрове завдання перервано через зміну початкової системи. Запусти рівень ще раз.','error');}}
+function updateGameSizeLock(){
+ const locked=gameActive;
+ const toolbar=document.querySelector('.system-toolbar');
+ if(toolbar)toolbar.classList.toggle('game-size-locked',locked);
+ // У грі заборонено безпосередньо вводити/редагувати коефіцієнти матриці.
+ // Дозволено лише повну випадкову генерацію системи та ручні рядкові перетворення.
+ ['addRow','removeRow','addCol','removeCol','randomElement','exampleBtn','resetBtn','randomMin','randomMax','autoStart','autoPrev','autoNext','autoAll'].forEach(id=>{const el=$(id);if(el){el.disabled=locked;el.title=locked?'Недоступно під час проходження рівня':'';}});
+ document.querySelectorAll('#matrixContainer input').forEach(el=>{el.disabled=locked;el.title=locked?'Редагування елементів матриці заблоковано в ігровому режимі':'';});
+ // Цифрова клавіатура залишається активною в грі: вона потрібна для введення
+ // номерів рядків і коефіцієнтів у трьох ручних операціях. Заборона стосується
+ // лише редагування клітинок матриці, а не полів елементарних перетворень.
+ document.querySelectorAll('.matrix-key').forEach(el=>{el.disabled=false;el.title=locked?'Виберіть поле операції (рядок або коефіцієнт), щоб вводити значення клавіатурою':'';});
+ const note=$('gameSizeLockNote');if(note){note.textContent=locked?'🔒 Введення матриці заблоковано. Доступна генерація нової контрольованої системи цього рівня.':'🔒 Розмір матриці зафіксовано на час рівня';note.classList.toggle('hidden',!locked);}
+}
+function gameOverallGrade(){const earned=GAME_LEVELS.reduce((sum,_,i)=>{if(!gameProfile.wins.includes(i))return sum;const record=gameProfile.records[i]||{},base=12.5*(Math.max(0,Math.min(3,record.stars??3))/3),penalty=Math.max(0,Number(record.canceled)||0);return sum+Math.max(0,base-penalty);},0);return Math.round(earned);}
+function renderGame(){
+ updateGameSizeLock();
+ const xp=$('gameXP');if(!xp)return;xp.textContent=gameProfile.xp+' XP';$('gameRank').textContent=gameRank();$('gameWins').textContent=gameProfile.wins.length+'/8';$('gameStreak').textContent=gameProfile.bestStreak+' 🔥';const grade=gameOverallGrade();$('gameGrade').textContent=grade+'/100';$('gameGradeBar').style.width=grade+'%';$('gameGradeBar').parentElement.setAttribute('aria-valuenow',String(grade));$('gameGradeCaption').textContent=`Пройдено ${gameProfile.wins.length} із ${GAME_LEVELS.length} рівнів · оцінка залежить від зірок`;
+ $('gameLevels').innerHTML=GAME_LEVELS.map((l,i)=>{const unlocked=true,done=gameProfile.wins.includes(i),record=gameProfile.records[i],active=i===gameSelectedLevel;return `<button type="button" class="game-level ${active?'active':''}" data-game-level="${i}" ${unlocked?'':'disabled'} title="${escapeHtml(l.desc)}"><b>${done?'✓ ':''}Рівень ${i+1} · ${escapeHtml(l.name)}</b><small class="level-desc">${escapeHtml(l.short)}</small><div class="stars">${record?'★'.repeat(record.stars)+'☆'.repeat(3-record.stars):'☆☆☆'}</div></button>`;}).join('');
+ const l=GAME_LEVELS[gameSelectedLevel];$('gameCurrentTitle').textContent=`Рівень ${gameSelectedLevel+1} — ${l.name}`;$('gameCurrentDesc').textContent=l.desc;
+ $('gameStart').textContent=gameProfile.wins.includes(gameSelectedLevel)?'Повторити рівень':'Почати рівень';
+ $('gameAchievements').innerHTML=GAME_ACHIEVEMENTS.map(a=>{const earned=gameProfile.achievements.includes(a.id);return `<span class="game-achievement ${earned?'earned':''}" title="${escapeHtml(a.desc)}">${earned?'🏅':'🔒'} ${escapeHtml(a.name)}</span>`;}).join('');
+}
+function updateGameAchievements(){let fresh=[];for(const a of GAME_ACHIEVEMENTS)if(a.test(gameProfile)&&!gameProfile.achievements.includes(a.id)){gameProfile.achievements.push(a.id);fresh.push(a.name);}saveGameProfile();renderGame();return fresh;}
+function chooseGameLevel(i){if(!Number.isInteger(i)||i<0||i>=GAME_LEVELS.length)return;if(gameActive){msg('Спочатку заверши або призупини поточний рівень.','error');return;}gameSelectedLevel=i;renderGame();}
+function startGameLevel(){const l=GAME_LEVELS[gameSelectedLevel],generated=generateControlledGameMatrix(l);rows=l.rows;vars=l.vars;A=generated.map(r=>r.map(v=>new Q(BigInt(v))));history=[];auditLog=[];steps=[];stepIndex=0;manualOperationCount=0;manualCanceledCount=0;activeLeader=null;changed=[];selectedCell={i:0,j:0};solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;manualDetails=[];manualOperationDescription='';gameActive=true;gameAwarded=false;updateManualStepCounter();exportBaseA=clone(A);exportBaseRows=rows;exportBaseVars=vars;$('gameResult').classList.add('hidden');$('gameContent').classList.remove('hidden');$('stepDescription').textContent='';$('stepCounter').textContent='';renderAll();renderGame();$('gameResult').classList.remove('hidden');$('gameResult').textContent=`Випробування розпочато! Ціль: RREF. Орієнтир ефективності — ${l.par} операцій (це навчальний норматив, не доведений математичний мінімум).`;$('gameResult').scrollIntoView({behavior:'smooth',block:'nearest'});}
+function finishGameLevel(){if(!gameActive||gameAwarded||!isRREF())return;gameAwarded=true;gameActive=false;const l=GAME_LEVELS[gameSelectedLevel],active=manualOperationCount,canceled=manualCanceledCount,n=active+canceled,stars=n<=l.par?3:n<=l.par+2?2:1,firstClear=!gameProfile.wins.includes(gameSelectedLevel),earned=firstClear?100+stars*25+(n===0?0:Math.max(0,20-Math.max(0,n-l.par)*4)):0;const old=gameProfile.records[gameSelectedLevel],levelBaseScore=12.5*(stars/3),cancelPenalty=Math.min(12.5,canceled),levelScore=Math.max(0,levelBaseScore-cancelPenalty),oldScore=old?(old.score??(12.5*((old.stars??3)/3)-(old.canceled??0))):-1;if(firstClear){gameProfile.xp+=earned;gameProfile.wins.push(gameSelectedLevel);gameProfile.streak++;gameProfile.bestStreak=Math.max(gameProfile.bestStreak,gameProfile.streak);}if(!old||levelScore>oldScore||(levelScore===oldScore&&n<(old.steps??Infinity)))gameProfile.records[gameSelectedLevel]={stars,steps:n,active,canceled,score:levelScore};if(stars===3&&(!old||old.stars<3))gameProfile.threeStars++;const newAchievements=updateGameAchievements();saveGameProfile();renderGame();$('gameResult').classList.remove('hidden');const grade=gameOverallGrade();$('gameResult').innerHTML=`<strong>🏆 Рівень пройдено!</strong><br>${firstClear?'Нараховано <b>+'+earned+' XP</b>':'Повторне проходження — XP зараховується лише за перше проходження'} · ${'★'.repeat(stars)}${'☆'.repeat(3-stars)}<br>Чинних операцій: ${active}; скасовано: ${canceled}; <b>для оцінювання: ${n}</b>; навчальний орієнтир: ${l.par}.<br>Бал за рівень: <b>${levelScore.toFixed(1)}/12.5</b> (штраф за скасування: −${cancelPenalty.toFixed(1)} бала). ${newAchievements.length?'Нові досягнення: '+newAchievements.map(escapeHtml).join(', ')+'.':''}<br>${gameProfile.wins.length===8?'Усі рівні пройдено! Підсумкова оцінка: '+grade+'/100.':'Поточна підсумкова оцінка: '+grade+'/100. Можеш обрати будь-який рівень.'}`;updateManualStepCounter();}
+function updateGameProgress(){if(gameActive&&isRREF())finishGameLevel();}
+const zero=()=>new Q(0n),one=()=>new Q(1n);
+let rows=3,vars=3;
+let A=[[new Q(1n),new Q(2n),new Q(1n),new Q(4n)],[new Q(2n),new Q(1n),new Q(-1n),new Q(1n)],[new Q(1n),new Q(-1n),new Q(2n),new Q(3n)]];
+let selectedCell={i:0,j:0},history=[],auditLog=[],steps=[],stepIndex=0,changed=[],currentView='system',activeLeader=null;
+let manualOperationCount=0,manualCanceledCount=0;
+let solveStartedAt=null,solveElapsedMs=null,solveInitialA=null,solveInitialRows=rows,solveInitialVars=vars,manualDetails=[],manualOperationDescription='',exportBaseA=clone(A),exportBaseRows=rows,exportBaseVars=vars,autoRunning=false;
+const $=id=>document.getElementById(id);
+function clone(M){return M.map(r=>r.map(q=>new Q(q.n,q.d)));}
+function cloneRow(r){return r.map(q=>new Q(q.n,q.d));}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+let mathJaxLoadHookInstalled=false;
+function math(){
+ // MathJax підключено через defer, тому початковий renderAll() може
+ // виконатися раніше за завантаження бібліотеки. У такому разі чекаємо load.
+ if(!window.MathJax?.startup?.promise||!window.MathJax?.typesetPromise){
+  if(!mathJaxLoadHookInstalled){
+   mathJaxLoadHookInstalled=true;
+   window.addEventListener('load',()=>{
+    const mj=window.MathJax;
+    if(mj?.startup?.promise&&mj?.typesetPromise){
+     mj.startup.promise.then(()=>mj.typesetPromise()).catch(()=>{});
+    }
+   },{once:true});
+  }
+  return;
+ }
+ window.MathJax.startup.promise.then(()=>{
+  window.MathJax.typesetClear();
+  return window.MathJax.typesetPromise();
+ }).catch(()=>{});
+}
+
+// Довідкові підказки до елементарних перетворень рядків
+document.querySelectorAll('.operation-help-trigger[role="button"]').forEach(btn=>btn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();btn.click();}}));
+document.querySelectorAll('.operation-help-trigger').forEach(btn=>btn.addEventListener('click',e=>{
+ e.stopPropagation();
+ const popup=$(btn.getAttribute('aria-controls'));
+ const willOpen=popup.classList.contains('hidden');
+ document.querySelectorAll('.operation-help-popup').forEach(p=>p.classList.add('hidden'));
+ document.querySelectorAll('.operation-help-trigger').forEach(b=>b.setAttribute('aria-expanded','false'));
+ if(willOpen){popup.classList.remove('hidden');btn.setAttribute('aria-expanded','true');math();}
+}));
+document.addEventListener('click',e=>{
+ if(!e.target.closest('.operation-help')){
+  document.querySelectorAll('.operation-help-popup').forEach(p=>p.classList.add('hidden'));
+  document.querySelectorAll('.operation-help-trigger').forEach(b=>b.setAttribute('aria-expanded','false'));
+ }
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){
+  document.querySelectorAll('.operation-help-popup').forEach(p=>p.classList.add('hidden'));
+  document.querySelectorAll('.operation-help-trigger').forEach(b=>b.setAttribute('aria-expanded','false'));
+ }
+});
+function logEvent(action,type='action'){auditLog.push({action,type,time:new Date().toLocaleTimeString()});renderHistory();}
+function updateManualStepCounter(){if(gameActive){const total=manualOperationCount+manualCanceledCount;$('manualStepCounter').innerHTML=`Чинних кроків: <strong>${manualOperationCount}</strong> · скасовано: <strong>${manualCanceledCount}</strong> · для оцінки: <strong>${total}</strong>`;}else{$('manualStepCounter').innerHTML=`Виконано кроків: <strong>${manualOperationCount}</strong>`;}}
+function save(desc){history.push({A:clone(A),rows,vars,stepIndex,desc,manualOperationCount});if(history.length>150)history.shift();logEvent(desc);updateUndo();}
+function updateUndo(){$('undoBtn').disabled=!history.length;}
+function msg(s,type=''){const e=$('operationMessage');e.textContent=s;e.className='status '+type;}
+function updateOperationAvailability(){const complete=isRREF(),info=analyze(),inconsistent=!!(info&&info.inconsistent),banner=$('rrefCompletionMessage');if(inconsistent){banner.innerHTML='<strong>Система несумісна — система не має розв’язків.</strong><span>Суперечність виявлено після приведення матриці до східчастого вигляду. Зворотний хід не виконується.</span>';banner.classList.add('error');}else if(complete){banner.innerHTML='<strong>Вітаємо! Розв’язання системи завершено.</strong><span>Розширена матриця вже має зведений східчастий вигляд (RREF). Елементарні перетворення заблоковано. Щоб продовжити роботу, змініть елемент матриці або скасуйте попередню дію.</span>';banner.classList.remove('error');}else{banner.innerHTML='';banner.classList.remove('error');}banner.classList.toggle('hidden',!(complete||inconsistent));['addOperation','scaleOperation','swapOperation','addI','addJ','addK','scaleI','scaleK','swapI','swapJ'].forEach(id=>{const el=$(id);if(el)el.disabled=complete;});document.querySelectorAll('[data-operation-tab]').forEach(b=>{b.disabled=false;b.title=complete?'Матриця вже має зведений східчастий вигляд':'';});}
+function guardManualOperation(){if(isRREF()){updateOperationAvailability();msg('Операцію не виконано: матриця вже має зведений східчастий вигляд (RREF).','error');return false;}return true;}
+function formatDuration(ms){if(ms==null)return 'не завершено';const total=Math.max(0,ms);if(total<1000)return `${total.toFixed(0)} мс`;return `${(total/1000).toFixed(2)} с`;}
+function updateSolveTime(){const e=$('solveTime');if(e)e.textContent=`Час розв’язання: ${solveElapsedMs==null?(solveStartedAt==null?'ще не вимірювався':formatDuration(performance.now()-solveStartedAt)):formatDuration(solveElapsedMs)}`;}
+function finishSolve(){if(solveStartedAt!==null&&solveElapsedMs===null){solveElapsedMs=performance.now()-solveStartedAt;solveStartedAt=null;updateSolveTime();logEvent(`Розв’язання завершено за ${formatDuration(solveElapsedMs)}`,'result');}}
+function animateRows(indices){const trs=$('matrixContainer').querySelectorAll('tr');[...new Set(indices||[])].forEach(i=>{const tr=trs[i];if(!tr)return;tr.classList.remove('row-animate');void tr.offsetWidth;tr.classList.add('row-animate');});}
+function variable(j){return `x_{${j+1}}`;}
+
+function getPivotPositions(M,nCols){const result=[];for(let i=0;i<M.length;i++){let j=0;while(j<nCols&&M[i][j].isZero())j++;if(j<nCols)result.push({row:i,col:j,value:M[i][j]});}return result;}
+function isREF(M,nCols){let previousCol=-1,zeroRowSeen=false;for(let i=0;i<M.length;i++){let j=0;while(j<nCols&&M[i][j].isZero())j++;if(j===nCols){zeroRowSeen=true;continue;}if(zeroRowSeen||j<=previousCol)return false;previousCol=j;}return true;}
+function isRREF(){if(!isREF(A,vars+1))return false;const pivots=getPivotPositions(A,vars+1);for(const p of pivots){if(!p.value.equals(one()))return false;for(let i=0;i<rows;i++)if(i!==p.row&&!A[i][p.col].isZero())return false;}return true;}
+function calculateRREF(M,nCols){
+ const R=clone(M);let pivotRow=0;
+ for(let col=0;col<nCols&&pivotRow<R.length;col++){
+  let sel=pivotRow;while(sel<R.length&&R[sel][col].isZero())sel++;
+  if(sel===R.length)continue;
+  if(sel!==pivotRow)[R[sel],R[pivotRow]]=[R[pivotRow],R[sel]];
+  const pivot=R[pivotRow][col];
+  for(let j=0;j<nCols;j++)R[pivotRow][j]=R[pivotRow][j].div(pivot);
+  for(let i=0;i<R.length;i++)if(i!==pivotRow&&!R[i][col].isZero()){
+   const factor=R[i][col];
+   for(let j=0;j<nCols;j++)R[i][j]=R[i][j].sub(factor.mul(R[pivotRow][j]));
+  }
+  pivotRow++;
+ }
+ return R;
+}
+function updateCloseness(){
+ const target=calculateRREF(A,vars+1),pivotCells=new Set(),pivotColumns=[];
+ const pivots=getPivotPositions(target,vars+1);
+ pivots.forEach(p=>{pivotCells.add(`${p.row},${p.col}`);pivotColumns.push(p.col);});
+ const groups={leaders:{label:'Ведучі одиниці',matched:0,total:0},zeros:{label:'Нулі у стовпцях ведучих елементів',matched:0,total:0},other:{label:'Інші елементи',matched:0,total:0}};
+ let matched=0,total=rows*(vars+1);
+ for(let i=0;i<rows;i++)for(let j=0;j<=vars;j++){
+  const key=`${i},${j}`;let group;
+  if(pivotCells.has(key))group=groups.leaders;
+  else if(pivotColumns.includes(j))group=groups.zeros;
+  else group=groups.other;
+  group.total++;
+  if(A[i][j].equals(target[i][j])){group.matched++;matched++;}
+ }
+ const percent=total?Math.round(100*matched/total):100;
+ $('closenessPercent').textContent=percent+'%';
+ $('closenessBar').style.width=percent+'%';
+ $('closenessProgress').setAttribute('aria-valuenow',String(percent));
+ const fmt=g=>g.total?`<span><strong>${g.matched}/${g.total}</strong> ${g.label.toLowerCase()}</span>`:`<span>${g.label}: немає</span>`;
+ $('closenessDetails').innerHTML=fmt(groups.leaders)+fmt(groups.zeros)+fmt(groups.other);
+ $('closenessStatus').textContent=percent===100?'Повний збіг: матрицю приведено до кінцевого вигляду RREF.':`Збігається ${matched} із ${total} елементів цільової матриці.`;
+}
+function renderMatrix(){
+ // Лідери визначаються у східчастому вигляді; нулі в їхніх стовпцях позначаються легким коричневим тлом.
+ const leaders=isREF(A,vars)?getPivotPositions(A,vars):[];let h='<div class="matrix-wrapper"><table class="matrix-table">';
+ for(let i=0;i<rows;i++){const changedRow=$('showChangedRow').checked&&changed.some(c=>c[0]===i);h+=`<tr class="${changedRow?'changed-row':''}">`;for(let j=0;j<=vars;j++){
+  const isSelected=selectedCell.i===i&&selectedCell.j===j;
+  const isLeader=leaders.some(p=>p.row===i&&p.col===j);
+  const isPivotZero=leaders.some(p=>p.col===j&&p.row!==i)&&A[i][j].isZero();
+  const isActiveLeader=!!activeLeader&&activeLeader.row===i&&activeLeader.col===j;
+  const classes=[j===vars?'rhs':'',isSelected?'selected':'',isLeader?'leader':'',isPivotZero?'pivot-zero':'',isActiveLeader?'active-leader':''].filter(Boolean).join(' ');
+  h+=`<td class="${j===vars?'rhs':''}"><input class="${classes}" data-i="${i}" data-j="${j}" value="${escapeHtml(A[i][j].toString())}" aria-label="Рядок ${i+1}, стовпець ${j+1}"></td>`;
+ }h+='</tr>';}
+ h+='</table></div>';const el=$('matrixContainer');el.innerHTML=h;
+ el.querySelectorAll('input').forEach(inp=>{
+  inp.addEventListener('focus',()=>{selectedCell={i:+inp.dataset.i,j:+inp.dataset.j};el.querySelectorAll('input').forEach(x=>x.classList.remove('selected'));inp.classList.add('selected');$('keypadTarget').textContent=`Рядок ${selectedCell.i+1}, стовпець ${selectedCell.j+1}`;});
+  inp.addEventListener('click',()=>{selectedCell={i:+inp.dataset.i,j:+inp.dataset.j};el.querySelectorAll('input').forEach(x=>x.classList.remove('selected'));inp.classList.add('selected');$('keypadTarget').textContent=`Рядок ${selectedCell.i+1}, стовпець ${selectedCell.j+1}`;});
+  inp.addEventListener('change',()=>{if(gameActive){inp.value=A[+inp.dataset.i][+inp.dataset.j].toString();msg('Введення елементів матриці заблоковано в ігровому режимі. Скористайтеся «🎲 Вся система» для нової системи.','error');return;}const i=+inp.dataset.i,j=+inp.dataset.j;try{const q=Q.parse(inp.value);abandonGameForEdit();save(`Редагування елемента (${i+1}, ${j+1})`);A[i][j]=q;exportBaseA=clone(A);exportBaseRows=rows;exportBaseVars=vars;solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;updateSolveTime();selectedCell={i,j};changed=[[i,j]];steps=[];stepIndex=0;renderAll();}catch(e){alert('Некоректне число або дріб.');inp.value=A[i][j].toString();}});
+ });
+}
+// Цифрова клавіатура редагує вибрану клітинку розширеної матриці.
+(function setupMatrixKeypad(){
+ const keypad=$('matrixKeypad');if(!keypad)return;
+ const toggle=$('toggleKeypad');let activeField=null;
+ const operationFieldIds=['addI','addJ','addK','scaleI','scaleK','swapI','swapJ'];
+ function describeField(field){
+  if(!field)return 'Виберіть поле операції або клітинку матриці';
+  const labels={addI:'Додавання: цільовий рядок',addJ:'Додавання: рядок-доданок',addK:'Додавання: коефіцієнт k',scaleI:'Множення: вибраний рядок',scaleK:'Множення: коефіцієнт k',swapI:'Перестановка: перший рядок',swapJ:'Перестановка: другий рядок'};
+  if(labels[field.id])return labels[field.id];
+  if(field.matches('#matrixContainer input[data-i]'))return `Матриця: рядок ${+field.dataset.i+1}, стовпець ${+field.dataset.j+1}`;
+  return 'Виберіть поле';
+ }
+ function setActive(field){activeField=field;$('keypadTarget').textContent=describeField(field);}
+ document.addEventListener('focusin',e=>{
+  const field=e.target;
+  if(field.matches&&((field.matches('#matrixContainer input[data-i]'))||operationFieldIds.includes(field.id)))setActive(field);
+ });
+ if(toggle){toggle.addEventListener('click',()=>{const willShow=keypad.classList.contains('hidden');keypad.classList.toggle('hidden',!willShow);toggle.setAttribute('aria-expanded',String(willShow));toggle.textContent=willShow?'⌨ Приховати клавіатуру':'⌨ Показати клавіатуру';});}
+ keypad.addEventListener('mousedown',e=>{if(e.target.closest('button'))e.preventDefault();});
+ keypad.addEventListener('click',e=>{
+  const btn=e.target.closest('[data-key]');if(!btn)return;
+  let field=activeField&&activeField.isConnected?activeField:null;
+  if(!field){
+   if(!gameActive){field=document.querySelector(`#matrixContainer input[data-i="${selectedCell.i}"][data-j="${selectedCell.j}"]`);if(field)setActive(field);}
+   else {
+    // У грі не підставляємо заблоковану клітинку матриці: клавіатура
+    // працює тільки з активним полем однієї з трьох операцій.
+    const panel=document.querySelector('.operation-box:not(.hidden)');
+    field=panel?.querySelector('select, input:not([readonly])')||null;
+    if(field)setActive(field);
+   }
+  }
+  if(!field||field.disabled)return;
+  const isMatrix=field.matches('#matrixContainer input[data-i]');
+  if(isMatrix&&gameActive){$('keypadTarget').textContent='У грі клавіатура змінює лише поля елементарних перетворень';return;}
+  const key=btn.dataset.key;
+  if(field.tagName==='SELECT'){
+   if(/^\d$/.test(key)){const index=key==='0'?0:Number(key)-1;if(index>=0&&index<field.options.length){field.selectedIndex=index;field.dispatchEvent(new Event('change',{bubbles:true}));}}
+   else if(key==='clear'){field.selectedIndex=0;field.dispatchEvent(new Event('change',{bubbles:true}));}
+   else if(key==='apply')field.dispatchEvent(new Event('change',{bubbles:true}));
+   $('keypadTarget').textContent=describeField(field);return;
+  }
+  const start=field.selectionStart??field.value.length,end=field.selectionEnd??field.value.length;
+  let value=field.value;
+  if(key==='apply'){field.dispatchEvent(new Event('change',{bubbles:true}));return;}
+  if(key==='clear')value='';
+  else if(key==='backspace')value=start!==end?value.slice(0,start)+value.slice(end):value.slice(0,Math.max(0,start-1))+value.slice(end);
+  else if(key==='sign')value=value.startsWith('-')?value.slice(1):'-'+value;
+  else if(key==='-'){if(!value.startsWith('-'))value='-'+value;}
+  else if(key==='/'){if(value&&!value.includes('/'))value=value.slice(0,start)+'/'+value.slice(end);}
+  else if(/^\d$/.test(key))value=value.slice(0,start)+key+value.slice(end);
+  field.value=value;
+  if(field.setSelectionRange){const pos=key==='backspace'?Math.max(0,start-(start===end?1:0)):key==='-'||key==='sign'?value.length:(key==='clear'?0:(key==='/'?start+1:start+1));try{field.setSelectionRange(pos,pos);}catch(_){}}
+  field.dispatchEvent(new Event('input',{bubbles:true}));field.focus();
+ });
+})();
+
+function calculationMarkup(details){if(!details||!details.length)return '';return `<div class="calculation-details"><strong>Обчислення елементів рядка</strong>${details.map(x=>`<div class="calculation-line">${x}</div>`).join('')}</div>`;}
+function elementDetails(before,after,row,kind,meta={}){
+ const out=[];for(let j=0;j<=vars;j++){let formula='';if(kind==='add')formula=`${before[row][j]}+(${meta.k})\\cdot${before[meta.source][j]}=${after[row][j]}`;else if(kind==='scale')formula=`${meta.factor}\\cdot${before[row][j]}=${after[row][j]}`;else if(kind==='divide')formula=`\\frac{${before[row][j]}}{${meta.pivot}}=${after[row][j]}`;else if(kind==='eliminate')formula=`${before[row][j]}-(${meta.factor})\\cdot${meta.pivotRowValues[j]}=${after[row][j]}`;else if(kind==='swap')formula=`${before[meta.other][j]}\\;\\text{(перенесено з }R_{${meta.other+1}}\\text{)}=${after[row][j]}`;out.push(`\\(${formula}\\)`);}return out.map((f,j)=>`<div class="calculation-line"><strong>${j===vars?'Вільний член':'Стовпець '+(j+1)}:</strong> ${f}</div>`).join('');
+}
+function equation(row){let s='';for(let j=0;j<vars;j++){const q=row[j];if(q.isZero())continue;const neg=q.n<0n,abs=neg?q.neg():q,c=abs.equals(one())?'':abs.toString(),t=c+variable(j);s+=!s?(neg?'-':'')+t:(neg?' - ':' + ')+t;}return (s||'0')+'='+row[vars].toString();}
+function systemLatex(){return '\\[\\begin{cases}'+A.map(equation).join('\\\\')+'\\end{cases}\\]';}
+function matrixSystemLatex(){
+ const coeff=A.map(r=>r.slice(0,vars).map(q=>q.toString()).join('&')).join('\\\\');
+ const rhs=A.map(r=>r[vars].toString()).join('\\\\');
+ const x=Array.from({length:vars},(_,j)=>variable(j)).join('\\\\');
+ return `\\[\\left(\\begin{array}{${'c'.repeat(vars)}}${coeff}\\end{array}\\right)\\left(\\begin{array}{c}${x}\\end{array}\\right)=\\left(\\begin{array}{c}${rhs}\\end{array}\\right)\\]`;
+}
+function systemVectorLatex(){
+ const cols=Array.from({length:vars},(_,j)=>`\\begin{pmatrix}${A.map(r=>r[j].toString()).join('\\\\')}\\end{pmatrix}`);
+ const terms=cols.map((v,j)=>`${variable(j)}${v}`).join('+');
+ const b=`\\begin{pmatrix}${A.map(r=>r[vars].toString()).join('\\\\')}\\end{pmatrix}`;
+ return `\\[${terms}=${b}\\]`;
+}
+function renderSystem(){
+ $('equations').innerHTML=systemLatex();
+ $('matrixForm').innerHTML=matrixSystemLatex();
+ $('systemVectorForm').innerHTML=systemVectorLatex();
+}
+function syncAddTargetCopy(){const target=$('addI'),copy=$('addICopy');if(target&&copy)copy.value=target.options[target.selectedIndex]?.text||'R₁';}
+function syncScaleTargetCopy(){const target=$('scaleI'),copy=$('scaleICopy');if(target&&copy)copy.value=target.options[target.selectedIndex]?.text||'R₁';}
+function updateSelects(){['addI','addJ','scaleI','swapI','swapJ'].forEach(id=>{const s=$(id),old=s.value;s.innerHTML='';for(let i=0;i<rows;i++)s.add(new Option('R'+String.fromCharCode(0x2081+i),i));if(old!==''&&+old<rows)s.value=old;});syncAddTargetCopy();syncScaleTargetCopy();}
+function rankByRows(M,n){return getPivotPositions(M,n).length;}
+function analyze(){
+ const panel=$('analysisPanel');if(!isREF(A,vars+1)){panel.classList.add('hidden');return null;}panel.classList.remove('hidden');
+ // У східчастій матриці ранг дорівнює кількості ненульових рядків.
+ const pivA=getPivotPositions(A,vars),ra=rankByRows(A,vars),rb=rankByRows(A,vars+1),basicColumns=pivA.map(p=>p.col),freeColumns=[];
+ for(let j=0;j<vars;j++)if(!basicColumns.includes(j))freeColumns.push(j);
+ const inconsistent=ra!==rb;
+ const contradictionRows=A.map((r,i)=>({row:i+1,rhs:r[vars]})).filter(x=>A[x.row-1].slice(0,vars).every(q=>q.isZero())&&!x.rhs.isZero());
+ $('rankA').textContent=ra;$('rankAug').textContent=rb;$('unknownCount').textContent=vars;
+ $('variableInfo').classList.toggle('hidden',inconsistent);
+ if(!inconsistent){
+  $('basicVariables').innerHTML=basicColumns.length?basicColumns.map(j=>`\\(x_{${j+1}}\\) (стовпець ${j+1})`).join(', '):'немає';
+  $('freeVariables').innerHTML=freeColumns.length?freeColumns.map(j=>`\\(x_{${j+1}}\\) (стовпець ${j+1})`).join(', '):'немає';
+ }
+ const c=$('classification'),ci=$('contradictionInfo');
+ if(inconsistent){
+  c.textContent='Після приведення до східчастого вигляду система є несумісною: rank A < rank(A|b). За теоремою Кронекера–Капеллі система не має розв’язків; зворотний хід не виконується.';c.className='status error';
+  ci.classList.remove('hidden');ci.innerHTML='<strong>Ознака несумісності:</strong> у зведеній матриці є рядок із нульовими коефіцієнтами при всіх невідомих і ненульовою правою частиною: '+(contradictionRows.length?contradictionRows.map(x=>`\\(0=${x.rhs}\\) (рядок ${x.row})`).join('; '):'ранги матриць не збігаються')+'. Це відповідає суперечливій рівності.';
+ }else{
+  ci.classList.add('hidden');ci.innerHTML='';
+  if(ra===vars){c.textContent='Система сумісна і визначена: має єдиний розв’язок.';c.className='status success';}
+  else{c.textContent=`Система сумісна і невизначена. Кількість вільних змінних: ${vars-ra}.`;c.className='status success';}
+ }
+ return {ra,rb,basicColumns,freeColumns,inconsistent,contradictionRows};
+}
+function expr(constant,terms){let s=constant.isZero()?'':constant.toString();for(const t of terms){const q=t.q;if(q.isZero())continue;const neg=q.n<0n,abs=neg?q.neg():q,c=abs.equals(one())?'':abs.toString();s+=!s?(neg?'-':'')+c+t.name:(neg?' - ':' + ')+c+t.name;}return s||'0';}
+function vectorToLatex(v){return '\\begin{pmatrix}'+v.map(q=>q.toString()).join('\\\\')+'\\end{pmatrix}';}
+function showSolution(){
+ const el=$('resultSolution'),info=analyze();
+ if(info && info.inconsistent){el.innerHTML='<div class="status error"><strong>Система несумісна. Розв’язків немає.</strong><br>Виявлено суперечливий рядок виду 0 = b, де b ≠ 0. Зворотний хід не виконується.</div>';return;}
+ if(!isRREF()){el.innerHTML='Загальний розв’язок буде доступний після приведення матриці до зведеного східчастого вигляду (RREF).';return;}
+ if(!info||info.ra!==info.rb){el.innerHTML='Система не має розв’язків.';return;}
+ const basic=info.basicColumns,free=info.freeColumns,pivots=getPivotPositions(A,vars),pivotRows=new Map(pivots.map(p=>[p.col,p.row]));
+ const parameters=free.map((col,i)=>({col,name:`c_{${i+1}}`}));const scalarEntries=[];
+ parameters.forEach(p=>scalarEntries.push({col:p.col,line:`${variable(p.col)}=${p.name}`}));
+ basic.forEach(col=>{const row=pivotRows.get(col),terms=parameters.map(p=>({q:A[row][p.col].neg(),name:p.name}));scalarEntries.push({col,line:`${variable(col)}=${expr(A[row][vars],terms)}`});});
+ scalarEntries.sort((a,b)=>a.col-b.col);
+ const scalarLines=scalarEntries.map(entry=>entry.line);
+ const scalarLatex='\\[\\begin{cases}'+scalarLines.join('\\\\')+'\\end{cases}\\]';
+ const particular=Array.from({length:vars},zero);basic.forEach(col=>{particular[col]=A[pivotRows.get(col)][vars];});
+ let vectorExpression=vectorToLatex(particular);
+ const basisVectors=[];
+ parameters.forEach(p=>{const v=Array.from({length:vars},zero);v[p.col]=one();basic.forEach(col=>{const row=pivotRows.get(col);v[col]=A[row][p.col].neg();});basisVectors.push(v);vectorExpression+='+'+p.name+vectorToLatex(v);});
+ const vectorForm='\\[\\mathbf{x}='+vectorExpression+'\\]';
+ const homogeneous=A.every(r=>r[vars].isZero());
+ const fsrHtml=homogeneous?`<h3>Фундаментальна система розв’язків (ФСР)</h3>${basisVectors.length?'\\[\\mathcal{F}=\\left\\{'+basisVectors.map(vectorToLatex).join(',\\;')+'\\right\\}\\]':'<div class="muted">Вільних змінних немає. ФСР порожня; однорідна система має лише тривіальний розв’язок \\(\\mathbf{x}=\\mathbf{0}\\).</div>'}<div class="muted">Кожен розв’язок однорідної системи є лінійною комбінацією векторів ФСР.</div>`:'';
+ el.innerHTML=`<h3>Загальний розв’язок у скалярній формі</h3>${scalarLatex}<h3>Загальний розв’язок у векторній формі</h3>${vectorForm}${fsrHtml}<div class="muted">${parameters.length?`Параметри ${parameters.map(p=>'\\('+p.name+'\\)').join(', ')} — довільні дійсні числа.`:'Система має єдиний розв’язок.'}</div>`;
+}
+function renderResults(){
+ const spec='c'.repeat(vars)+'|c';
+ $('resultMatrix').innerHTML='\\[\\left(\\begin{array}{'+spec+'}'+A.map(r=>r.map(q=>q.toString()).join('&')).join('\\\\')+'\\end{array}\\right)\\]';
+ $('resultSystem').innerHTML=systemLatex();
+ showSolution();
+}
+function switchView(v){currentView=v;['matrix','system','solution'].forEach(k=>$('result'+k[0].toUpperCase()+k.slice(1)).classList.toggle('hidden',k!==v));document.querySelectorAll('.view-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));math();}
+function historyActionMarkup(action){
+ const auto=action.match(/^Автоматичний крок (\d+):\s*([\s\S]+)$/);
+ if(auto)return `Автоматичний крок ${auto[1]}: <span class="history-math">\\(${auto[2]}\\)</span>`;
+ const undone=action.match(/^Скасовано дію:\s*([\s\S]+)$/);
+ if(undone)return `Скасовано дію: ${historyActionMarkup(undone[1])}`;
+ let m=action.match(/^R_(\d+)\s*←\s*R_\d+\s*\+\s*\((.+)\)R_(\d+)$/);
+ if(m)return `<span class="history-math">\\(R_{${m[1]}}\\leftarrow R_{${m[1]}}+(${m[2]})R_{${m[3]}}\\)</span>`;
+ m=action.match(/^R_(\d+)\s*←\s*\((.+)\)R_\d+$/);
+ if(m)return `<span class="history-math">\\(R_{${m[1]}}\\leftarrow (${m[2]})R_{${m[1]}}\\)</span>`;
+ m=action.match(/^R_(\d+)\s*↔\s*R_(\d+)$/);
+ if(m)return `<span class="history-math">\\(R_{${m[1]}}\\leftrightarrow R_{${m[2]}}\\)</span>`;
+ return escapeHtml(action);
+}
+function renderHistory(){const el=$('historyList');if(!auditLog.length){el.textContent='Дій ще не виконано.';return;}el.innerHTML=auditLog.map((item,i)=>`<div class="history-item" style="color:${item.type==='undo'?'#c43d48':'#202b3c'}"><strong>${i+1}.</strong> ${item.type==='undo'?'↶':'✓'} ${historyActionMarkup(item.action)} <span class="muted">${escapeHtml(item.time)}</span></div>`).join('');el.scrollTop=el.scrollHeight;math();}
+function undo(){if(!history.length)return;const s=history.pop();logEvent(`Скасовано дію: ${s.desc}`,'undo');if(gameActive)manualCanceledCount++;A=clone(s.A);rows=s.rows;vars=s.vars;stepIndex=s.stepIndex||0;manualOperationCount=s.manualOperationCount??manualOperationCount;updateManualStepCounter();selectedCell.i=Math.min(selectedCell.i,rows-1);selectedCell.j=Math.min(selectedCell.j,vars);changed=[];steps=[];renderAll();}
+function applyAdd(i,j,k){for(let c=0;c<=vars;c++)A[i][c]=A[i][c].add(k.mul(A[j][c]));}
+function applyScale(i,k){if(k.isZero())throw Error('Множник не може дорівнювати нулю.');for(let c=0;c<=vars;c++)A[i][c]=A[i][c].mul(k);}
+function applySwap(i,j){[A[i],A[j]]=[A[j],A[i]];}
+function switchOperationTab(name){
+ document.querySelectorAll('[data-operation-tab]').forEach(b=>{const active=b.dataset.operationTab===name;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active));});
+ document.querySelectorAll('[data-operation-panel]').forEach(p=>p.classList.toggle('hidden',p.dataset.operationPanel!==name));
+}
+document.querySelectorAll('[data-operation-tab]').forEach(b=>b.addEventListener('click',()=>switchOperationTab(b.dataset.operationTab)));
+$('addI').addEventListener('change',syncAddTargetCopy);$('scaleI').addEventListener('change',syncScaleTargetCopy);
+$('addOperation').onclick=()=>{if(!guardManualOperation())return;try{const i=+$('addI').value,j=+$('addJ').value,k=Q.parse($('addK').value);if(i===j)throw Error('Виберіть різні рядки.');const before=clone(A);solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;save(`R_${i+1} ← R_${i+1} + (${k})R_${j+1}`);manualOperationCount++;updateManualStepCounter();applyAdd(i,j,k);const details=Array.from({length:vars+1},(_,c)=>`<div class="calculation-line"><strong>${c===vars?'Вільний член':'Стовпець '+(c+1)}:</strong> \\(${before[i][c]}+(${k})\\cdot${before[j][c]}=${A[i][c]}\\)</div>`);manualDetails=details;manualOperationDescription=`R_{${i+1}}\\leftarrow R_{${i+1}}+(${k})R_{${j+1}}`;changed=Array.from({length:vars+1},(_,c)=>[i,c]);steps=[];stepIndex=0;renderAll();if($('detailCalculations').checked)$('stepDescription').innerHTML=`\\(R_{${i+1}}\\leftarrow R_{${i+1}}+(${k})R_{${j+1}}\\)`+calculationMarkup(details);math();animateRows([i]);msg('Елементарне перетворення виконано.','success');}catch(e){msg(e.message,'error');}};
+$('scaleOperation').onclick=()=>{if(!guardManualOperation())return;try{const i=+$('scaleI').value,k=Q.parse($('scaleK').value);if(k.isZero())throw Error('Множник не може дорівнювати нулю.');const before=clone(A);solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;save(`R_${i+1} ← (${k})R_{${i+1}}`);manualOperationCount++;updateManualStepCounter();applyScale(i,k);const details=Array.from({length:vars+1},(_,c)=>`<div class="calculation-line"><strong>${c===vars?'Вільний член':'Стовпець '+(c+1)}:</strong> \\(${k}\\cdot${before[i][c]}=${A[i][c]}\\)</div>`);manualDetails=details;manualOperationDescription=`R_{${i+1}}\\leftarrow ${k}R_{${i+1}}`;changed=Array.from({length:vars+1},(_,c)=>[i,c]);steps=[];stepIndex=0;renderAll();if($('detailCalculations').checked)$('stepDescription').innerHTML=`\\(R_{${i+1}}\\leftarrow ${k}R_{${i+1}}\\)`+calculationMarkup(details);math();animateRows([i]);msg('Елементарне перетворення виконано.','success');}catch(e){msg(e.message,'error');}};
+$('swapOperation').onclick=()=>{if(!guardManualOperation())return;const i=+$('swapI').value,j=+$('swapJ').value;if(i===j){msg('Виберіть різні рядки.','error');return;}manualOperationDescription=`R_{${i+1}}\\leftrightarrow R_{${j+1}}`;manualDetails=[];solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;save(`R_${i+1} ↔ R_${j+1}`);manualOperationCount++;updateManualStepCounter();applySwap(i,j);changed=[];for(let c=0;c<=vars;c++)changed.push([i,c],[j,c]);steps=[];stepIndex=0;renderAll();if($('detailCalculations').checked){const d=Array.from({length:vars+1},(_,c)=>`<div class="calculation-line">Стовпець ${c+1}: \\(R_{${i+1}}=${A[i][c]},\\;R_{${j+1}}=${A[j][c]}\\)</div>`);$('stepDescription').innerHTML=`\\(R_{${i+1}}\\leftrightarrow R_{${j+1}}\\)`+calculationMarkup(d);math();}animateRows([i,j]);msg('Рядки переставлено.','success');};
+function makeSteps(){
+ let M=clone(A),out=[],pr=0,inconsistent=false;
+ let currentLeader=null;const push=(desc,changedRows,details)=>out.push({M:clone(M),desc,changed:changedRows,details,inconsistent,leader:currentLeader?{...currentLeader}:null});
+ const hasContradiction=()=>M.some(r=>r.slice(0,vars).every(q=>q.isZero())&&!r[vars].isZero());
+ // Прямий хід. Якщо отримано суперечливий рядок 0=b, b≠0,
+ // розв'язування зупиняється: зворотний хід для несумісної системи не виконується.
+ for(let col=0;col<vars;col++){
+  let sel=pr;while(sel<rows&&M[sel][col].isZero())sel++;if(sel===rows)continue;
+  if(sel!==pr){const before=clone(M);[M[sel],M[pr]]=[M[pr],M[sel]];const d=[];for(let j=0;j<=vars;j++)d.push(`<div class="calculation-line">\\(R_{${pr+1}},\\;a_{${pr+1},${j+1}}\\leftarrow ${before[sel][j]}\\), \\(R_{${sel+1}},\\;a_{${sel+1},${j+1}}\\leftarrow ${before[pr][j]}\\)</div>`);push(`R_{${pr+1}}\\leftrightarrow R_{${sel+1}}`,[pr,sel],d);}
+  const pivot=M[pr][col];currentLeader={row:pr,col};
+  push(`\\text{Обрано лідера }a_{${pr+1},${col+1}}=${pivot}`,[pr],[`<div class="calculation-line">Лідер поточного кроку — ненульовий елемент у рядку ${pr+1}, стовпці ${col+1}.</div>`]);
+  if(!pivot.equals(one())){const before=clone(M);for(let j=0;j<=vars;j++)M[pr][j]=M[pr][j].div(pivot);const d=Array.from({length:vars+1},(_,j)=>`<div class="calculation-line"><strong>${j===vars?'Вільний член':'Стовпець '+(j+1)}:</strong> \\(${before[pr][j]}\\div ${pivot}=${M[pr][j]}\\)</div>`);push(`R_{${pr+1}}\\leftarrow \\frac{1}{${pivot}}R_{${pr+1}}`,[pr],d);}
+  for(let i=pr+1;i<rows;i++){
+   if(M[i][col].isZero())continue;const before=clone(M),f=M[i][col],pv=cloneRow(M[pr]);
+   for(let j=0;j<=vars;j++)M[i][j]=M[i][j].sub(f.mul(M[pr][j]));
+   const d=Array.from({length:vars+1},(_,j)=>`<div class="calculation-line"><strong>${j===vars?'Вільний член':'Стовпець '+(j+1)}:</strong> \\(${before[i][j]}-(${f})\\cdot${pv[j]}=${M[i][j]}\\)</div>`);
+   push(`R_{${i+1}}\\leftarrow R_{${i+1}}-(${f})R_{${pr+1}}`,[i],d);
+  }
+  pr++;if(pr===rows)break;
+ }
+ // Завжди завершуємо весь прямий хід до повного східчастого вигляду.
+ inconsistent=hasContradiction();
+ if(inconsistent){
+  out.push({M:clone(M),desc:`\\text{Прямий хід завершено. Система несумісна; зворотний хід не виконується.}`,changed:[],details:[`<div class="calculation-line"><strong>Зупинка:</strong> матрицю повністю приведено до східчастого вигляду та отримано рівність виду \\(0=b,\\;b\\ne0\\). Отже, система несумісна, тому зворотний хід не потрібний.</div>`],inconsistent:true,terminal:true});
+  return out;
+ }
+ // Для сумісної системи виконуємо зворотний хід і отримуємо RREF.
+ for(let p=pr-1;p>=0;p--){let lead=-1;for(let j=0;j<vars;j++)if(!M[p][j].isZero()){lead=j;break;}if(lead<0)continue;
+  for(let i=0;i<p;i++)if(!M[i][lead].isZero()){const before=clone(M),f=M[i][lead],pv=cloneRow(M[p]);for(let j=0;j<=vars;j++)M[i][j]=M[i][j].sub(f.mul(M[p][j]));const d=Array.from({length:vars+1},(_,j)=>`<div class="calculation-line"><strong>${j===vars?'Вільний член':'Стовпець '+(j+1)}:</strong> \\(${before[i][j]}-(${f})\\cdot${pv[j]}=${M[i][j]}\\)</div>`);push(`R_{${i+1}}\\leftarrow R_{${i+1}}-(${f})R_{${p+1}}`,[i],d);}
+ }
+ return out;
+}
+function controls(){$('autoStart').disabled=autoRunning;$('autoPrev').disabled=autoRunning||stepIndex===0;$('autoNext').disabled=autoRunning||stepIndex>=steps.length;$('autoAll').disabled=autoRunning||stepIndex>=steps.length;}
+function stepText(){if(stepIndex===0){$('stepDescription').innerHTML='';}else{const st=steps[stepIndex-1];$('stepDescription').innerHTML=`\\(${st.desc}\\)`+($('detailCalculations').checked?calculationMarkup(st.details):'');}$('stepCounter').textContent=`Крок ${stepIndex} із ${steps.length}`;controls();math();}
+function doStep(i){if(i<0||i>=steps.length)return;if(solveStartedAt===null&&solveElapsedMs===null){solveStartedAt=performance.now();updateSolveTime();}const st=steps[i];save(`Автоматичний крок ${i+1}: ${st.desc}`);A=clone(st.M);stepIndex=i+1;activeLeader=st.leader||null;changed=st.changed.map(r=>[r,0]);renderAll();stepText();animateRows(st.changed);if(stepIndex>=steps.length)finishSolve();}
+$('autoStart').onclick=()=>{
+  manualOperationDescription='';manualDetails=[];
+  try {
+    if(isRREF()){
+      $('stepDescription').innerHTML='<strong>Вітаємо! Розв’язання системи завершено.</strong><br>Матриця вже має зведений східчастий вигляд (RREF). Елементарні перетворення недоступні.';
+      $('stepCounter').textContent='Крок 0 із 0';steps=[];stepIndex=0;
+      updateOperationAvailability();controls();math();return;
+    }
+    solveInitialA=clone(A);solveInitialRows=rows;solveInitialVars=vars;
+    steps=makeSteps();stepIndex=0;activeLeader=null;solveStartedAt=null;solveElapsedMs=null;updateSolveTime();
+    if(!steps.length){
+      $('stepDescription').innerHTML='<strong>Автоматичних кроків не знайдено.</strong>';
+      $('stepCounter').textContent='Крок 0 із 0';controls();return;
+    }
+    $('stepCounter').textContent=`Крок 0 із ${steps.length}`;
+    $('stepDescription').textContent='Побудовано послідовність кроків. Виконується перший крок…';
+    controls();
+    // Одразу показуємо перший автоматичний крок, щоб кнопка «Побудувати розв’язання»
+    // давала видимий результат без додаткового натискання.
+    doStep(0);
+    msg(`Побудовано ${steps.length} крок(ів) автоматичного розв’язання.`,'success');
+  } catch(e) {
+    console.error(e);
+    steps=[];stepIndex=0;controls();
+    msg('Не вдалося побудувати автоматичні кроки: '+(e.message||e),'error');
+  }
+};
+$('autoNext').onclick=()=>doStep(stepIndex);
+$('autoPrev').onclick=()=>{if(stepIndex===0)return;stepIndex--;A=clone(stepIndex===0?solveInitialA:steps[stepIndex-1].M);activeLeader=stepIndex?steps[stepIndex-1].leader||null:null;changed=stepIndex?steps[stepIndex-1].changed.map(r=>[r,0]):[];logEvent(`Повернення до кроку ${stepIndex}`,'undo');renderAll();stepText();};
+$('autoAll').onclick=async()=>{if(autoRunning)return;autoRunning=true;controls();while(stepIndex<steps.length){doStep(stepIndex);await new Promise(resolve=>setTimeout(resolve,420));}autoRunning=false;renderAll();stepText();controls();};
+function changeSize(nr,nv){if(gameActive){msg('Під час проходження рівня розмір матриці змінювати не можна.','error');return;}abandonGameForEdit();nr=Math.max(1,Math.min(10,nr));nv=Math.max(1,Math.min(10,nv));save(`Зміна розміру матриці на ${nr} × ${nv}`);const M=Array.from({length:nr},(_,i)=>Array.from({length:nv+1},(_,j)=>A[i]?.[j]?new Q(A[i][j].n,A[i][j].d):zero()));rows=nr;vars=nv;A=M;exportBaseA=clone(A);exportBaseRows=rows;exportBaseVars=vars;solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;steps=[];stepIndex=0;activeLeader=null;changed=[];selectedCell={i:0,j:0};renderAll();}
+$('addRow').onclick=()=>changeSize(rows+1,vars);$('removeRow').onclick=()=>{if(rows>1)changeSize(rows-1,vars);};$('addCol').onclick=()=>changeSize(rows,vars+1);$('removeCol').onclick=()=>{if(vars>1)changeSize(rows,vars-1);};
+function bounds(){const min=+$('randomMin').value,max=+$('randomMax').value;if(!Number.isInteger(min)||!Number.isInteger(max)||min>max)throw Error('Перевірте межі генерації.');return {min,max};}function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+$('randomSystem').onclick=()=>{try{if(gameActive){const l=GAME_LEVELS[gameSelectedLevel],generated=generateControlledGameMatrix(l);save('Нова контрольована система для ігрового рівня');rows=l.rows;vars=l.vars;A=generated.map(r=>r.map(v=>new Q(BigInt(v))));}else{const {min,max}=bounds();save('Генерація всієї системи');A=Array.from({length:rows},()=>Array.from({length:vars+1},()=>new Q(BigInt(rnd(min,max)))));}exportBaseA=clone(A);exportBaseRows=rows;exportBaseVars=vars;history=[];auditLog=[];manualOperationCount=0;manualCanceledCount=0;updateManualStepCounter();solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;steps=[];stepIndex=0;activeLeader=null;changed=[];manualDetails=[];manualOperationDescription='';selectedCell={i:0,j:0};gameAwarded=false;renderAll();msg(gameActive?'Згенеровано нову математично контрольовану систему цього рівня. Ранг, сумісність і кількість вільних змінних збережено; прогрес перетворень скинуто.':'Систему згенеровано.','success');}catch(e){msg(e.message,'error');}};
+$('randomElement').onclick=()=>{try{const {min,max}=bounds(),i=selectedCell.i,j=selectedCell.j;abandonGameForEdit();save(`Генерація елемента (${i+1}, ${j+1})`);A[i][j]=new Q(BigInt(rnd(min,max)));exportBaseA=clone(A);exportBaseRows=rows;exportBaseVars=vars;solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;changed=[[i,j]];steps=[];stepIndex=0;renderAll();msg(`Згенеровано елемент (${i+1}, ${j+1}).`,'success');}catch(e){msg(e.message,'error');}};
+$('exampleBtn').onclick=()=>{if(gameActive){msg('Під час проходження рівня завантаження прикладу недоступне.','error');return;}abandonGameForEdit();save('Завантаження прикладу');rows=3;vars=3;A=[[new Q(1n),new Q(1n),new Q(1n),new Q(6n)],[new Q(2n),new Q(-1n),new Q(1n),new Q(3n)],[new Q(1n),new Q(2n),new Q(-1n),new Q(2n)]];exportBaseA=clone(A);exportBaseRows=rows;exportBaseVars=vars;solveInitialA=null;solveStartedAt=null;solveElapsedMs=null;steps=[];stepIndex=0;activeLeader=null;changed=[];selectedCell={i:0,j:0};renderAll();msg('Приклад завантажено.','success');};
+$('undoBtn').onclick=undo;
+$('resetBtn').onclick=()=>{if(gameActive){msg('Під час проходження рівня скидання матриці недоступне.','error');return;}if(!confirm('Скинути систему до початкового стану?'))return;abandonGameForEdit();logEvent('Скидання до початкової матриці','action');rows=3;vars=3;A=[[new Q(1n),new Q(2n),new Q(1n),new Q(4n)],[new Q(2n),new Q(1n),new Q(-1n),new Q(1n)],[new Q(1n),new Q(-1n),new Q(2n),new Q(3n)]];history=[];manualOperationCount=0;updateManualStepCounter();steps=[];stepIndex=0;activeLeader=null;changed=[];selectedCell={i:0,j:0};exportBaseA=clone(A);exportBaseRows=rows;exportBaseVars=vars;$('showSystem').checked=false;$('showMatrixForm').checked=false;$('showVectorForm').checked=false;$('stepDescription').textContent='';$('stepCounter').textContent='';solveStartedAt=null;solveElapsedMs=null;solveInitialA=null;updateSolveTime();renderAll();};
+$('showChangedRow').onchange=()=>renderMatrix();
+$('addI').onchange=syncAddTargetCopy;
+$('detailCalculations').onchange=()=>{if(stepIndex>0)stepText();else if(manualOperationDescription){$('stepDescription').innerHTML=`\\(${manualOperationDescription}\\)`+($('detailCalculations').checked?calculationMarkup(manualDetails):'');math();}};
+$('showSystem').onchange=()=>$('systemContainer').classList.toggle('hidden',!$('showSystem').checked);
+$('showMatrixForm').onchange=()=>$('matrixFormContainer').classList.toggle('hidden',!$('showMatrixForm').checked);
+$('showVectorForm').onchange=()=>$('vectorFormContainer').classList.toggle('hidden',!$('showVectorForm').checked);
+document.querySelectorAll('.view-tabs button').forEach(b=>b.onclick=()=>switchView(b.dataset.view));
+function latexForMatrix(M,n){
+  const body=M.map(r=>r.slice(0,n).map(q=>q.toString()).join('&')+'&'+r[n].toString()).join('\\\\');
+  return '\\[\\left(\\begin{array}{'+('c'.repeat(n))+'|c}'+body+'\\end{array}\\right)\\]';
+}
+function equationsFor(M,n){return '\\[\\begin{cases}'+M.map(r=>{let t='';for(let j=0;j<n;j++){const q=r[j];if(q.isZero())continue;const neg=q.n<0n,abs=neg?q.neg():q,c=abs.equals(one())?'':abs.toString(),term=c+variable(j);t+=!t?(neg?'-':'')+term:(neg?' - ':' + ')+term;}return (t||'0')+'='+r[n].toString();}).join('\\\\')+'\\end{cases}\\]';}
+
+
+function renderAll(){updateManualStepCounter();renderMatrix();updateCloseness();updateSolveTime();renderSystem();updateSelects();$('matrixSizeInfo').textContent=`Поточний розмір: ${rows} рівняння × ${vars} невідомих`;analyze();renderResults();renderHistory();updateUndo();updateOperationAvailability();$('systemContainer').classList.toggle('hidden',!$('showSystem').checked);$('matrixFormContainer').classList.toggle('hidden',!$('showMatrixForm').checked);$('vectorFormContainer').classList.toggle('hidden',!$('showVectorForm').checked);controls();switchView(currentView);renderGame();updateGameProgress();math();}
+
+// Керування ігровим режимом.
+$('gameToggle').onclick=()=>{const panel=$('gameContent');panel.classList.toggle('hidden');$('gameToggle').textContent=panel.classList.contains('hidden')?'Відкрити рівні ▾':'Згорнути рівні ▴';};
+$('gameLevels').addEventListener('click',e=>{const b=e.target.closest('[data-game-level]');if(b)chooseGameLevel(+b.dataset.gameLevel);});
+$('gameStart').onclick=startGameLevel;
+$('gameExit').onclick=()=>{gameActive=false;gameAwarded=false;$('gameResult').classList.add('hidden');updateGameSizeLock();msg('Ігровий режим призупинено. Можна продовжити звичайну роботу з матрицею.','success');};
+// У грі автоматичне розв’язання не зараховується як ручне проходження.
+const originalAutoStart=$('autoStart').onclick;
+$('autoStart').onclick=function(){if(gameActive){msg('У ігровому режимі потрібно виконувати перетворення самостійно.','error');return;}return originalAutoStart.apply(this,arguments);};
+
+// Перемикач кольорових тем із запам’ятовуванням вибору.
+(function(){
+ const choices=[...document.querySelectorAll('[data-theme-choice]')];
+ function applyTheme(theme){
+  const allowed=['default','ocean','lavender','mint','sunset','dark'];
+  if(!allowed.includes(theme)) theme='default';
+  if(theme==='default') document.body.removeAttribute('data-theme'); else document.body.dataset.theme=theme;
+  choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeChoice===theme)));
+  try{localStorage.setItem('linearSolverTheme',theme);}catch(e){}
+ }
+ choices.forEach(button=>button.addEventListener('click',()=>applyTheme(button.dataset.themeChoice)));
+ let saved='default';try{saved=localStorage.getItem('linearSolverTheme')||'default';}catch(e){}
+ applyTheme(saved);
+})();
+
+renderAll();
+renderGame();
+</script>
+</body>
+</html>
