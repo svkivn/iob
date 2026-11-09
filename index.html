@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Лінійні системи — метод Гаусса–Жордана</title>
+<div class="profile-modal hidden" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+ <div class="profile-card">
+  <div class="profile-top"><div><div class="profile-kicker">IOB · ОСОБИСТИЙ ПРОГРЕС</div><h2 id="profileTitle">👤 Мій профіль</h2></div><button type="button" id="profileClose" aria-label="Закрити">×</button></div>
+  <div class="profile-user"><div class="profile-avatar" id="profileAvatar">👤</div><div><label for="userName">Ім'я користувача</label><input id="userName" placeholder="Введіть ваше ім'я" maxlength="40"><div class="profile-greeting" id="profileGreeting">Вітаємо!</div></div></div>
+  <div class="profile-tabs"><button type="button" class="profile-tab active" data-profile-tab="progress">📊 Прогрес</button><button type="button" class="profile-tab" data-profile-tab="errors">🧠 Аналіз помилок</button></div>
+  <div class="profile-view" data-profile-view="progress"><div class="profile-stats"><div><span>Виконано операцій</span><strong id="profileOps">0</strong></div><div><span>Скасовано</span><strong id="profileUndo">0</strong></div><div><span>Підказки</span><strong id="profileHints">0</strong></div><div><span>Точність</span><strong id="profileAccuracy">—</strong></div></div></div>
+  <div class="profile-view hidden" data-profile-view="errors"><div id="errorAnalysis" class="error-analysis"></div></div>
+  <div class="profile-footer"><button type="button" class="primary" id="saveProfile">Зберегти профіль</button></div>
+ </div>
+</div>
+
+
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
@@ -152,6 +164,19 @@ body[data-theme="dark"] .matrix-area,body[data-theme="dark"] .operation-box,body
 .matrix-area{margin-top:14px}
 @media(max-width:600px){.operation-tabs button{font-size:10px;gap:3px;padding:8px 3px;white-space:normal}.operation-tab-help .operation-help-popup{left:auto;right:-12px;transform:none}.operation-equation{justify-content:flex-start;gap:7px}.equation-field,.equation-field.coefficient-field{flex-basis:76px;width:76px;min-width:76px;height:48px}.equation-field select,.equation-field input,.equation-field.coefficient-field input{height:38px;font-size:14px}}
 
+
+/* v2.2 режим роботи */
+.mode-switcher{display:flex;align-items:stretch;gap:8px;margin:0 0 14px;padding:6px;border:1px solid var(--border);border-radius:16px;background:var(--panel-bg);box-shadow:var(--shadow)}
+.mode-choice{display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:center;min-width:220px;padding:10px 14px;border:1px solid transparent;border-radius:11px;background:transparent;text-align:left;color:var(--muted)}
+.mode-choice>span{font-size:12px;font-weight:850;letter-spacing:.55px;color:var(--heading)}
+.mode-choice>small{grid-column:2;font-size:10px;font-weight:500;color:var(--muted);margin-top:2px}.mode-choice.active{background:color-mix(in srgb,var(--primary) 10%,var(--panel-bg));border-color:color-mix(in srgb,var(--primary) 22%,var(--border));box-shadow:0 3px 10px rgba(25,40,80,.06)}.mode-choice.active>span{color:var(--primary)}
+.mode-status{margin-left:auto;align-self:center;padding:0 12px;font-size:11px;color:var(--muted);white-space:nowrap}.mode-status strong{color:var(--primary)}
+body[data-app-mode="training"] #gameShell{display:none}body[data-app-mode="game"] #gameShell{display:block}
+@media(max-width:760px){.mode-switcher{display:grid;grid-template-columns:1fr 1fr}.mode-choice{min-width:0;padding:9px}.mode-choice>span{font-size:10px}.mode-choice>small{font-size:9px}.mode-status{grid-column:span 2;margin:0;padding:4px 8px;text-align:center}}
+
+/* v2.3 profile + training hints */
+.profile-btn{margin-left:auto;display:flex;align-items:center;gap:7px;padding:9px 13px;border-radius:999px;background:var(--panel-bg);font-size:12px}.header-chip{margin-left:0}.training-hints{margin:14px 0 0;padding:14px 15px;border:1px solid color-mix(in srgb,var(--primary) 24%,var(--border));border-radius:14px;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 7%,var(--panel-bg)),var(--soft-bg))}.training-hints-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.training-hints-head strong{display:block;font-size:13px;color:var(--heading)}.training-hints-head span{display:block;font-size:10px;color:var(--muted);margin-top:2px}.training-hints-head b{font-size:12px;color:var(--primary);padding:5px 8px;border-radius:999px;background:var(--panel-bg);border:1px solid var(--border)}.hint-btn{margin-top:10px;width:100%;min-height:40px;border-style:dashed;color:var(--primary);background:var(--panel-bg)}.hint-text{margin-top:10px;padding:11px 12px;border-radius:10px;background:var(--panel-bg);border-left:3px solid var(--primary);font-size:12px;line-height:1.55}.hint-text.hidden{display:none}body[data-app-mode="game"] #trainingHints{display:none}.profile-modal{position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.5);display:grid;place-items:center;padding:20px}.profile-modal.hidden{display:none}.profile-card{width:min(720px,100%);max-height:min(760px,calc(100vh - 40px));overflow:auto;background:var(--panel-bg);border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 24px 80px rgba(0,0,0,.25)}.profile-top{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.profile-top h2{font-size:23px;margin:3px 0}.profile-kicker{font-size:10px;letter-spacing:1.2px;color:var(--primary);font-weight:800}.profile-top>button{width:34px;height:34px;padding:0;border-radius:50%;font-size:22px}.profile-user{display:flex;align-items:center;gap:14px;padding:16px;margin:15px 0;background:var(--soft-bg);border:1px solid var(--border);border-radius:16px}.profile-avatar{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;background:linear-gradient(145deg,var(--primary),color-mix(in srgb,var(--primary) 65%,#111));font-size:28px}.profile-user label{display:block;margin-bottom:5px}.profile-user input{width:min(360px,100%);height:42px}.profile-greeting{margin-top:6px;color:var(--muted);font-size:12px}.profile-tabs{display:flex;gap:6px;padding:5px;background:var(--soft-bg);border-radius:12px}.profile-tab{flex:1;border:0;background:transparent}.profile-tab.active{background:var(--panel-bg);color:var(--primary);box-shadow:0 2px 8px rgba(20,30,60,.08)}.profile-view{padding:16px 0}.profile-view.hidden{display:none}.profile-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.profile-stats>div{padding:14px;border:1px solid var(--border);border-radius:13px;background:var(--soft-bg)}.profile-stats span{display:block;font-size:10px;color:var(--muted);margin-bottom:6px}.profile-stats strong{font-size:22px;color:var(--heading)}.error-analysis{display:grid;gap:10px}.error-item{padding:14px;border:1px solid var(--border);border-radius:13px;background:var(--soft-bg)}.error-item strong{display:block;color:var(--heading);margin-bottom:4px}.error-item p{margin:0;color:var(--muted);font-size:12px}.error-item.good{border-left:4px solid #24a877}.error-item.warn{border-left:4px solid #d99a28}.profile-footer{display:flex;justify-content:flex-end;padding-top:4px}@media(max-width:700px){.profile-btn{margin-left:auto}.profile-btn span{display:none}.profile-card{padding:17px}.profile-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.profile-user{align-items:flex-start}.profile-avatar{width:48px;height:48px;font-size:22px}.header-chip{display:none}}
+
 </style>
 </head>
 <body>
@@ -159,8 +184,14 @@ body[data-theme="dark"] .matrix-area,body[data-theme="dark"] .operation-box,body
 <header class="app-header">
  <div class="brand-mark" aria-hidden="true">∑</div>
  <div class="brand-copy"><div class="brand-kicker">ІНТЕРАКТИВНИЙ МАТЕМАТИЧНИЙ ТРЕНАЖЕР</div><h1>Лінійні системи</h1><div class="subtitle">Розв’язування методом Гаусса–Жордана · точні дроби · покрокові перетворення</div></div>
- <div class="header-chip"><span class="header-chip-dot"></span>Навчальна лабораторія</div>
+ <button type="button" class="profile-btn" id="profileBtn">👤 <span>Профіль</span></button><div class="header-chip"><span class="header-chip-dot"></span>IOB - INTERACTIVE ONLINE BOOK</div>
 </header>
+<div class="mode-switcher" role="tablist" aria-label="Режим роботи">
+  <button type="button" class="mode-choice active" id="trainingModeBtn" role="tab" aria-selected="true">📘 <span>ТРЕНУВАННЯ</span><small>Вільна робота із системою</small></button>
+  <button type="button" class="mode-choice" id="gameModeBtn" role="tab" aria-selected="false">🎮 <span>ГРА</span><small>Рівні, бали та досягнення</small></button>
+  <div class="mode-status" aria-live="polite">Активний режим: <strong id="activeModeLabel">ТРЕНУВАННЯ</strong></div>
+</div>
+
 <div class="theme-switcher" role="group" aria-label="Кольорова тема сторінки"><span class="theme-switcher-label">Тема сторінки:</span><button type="button" class="theme-choice" data-theme-choice="default" aria-pressed="true"><span class="theme-swatch" style="--swatch:#3157a4"></span>Класична</button><button type="button" class="theme-choice" data-theme-choice="ocean" aria-pressed="false"><span class="theme-swatch" style="--swatch:#087e8b"></span>Океан</button><button type="button" class="theme-choice" data-theme-choice="lavender" aria-pressed="false"><span class="theme-swatch" style="--swatch:#7652a8"></span>Лаванда</button><button type="button" class="theme-choice" data-theme-choice="mint" aria-pressed="false"><span class="theme-swatch" style="--swatch:#287b59"></span>М’ята</button><button type="button" class="theme-choice" data-theme-choice="sunset" aria-pressed="false"><span class="theme-swatch" style="--swatch:#b65d35"></span>Захід</button><button type="button" class="theme-choice" data-theme-choice="dark" aria-pressed="false"><span class="theme-swatch" style="--swatch:#222a38"></span>Темна</button></div>
 
 <section class="game-shell" id="gameShell" aria-label="Ігровий режим">
@@ -216,6 +247,11 @@ body[data-theme="dark"] .matrix-area,body[data-theme="dark"] .operation-box,body
 <div class="operation-box" data-operation-panel="add"><h3 class="operation-heading"><span class="operation-heading-main">Додавання рядків</span></h3><div class="operation-equation" aria-label="Операція: цільовий рядок дорівнює тому самому рядку плюс коефіцієнт, помножений на інший рядок"><span class="equation-field"><select id="addI" aria-label="Цільовий рядок"></select></span><span class="equation-equals">=</span><span class="equation-field"><input id="addICopy" type="text" value="R₁" readonly tabindex="-1" aria-label="Копія цільового рядка"></span><span class="equation-operator">+</span><span class="equation-field coefficient-field"><input id="addK" value="1" aria-label="Коефіцієнт k"></span><span class="equation-operator">·</span><span class="equation-field"><select id="addJ" aria-label="Доданок R j"></select></span></div><button id="addOperation">Виконати</button></div>
 <div class="operation-box hidden" data-operation-panel="scale"><h3 class="operation-heading"><span class="operation-heading-main">Множення рядка</span></h3><div class="operation-equation" aria-label="Множення вибраного рядка на коефіцієнт"><span class="equation-field"><select id="scaleI" aria-label="Цільовий рядок"></select></span><span class="equation-equals">=</span><span class="equation-field coefficient-field"><input id="scaleK" value="2" aria-label="Коефіцієнт k"></span><span class="equation-operator">·</span><span class="equation-field"><input id="scaleICopy" type="text" value="R₁" readonly tabindex="-1" aria-label="Копія цільового рядка"></span></div><button id="scaleOperation">Виконати</button></div>
 <div class="operation-box hidden" data-operation-panel="swap"><h3 class="operation-heading"><span class="operation-heading-main">Перестановка рядків</span></h3><div class="operation-equation" aria-label="Перестановка двох рядків"><span class="equation-field"><select id="swapI" aria-label="Перший рядок"></select></span><span class="equation-equals">↔</span><span class="equation-field"><select id="swapJ" aria-label="Другий рядок"></select></span></div><button id="swapOperation">Виконати</button></div>
+</div>
+<div class="training-hints" id="trainingHints" aria-live="polite">
+ <div class="training-hints-head"><div><strong>💡 Навчальні підказки</strong><span>Перед виконанням операції</span></div><b id="hintCounter">3 / 3</b></div>
+ <button type="button" id="hintBtn" class="hint-btn">💡 Показати підказку</button>
+ <div id="hintText" class="hint-text hidden"></div>
 </div>
 <div class="numeric-keypad hidden" id="matrixKeypad" aria-label="Цифрова клавіатура для полів операцій та клітинок матриці">
  <div class="keypad-heading"><strong>Цифрова клавіатура</strong><span class="muted" id="keypadTarget">Виберіть поле операції або клітинку матриці</span></div>
@@ -704,11 +740,26 @@ function equationsFor(M,n){return '\\[\\begin{cases}'+M.map(r=>{let t='';for(let
 
 function renderAll(){updateManualStepCounter();renderMatrix();updateCloseness();updateSolveTime();renderSystem();updateSelects();$('matrixSizeInfo').textContent=`Поточний розмір: ${rows} рівняння × ${vars} невідомих`;analyze();renderResults();renderHistory();updateUndo();updateOperationAvailability();$('systemContainer').classList.toggle('hidden',!$('showSystem').checked);$('matrixFormContainer').classList.toggle('hidden',!$('showMatrixForm').checked);$('vectorFormContainer').classList.toggle('hidden',!$('showVectorForm').checked);controls();switchView(currentView);renderGame();updateGameProgress();math();}
 
+// Перемикання між режимами ТРЕНУВАННЯ та ГРА.
+function setAppMode(mode){
+  const isGame=mode==='game';
+  document.body.dataset.appMode=isGame?'game':'training';
+  $('trainingModeBtn').classList.toggle('active',!isGame);
+  $('gameModeBtn').classList.toggle('active',isGame);
+  $('trainingModeBtn').setAttribute('aria-selected',String(!isGame));
+  $('gameModeBtn').setAttribute('aria-selected',String(isGame));
+  $('activeModeLabel').textContent=isGame?'ГРА':'ТРЕНУВАННЯ';
+  try{localStorage.setItem('linearSolverAppMode',isGame?'game':'training');}catch(e){}
+}
+$('trainingModeBtn').onclick=()=>setAppMode('training');
+$('gameModeBtn').onclick=()=>{setAppMode('game');const panel=$('gameContent');if(panel.classList.contains('hidden')){panel.classList.remove('hidden');$('gameToggle').textContent='Згорнути рівні ▴';}};
+try{setAppMode(localStorage.getItem('linearSolverAppMode')||'training');}catch(e){setAppMode('training');}
+
 // Керування ігровим режимом.
 $('gameToggle').onclick=()=>{const panel=$('gameContent');panel.classList.toggle('hidden');$('gameToggle').textContent=panel.classList.contains('hidden')?'Відкрити рівні ▾':'Згорнути рівні ▴';};
 $('gameLevels').addEventListener('click',e=>{const b=e.target.closest('[data-game-level]');if(b)chooseGameLevel(+b.dataset.gameLevel);});
 $('gameStart').onclick=startGameLevel;
-$('gameExit').onclick=()=>{gameActive=false;gameAwarded=false;$('gameResult').classList.add('hidden');updateGameSizeLock();msg('Ігровий режим призупинено. Можна продовжити звичайну роботу з матрицею.','success');};
+$('gameExit').onclick=()=>{gameActive=false;gameAwarded=false;$('gameResult').classList.add('hidden');updateGameSizeLock();setAppMode('training');msg('Перемкнено у режим тренування.','success');};
 // У грі автоматичне розв’язання не зараховується як ручне проходження.
 const originalAutoStart=$('autoStart').onclick;
 $('autoStart').onclick=function(){if(gameActive){msg('У ігровому режимі потрібно виконувати перетворення самостійно.','error');return;}return originalAutoStart.apply(this,arguments);};
@@ -730,6 +781,107 @@ $('autoStart').onclick=function(){if(gameActive){msg('У ігровому реж
 
 renderAll();
 renderGame();
+
+
+/* v2.3: profile, three progressive hints, and error analysis */
+(function(){
+  const profileState={name:'',hintsUsed:0};
+  try{profileState.name=localStorage.getItem('linearSolverUserName')||'';profileState.hintsUsed=+(localStorage.getItem('linearSolverHintsUsed')||0);}catch(e){}
+  let hintsThisSystem=0;
+  // Динамічні підказки: аналізують поточну матрицю A після кожної зміни.
+  // Головний пріоритет — спочатку створювати ведучі елементи, рівні 1.
+  function firstUsefulPivotTask(){
+    // Шукаємо першу позицію, яка ще не має коректної ведучої одиниці.
+    let pivotRow=0;
+    for(let col=0;col<vars&&pivotRow<rows;col++){
+      // Чи вже є в цій позиції ведуча 1 і нулі у її стовпці?
+      const v=A[pivotRow][col];
+      if(v.equals(one())){
+        let clean=true;
+        for(let i=0;i<rows;i++) if(i!==pivotRow&&!A[i][col].isZero()){clean=false;break;}
+        if(clean){pivotRow++;continue;}
+        return {type:'eliminate',row:pivotRow,col};
+      }
+      if(!v.isZero()) return {type:'scale',row:pivotRow,col,value:v};
+      // У поточній позиції 0: спочатку шукаємо ненульовий елемент нижче.
+      let swapRow=-1;
+      for(let i=pivotRow+1;i<rows;i++) if(!A[i][col].isZero()){
+        if(A[i][col].equals(one())){swapRow=i;break;}
+        if(swapRow<0)swapRow=i;
+      }
+      if(swapRow>=0) return {type:'swap',row:pivotRow,other:swapRow,col,value:A[swapRow][col]};
+      // У цьому стовпці немає кандидата — переходимо до наступного.
+    }
+    return null;
+  }
+  function qText(q){return q.toString().replace('-', '−');}
+  function dynamicHint(level){
+    const task=firstUsefulPivotTask();
+    if(!task){
+      return level===0
+        ? 'Матриця вже близька до завершення. Перевірте, чи всі ведучі елементи дорівнюють 1 і чи занулено інші елементи в їхніх стовпцях.'
+        : 'Перевірте останні стовпці ведучих одиниць: у зведеному східчастому вигляді всі інші елементи цих стовпців мають дорівнювати 0.';
+    }
+    const r=i=>`R${i+1}`;
+    if(task.type==='scale'){
+      const k=one().div(task.value);
+      if(level===0)return `Пріоритет: створіть ведучу одиницю. У рядку ${r(task.row)} в позиції ${task.col+1} стоїть ${qText(task.value)}, тому зробіть цей елемент рівним 1.`;
+      if(level===1)return `Помножте ${r(task.row)} на обернений коефіцієнт ${qText(k)}.`;
+      return `Точний наступний крок: ${r(task.row)} ← (${qText(k)})·${r(task.row)}. Це перетворить ${qText(task.value)} на ведучу одиницю 1.`;
+    }
+    if(task.type==='swap'){
+      if(level===0)return `Пріоритет — отримати ведучу одиницю. У позиції (${r(task.row)}, стовпець ${task.col+1}) зараз 0, але нижче є ненульовий кандидат.`;
+      if(level===1)return `Переставте ${r(task.row)} і ${r(task.other)}, щоб підняти ненульовий елемент ${qText(task.value)} у ведучу позицію.`;
+      return task.value.equals(one())
+        ? `Точний наступний крок: ${r(task.row)} ↔ ${r(task.other)}. Так ви одразу отримаєте ведучу одиницю 1.`
+        : `Точний наступний крок: ${r(task.row)} ↔ ${r(task.other)}, після чого нормуйте новий ведучий елемент до 1.`;
+    }
+    if(task.type==='eliminate'){
+      const bad=[];
+      for(let i=0;i<rows;i++)if(i!==task.row&&!A[i][task.col].isZero())bad.push(i);
+      const i=bad[0], a=A[i][task.col];
+      if(level===0)return `Ведуча одиниця вже є: ${r(task.row)} у стовпці ${task.col+1}. Тепер використайте її для створення нулів у цьому стовпці.`;
+      if(level===1)return `Потрібно занулити елемент ${qText(a)} у рядку ${r(i)}. Додайте до цього рядка кратний ведучого рядка ${r(task.row)}.`;
+      const k=a.neg();
+      return `Точний наступний крок: ${r(i)} ← ${r(i)} + (${qText(k)})·${r(task.row)}. Елемент у стовпці ${task.col+1} стане 0.`;
+    }
+    return 'Спочатку знайдіть наступну позицію для ведучого елемента та, за можливості, зробіть його рівним 1.';
+  }
+  function currentOp(){return document.querySelector('[data-operation-tab].active')?.dataset.operationTab||'add';}
+  function updateHints(){const c=$('hintCounter'),b=$('hintBtn'),t=$('hintText');if(!c)return;c.textContent=`${Math.max(0,3-hintsThisSystem)} / 3`;b.disabled=hintsThisSystem>=3;if(hintsThisSystem>=3)b.textContent='Підказки вичерпано';else b.textContent='💡 Показати підказку';if(!t.textContent)t.classList.add('hidden');}
+  function showHint(){if(document.body.dataset.appMode==='game'){msg('Підказки доступні лише в режимі тренування.','error');return;}if(hintsThisSystem>=3)return;const text=dynamicHint(hintsThisSystem);$('hintText').textContent=`Підказка ${hintsThisSystem+1}/3: ${text}`;$('hintText').classList.remove('hidden');hintsThisSystem++;profileState.hintsUsed++;try{localStorage.setItem('linearSolverHintsUsed',String(profileState.hintsUsed));}catch(e){}updateHints();renderProfile();}
+  $('hintBtn').onclick=showHint;
+  function resetHints(){hintsThisSystem=0;const t=$('hintText');t.textContent='';t.classList.add('hidden');updateHints();}
+  ['add','scale','swap'].forEach(op=>document.querySelector(`[data-operation-tab="${op}"]`)?.addEventListener('click',()=>{const t=$('hintText');t.textContent='';t.classList.add('hidden');}));
+  // New system / reset starts a fresh three-hint allowance.
+  const resetHintButtons=['randomSystem','resetBtn','exampleBtn'];resetHintButtons.forEach(id=>$(id)?.addEventListener('click',()=>setTimeout(resetHints,0)));
+  const profile=$('profileModal');
+  function accuracy(){const total=manualOperationCount+manualCanceledCount;if(total<=0)return '—';return `${Math.max(0,Math.round(100*(manualOperationCount-manualCanceledCount)/total))}%`;}
+  function errorMarkup(){
+    const canceled=manualCanceledCount||0, ops=manualOperationCount||0, hints=profileState.hintsUsed||0;
+    const items=[];
+    if(canceled===0)items.push(`<div class="error-item good"><strong>✓ Скасування операцій</strong><p>Скасованих операцій поки немає. Ваші дії виконуються послідовно.</p></div>`);
+    else items.push(`<div class="error-item warn"><strong>↶ Скасовані операції: ${canceled}</strong><p>Часті скасування можуть означати, що перед виконанням варто перевіряти вибрані рядки та знак коефіцієнта k.</p></div>`);
+    if(ops===0)items.push(`<div class="error-item"><strong>🎯 Аналіз операцій</strong><p>Виконайте кілька елементарних перетворень, щоб сформувати персональний аналіз.</p></div>`);
+    else if(canceled/Math.max(1,ops+canceled)>.25)items.push(`<div class="error-item warn"><strong>⚠️ Стабільність ходу</strong><p>Понад чверть зафіксованих дій було скасовано. Рекомендація: перед натисканням «Виконати» перевіряйте формулу перетворення.</p></div>`);
+    else items.push(`<div class="error-item good"><strong>✓ Стабільність ходу</strong><p>Більшість виконаних операцій не потребували скасування — це хороший показник впевненості.</p></div>`);
+    if(hints>0)items.push(`<div class="error-item"><strong>💡 Використання підказок: ${hints}</strong><p>Підказки допомагають зорієнтуватися. Наступна ціль — поступово зменшувати потребу в них.</p></div>`);
+    items.push(`<div class="error-item"><strong>🧮 Ефективність</strong><p>Виконано операцій: ${ops}. Оцінка точності враховує скасовані кроки: ${accuracy()}.</p></div>`);
+    return items.join('');
+  }
+  function renderProfile(){
+    $('userName').value=profileState.name;
+    $('profileGreeting').textContent=profileState.name?`Вітаємо, ${profileState.name}! Продовжуйте розвивати навички.`:'Введіть ім’я, щоб персоналізувати навчання.';$('profileAvatar').textContent=profileState.name?profileState.name.trim().charAt(0).toUpperCase():'👤';
+    $('profileOps').textContent=manualOperationCount||0;$('profileUndo').textContent=manualCanceledCount||0;$('profileHints').textContent=profileState.hintsUsed||0;$('profileAccuracy').textContent=accuracy();$('errorAnalysis').innerHTML=errorMarkup();
+  }
+  $('profileBtn').onclick=()=>{renderProfile();profile.classList.remove('hidden');};$('profileClose').onclick=()=>profile.classList.add('hidden');profile.addEventListener('click',e=>{if(e.target===profile)profile.classList.add('hidden');});
+  function saveProfileName(){profileState.name=$('userName').value.trim();try{localStorage.setItem('linearSolverUserName',profileState.name);}catch(e){}renderProfile();msg(profileState.name?`Профіль ${profileState.name} збережено.`:'Введіть ім’я користувача.','success');} $('saveProfile').onclick=saveProfileName;$('userName').addEventListener('keydown',e=>{if(e.key==='Enter')saveProfileName();});
+  document.querySelectorAll('.profile-tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.profile-tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('[data-profile-view]').forEach(v=>v.classList.toggle('hidden',v.dataset.profileView!==b.dataset.profileTab));renderProfile();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!profile.classList.contains('hidden'))profile.classList.add('hidden');});
+  updateHints();renderProfile();
+})();
 </script>
+
+
 </body>
 </html>
