@@ -218,8 +218,13 @@ body[data-theme="dark"] .matrix-table input.training-pivot{background:#20513d!im
 body[data-app-mode="game"] .matrix-table input.training-target,
 body[data-app-mode="game"] .matrix-table input.training-row,
 body[data-app-mode="game"] .matrix-table input.pivot-zero{background:var(--panel-bg)!important;border:1px solid var(--border)!important;box-shadow:none!important}
-body[data-app-mode="game"] .matrix-table tr.changed-row,
-body[data-app-mode="game"] .matrix-table tr.changed-row input:not(.leader):not(.selected){background:transparent!important}
+/* Змінений рядок — блакитний; вже занулені елементи — жовті. */
+.matrix-table tr.changed-row{background:#f7fbff!important}
+.matrix-table tr.changed-row input:not(.leader):not(.selected):not(.game-zero):not(.pivot-zero):not(.active-leader){background:#f7fbff!important;border:1px solid #dce9f7!important}
+body[data-theme="dark"] .matrix-table tr.changed-row{background:#202d3b!important}
+body[data-theme="dark"] .matrix-table tr.changed-row input:not(.leader):not(.selected):not(.game-zero):not(.pivot-zero):not(.active-leader){background:#202d3b!important;border-color:#344b62!important}
+body[data-app-mode="game"] .matrix-table tr.changed-row input.game-zero{background:#fff0b8!important;border:2px solid #e3b13f!important}
+body[data-theme="dark"][data-app-mode="game"] .matrix-table tr.changed-row input.game-zero{background:#64501f!important;border-color:#e6b957!important}
 
 /* У грі жовтий означає лише вже отриманий нуль над або під одиничним лідером. */
 .legend-game-only{display:none!important}
@@ -526,7 +531,7 @@ function updateCloseness(){
 function renderMatrix(){
  // Лідери визначаються у східчастому вигляді; нулі в їхніх стовпцях позначаються легким коричневим тлом.
  const leaders=isREF(A,vars)?getPivotPositions(A,vars):[];const gameDisplay=document.body.dataset.appMode==='game';let h='<div class="matrix-wrapper"><table class="matrix-table">';
- for(let i=0;i<rows;i++){const changedRow=!gameDisplay&&$('showChangedRow').checked&&changed.some(c=>c[0]===i);h+=`<tr class="${changedRow?'changed-row':''}">`;for(let j=0;j<=vars;j++){
+ for(let i=0;i<rows;i++){const changedRow=$('showChangedRow').checked&&changed.some(c=>c[0]===i);h+=`<tr class="${changedRow?'changed-row':''}">`;for(let j=0;j<=vars;j++){
   const isSelected=selectedCell.i===i&&selectedCell.j===j;
   const isLeader=leaders.some(p=>p.row===i&&p.col===j)&&(!gameDisplay||A[i][j].equals(one()));
   const isPivotZero=!gameDisplay&&leaders.some(p=>p.col===j&&p.row!==i)&&A[i][j].isZero();
