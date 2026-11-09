@@ -847,6 +847,8 @@ renderGame();
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(e){return fallback}};
  const oldHintLog=read(HKEY,[]); let hintCounts=read(CKEY,levels.map((_,i)=>oldHintLog.filter(h=>h.level===i+1).length)), records=read(KEY,[]); try{localStorage.removeItem(HKEY);localStorage.setItem(CKEY,JSON.stringify(hintCounts));}catch(e){}
  let hintTotal=hintCounts.reduce((a,b)=>a+b,0), nextHintLevel=1;
+ let attempt={id:null,initial:null,start:null,hints:0,completed:false,lastOps:0,lastStep:0};
+ const newAttempt=()=>({id:null,initial:null,start:null,hints:0,completed:false,lastOps:0,lastStep:0});
  const profileState={name:''};try{profileState.name=localStorage.getItem('linearSolverUserName')||'';}catch(e){}
  const qText=q=>q.toString().replace(/-/g,'−');
  // Exact rational values formatted as LaTeX fractions (no floating-point rounding).
@@ -855,11 +857,10 @@ renderGame();
  const inlineTex=expression=>`\\(${expression}\\)`;
 
  function taskNow(){
-  // Аналізуємо поточну розширену матрицю [A|b] послідовно за стовпцями.
-  // Для кожного ведучого стовпця спочатку нормуємо лідер, потім
-  // занулюємо елементи ПІД ним і лише після цього переходимо праворуч.
-  // Це не дозволяє підказці перескочити, наприклад, із другого
-  // стовпця на нормування лідера в третьому.
+  // Працюємо тільки з коефіцієнтними стовпцями; правий стовпець — для класифікації.
+  // Суперечливий рядок має пріоритет над подальшим пошуком розв'язку.
+  for(let r=0;r<rows;r++)if(A[r].slice(0,vars).every(q=>q.isZero())&&!A[r][vars].isZero())
+   return {type:'inconsistent',row:r,rhs:A[r][vars],phase:'inconsistent'};
   const pivots=[];let pivotRow=0;
   for(let col=0;col<vars&&pivotRow<rows;col++){
    let candidate=-1;
@@ -867,25 +868,17 @@ renderGame();
    if(candidate<0)continue;
    if(candidate!==pivotRow)return {type:'swap',row:pivotRow,other:candidate,col,value:A[candidate][col],rhs:A[candidate][vars],phase:'direct'};
    const pivot=A[pivotRow][col];
+   // Спершу завершуємо занулення під поточним лідером.
    if(!pivot.equals(one()))return {type:'scale',row:pivotRow,col,value:pivot,rhs:A[pivotRow][vars],phase:'direct'};
    pivots.push({row:pivotRow,col});
-   // Прямий хід: обробляємо всі ненульові елементи під поточним лідером
-   // до аналізу наступного стовпця.
    for(let r=pivotRow+1;r<rows;r++)if(!A[r][col].isZero())
     return {type:'eliminate',row:pivotRow,target:r,col,value:A[r][col],pivotRhs:A[pivotRow][vars],targetRhs:A[r][vars],phase:'direct'};
    pivotRow++;
   }
-  // Зворотний хід починається лише після завершення прямого ходу
-  // в усіх стовпцях невідомих.
   for(let i=pivots.length-1;i>=0;i--){
    const p=pivots[i];
    for(let r=0;r<p.row;r++)if(!A[r][p.col].isZero())
     return {type:'eliminate',row:p.row,target:r,col:p.col,value:A[r][p.col],pivotRhs:A[p.row][vars],targetRhs:A[r][vars],phase:'backward'};
-  }
-  // Перевіряємо останній стовпець розширеної матриці: 0 ... 0 | c, c != 0.
-  for(let r=0;r<rows;r++){
-   const zeroCoefficients=A[r].slice(0,vars).every(q=>q.isZero());
-   if(zeroCoefficients&&!A[r][vars].isZero())return {type:'inconsistent',row:r,rhs:A[r][vars]};
   }
   return null;
  }
@@ -927,33 +920,50 @@ renderGame();
   const content=[conceptual+adaptive,strategy+adaptive,operation+adaptive,steps+adaptive,full+adaptive][level-1];
   return {text:content,where:t.type==='eliminate'?`${phaseName} · стовпець ${t.col+1}, ведучий R${t.row+1}, цільовий R${t.target+1}`:`${phaseName} · ${pos}`};
  }
+ // Історія пояснює останню дію, але не підміняє фазу за матрицею.
+ function operationContext(){
+  const last=auditLog.length?auditLog[auditLog.length-1]:null;
+  if(last?.type==='undo')return 'Останню дію скасовано; етап перераховано за відновленою матрицею.';
+  if(!last||last.type!=='action')return '';
+  // save() фіксує матрицю ДО дії; звіряємо з поточним станом,
+  // щоб не приписувати попередній операції зміну нового завдання.
+  const previous=history.length?history[history.length-1]:null;
+  if(!previous||previous.rows!==rows||previous.vars!==vars)return '';
+  const before=previous.A;
+  const altered=[];
+  for(let r=0;r<rows;r++){
+   if(before[r].some((v,c)=>!v.equals(A[r][c])))altered.push(r);
+  }
+  if(altered.length!==1)return '';
+  const r=altered[0];
+  // Занулення визначаємо за фактичним переходом ненульового
+  // коефіцієнта в нуль і за ведучим стовпцем іншого рядка.
+  const zeroed=[];
+  for(let c=0;c<vars;c++)if(!before[r][c].isZero()&&A[r][c].isZero()){
+   const source=[];
+   for(let k=0;k<rows;k++)if(k!==r&&A[k][c].equals(one())&&
+     Array.from({length:k},(_,i)=>i).every(i=>A[i][c].isZero()||i===r)&&
+     Array.from({length:rows-k-1},(_,i)=>i+k+1).every(i=>A[i][c].isZero()||i===r))source.push(k);
+   for(const k of source)zeroed.push({col:c,source:k});
+  }
+  if(zeroed.length){
+   const z=zeroed[0];
+   return `Остання дія за історією: занулення ${r<z.source?'над':'під'} ведучою одиницею (R${r+1}, стовпець ${z.col+1}).`;
+  }
+  return ''; // Не показуємо загальне повідомлення для некласифікованої операції.
+ }
  function renderTrainingFocus(){
   if(document.body.dataset.appMode==='game'){
-   // У грі статус описує фактично виконану операцію, а не наступну
-   // рекомендацію тренувального алгоритму. Інакше після зворотного
-   // занулення користувач помилково бачить «Прямий хід».
+   // Фаза — властивість поточної матриці, а не напрямок останньої операції.
    const phaseEl=$('trainingPhase');
+   const task=taskNow();
+   const phase=task?.phase||'done';
    if(phaseEl){
-    const last=auditLog.length?auditLog[auditLog.length-1]:null;
-    const action=last?.action||'';
-    const add=last?.type==='action'&&action.match(/^R_(\d+)\s*←\s*R_\d+\s*\+\s*\([^)]+\)R_(\d+)$/);
-    let phase='done', title='Режим гри', description='Виконуйте елементарні перетворення розширеної матриці.';
-    if(last?.type==='undo'){
-     title='Операцію скасовано';description='Стан матриці відновлено. Продовжуйте розв’язання.';
-    }else if(add){
-     const target=Number(add[1]),source=Number(add[2]);
-     phase=target<source?'backward':'direct';
-     title=target<source?'Зворотний хід — виконана операція':'Прямий хід — виконана операція';
-     description=`Остання дія: перетворено R${target} за допомогою R${source}. Це опис останньої операції, а не наступна підказка.`;
-    }else if(last?.type==='action'){
-     title='Елементарне перетворення виконано';
-     description='Остання дія — нормування, перестановка або редагування матриці.';
-    }
-    if(isRREF()){phase='done';title='Перетворення завершено';description='Розширена матриця має зведений східчастий вигляд.';}
     phaseEl.dataset.phase=phase;
-    $('phaseSymbol').textContent=phase==='backward'?'↖':phase==='direct'?'↘':'✓';
-    $('phaseTitle').textContent=title;
-    $('phaseDescription').textContent=description;
+    $('phaseSymbol').textContent=phase==='backward'?'↖':phase==='direct'?'↘':phase==='inconsistent'?'!':'✓';
+    $('phaseTitle').textContent=phase==='backward'?'Зворотний хід':phase==='direct'?'Прямий хід':phase==='inconsistent'?'Несумісна система':'Перетворення завершено';
+    $('phaseDescription').textContent=phase==='backward'?'Прямий хід завершено; залишилися ненульові елементи над лідерами.':phase==='direct'?'Прямий хід ще не завершено; перевірте лідери та елементи під ними.':phase==='inconsistent'?'Виявлено суперечливий рядок: система не має розв’язків.':'Розширена матриця приведена до потрібного вигляду.';
+    const context=operationContext();if(context)$('phaseDescription').textContent+=' '+context;
    }
    const cells=$('matrixContainer')?.querySelectorAll('input[data-i][data-j]')||[];
    const leaders=isREF(A,vars)?getPivotPositions(A,vars):[];
@@ -973,6 +983,7 @@ renderGame();
    $('phaseSymbol').textContent=phase==='backward'?'↖':phase==='direct'?'↘':task?.type==='inconsistent'?'!':'✓';
    $('phaseTitle').textContent=phase==='backward'?'Зворотний хід':phase==='direct'?'Прямий хід':task?.type==='inconsistent'?'Виявлено суперечність':'Перетворення завершено';
    $('phaseDescription').textContent=phase==='backward'?`Занулення над ведучою одиницею у стовпці ${task.col+1}.`:phase==='direct'?`Поточний стовпець: ${task.col+1}. ${task.type==='eliminate'?'Зануліть елемент під лідером.':task.type==='scale'?'Сформуйте ведучу одиницю.':'Підготуйте ведучий рядок.'}`:task?.type==='inconsistent'?'Нульовий рядок коефіцієнтів має ненульовий вільний член.':'Поточна матриця не потребує наступного кроку прямого або зворотного ходу.';
+   const context=operationContext();if(context)$('phaseDescription').textContent+=' '+context;
   }
   const cells=$('matrixContainer')?.querySelectorAll('input[data-i][data-j]')||[];
   cells.forEach(cell=>{
@@ -1008,7 +1019,7 @@ renderGame();
  function showHint(){
   if(document.body.dataset.appMode==='game'){msg('Підказки доступні лише в режимі тренування.','error');return;}
   const level=nextHintLevel;lastShownLevel=level;updateHintDisplay(level);
-  hintCounts[level-1]++;hintTotal=hintCounts.reduce((a,b)=>a+b,0);nextHintLevel=level===5?1:level+1;
+  hintCounts[level-1]++;attempt.hints++;hintTotal=hintCounts.reduce((a,b)=>a+b,0);nextHintLevel=level===5?1:level+1;
   try{localStorage.setItem(CKEY,JSON.stringify(hintCounts));}catch(e){}
   $('hintCounter').textContent=`${hintTotal} підказок`;$('hintText').classList.remove('hidden');
   math();
@@ -1020,18 +1031,38 @@ renderGame();
  logEvent=function(action,type='action'){originalLogEvent(action,type);};
  function matrixKey(M){return JSON.stringify(M.map(r=>r.map(q=>q.toString())));}
  function checkCompletion(){
-  if(document.body.dataset.appMode==='game'||(!manualOperationCount&&!stepIndex))return;
+  if(document.body.dataset.appMode==='game')return;
+  const automatic=steps.length>0&&stepIndex>0;
+  const ops=automatic?stepIndex:manualOperationCount;
+  if(!ops||attempt.completed)return;
+  // Несумісність можна фіксувати лише після приведення до REF.
   const info=analyze();if(!info)return;
-  const terminal=isRREF()||info.inconsistent;if(!terminal)return;
-  const initial=exportBaseA||A, final=clone(A), id=matrixKey(initial)+'=>'+matrixKey(final);
-  if(records.some(r=>r.id===id))return;
-  const automatic=steps.length>0&&stepIndex>0, used=hintTotal, ops=automatic?stepIndex:manualOperationCount, duration=solveElapsedMs??(solveStartedAt!==null?performance.now()-solveStartedAt:0);
+  const terminal=isRREF()||info.inconsistent;
+  if(!terminal)return;
+  const initial=attempt.initial||solveInitialA||exportBaseA||A;
+  const duration=attempt.start===null?0:Math.max(0,performance.now()-attempt.start);
+  const used=attempt.hints;
   const independent=automatic?null:Math.max(0,Math.min(100,Math.round(100*(ops/(ops+used*2||1)))));
-  const rec={id,date:new Date().toLocaleString('uk-UA'),kind:info.inconsistent?'Несумісна система — правильно класифікована':info.ra===vars?'Єдиний розв’язок':'Нескінченна множина розв’язків',automatic,operations:ops,hints:used,duration:Math.round(duration),independence:independent,initial:initial.map(r=>r.map(q=>q.toString())),final:final.map(r=>r.map(q=>q.toString()))};
+  const rec={id:attempt.id||('attempt-'+Date.now()+'-'+Math.random().toString(36).slice(2)),date:new Date().toLocaleString('uk-UA'),kind:info.inconsistent?'Несумісна система — правильно класифікована':info.ra===vars?'Єдиний розв’язок':'Нескінченна множина розв’язків',automatic,operations:ops,hints:used,duration:Math.round(duration),independence:independent,initial:initial.map(r=>r.map(q=>q.toString())),final:clone(A).map(r=>r.map(q=>q.toString()))};
+  attempt.completed=true;
   records.push(rec);try{localStorage.setItem(KEY,JSON.stringify(records));}catch(e){}
   finishSolve();logEvent(`Успішно завершено: ${rec.kind}; ${ops} операцій; ${used} підказок`,'result');
-  const banner=$('rrefCompletionMessage');if(banner&&!info.inconsistent){banner.innerHTML+=`<div class="independence-meter">${automatic?'':'<strong>Рівень самостійності: '+independent+'%</strong><br>'}<span>${automatic?'Автоматичний метод Гаусса–Жордана. ':''}Операцій: ${ops} · підказок: ${used} · тривалість: ${formatDuration(duration)}. Початкову та кінцеву матриці збережено в навчальній статистиці.</span></div>`;}
+  const banner=$('rrefCompletionMessage');if(banner){banner.innerHTML+=`<div class="independence-meter">${automatic?'':'<strong>Рівень самостійності: '+independent+'%</strong><br>'}<span>${automatic?'Автоматичний метод Гаусса–Жордана. ':''}Операцій: ${ops} · підказок: ${used} · тривалість: ${formatDuration(duration)}. Початкову та кінцеву матриці збережено в навчальній статистиці.</span></div>`;}
   renderStats();
+ }
+ function syncAttempt(){
+  const automatic=steps.length>0&&stepIndex>0;
+  const ops=automatic?stepIndex:manualOperationCount;
+  // Нова спроба після скидання, редагування чи нового автоматичного запуску.
+  if(!ops){
+   if(attempt.lastOps>0||attempt.lastStep>0)attempt=newAttempt();
+  }else if(!attempt.id){
+   attempt.id='attempt-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+   attempt.start=performance.now();
+   const snapshot=history.length?history[history.length-1].A:null;
+   attempt.initial=clone(automatic?(solveInitialA||snapshot||exportBaseA||A):(snapshot||exportBaseA||A));
+  }
+  attempt.lastOps=manualOperationCount;attempt.lastStep=stepIndex;
  }
  // A hint belongs to the matrix state in which it was requested.
  // Any change to the augmented matrix hides the old hint and restarts the
@@ -1056,11 +1087,12 @@ renderGame();
    resetHintsForNewMatrix();
   }
   renderTrainingFocus();
+  syncAttempt();
   checkCompletion();
  };
  const profile=$('profileModal');
- function accuracy(){const total=manualOperationCount+manualCanceledCount;return total?`${Math.max(0,Math.round(100*(manualOperationCount-manualCanceledCount)/total))}%`:'—';}
- function errorMarkup(){const c=manualCanceledCount||0,o=manualOperationCount||0;return `<div class="error-item ${c?'warn':'good'}"><strong>${c?'↶':'✓'} Скасовані операції: ${c}</strong><p>Виконано операцій: ${o}. Поточна точність: ${accuracy()}.</p></div><div class="error-item"><strong>💡 Використано підказок: ${hintTotal}</strong><p>Підказки враховуються лише як загальна кількість, без збереження їхньої історії.</p></div>`;}
+ function accuracy(){const total=manualOperationCount+manualCanceledCount;return total?`${Math.round(100*manualOperationCount/total)}%`:'—';}
+ function errorMarkup(){const c=manualCanceledCount||0,o=manualOperationCount||0;return `<div class="error-item ${c?'warn':'good'}"><strong>${c?'↶':'✓'} Скасовані операції: ${c}</strong><p>Виконано операцій: ${o}. Частка операцій без скасування: ${accuracy()} (не є оцінкою математичних помилок).</p></div><div class="error-item"><strong>💡 Використано підказок: ${hintTotal}</strong><p>Підказки враховуються лише як загальна кількість, без збереження їхньої історії.</p></div>`;}
  function renderProfile(){
   $('userName').value=profileState.name;$('profileGreeting').textContent=profileState.name?`Вітаємо, ${profileState.name}!`:'Введіть ім’я, щоб персоналізувати навчання.';$('profileAvatar').textContent=profileState.name?profileState.name.trim().charAt(0).toUpperCase():'👤';
   $('profileOps').textContent=manualOperationCount||0;$('profileUndo').textContent=manualCanceledCount||0;$('profileHints').textContent=hintTotal;$('profileAccuracy').textContent=accuracy();$('errorAnalysis').innerHTML=errorMarkup();
