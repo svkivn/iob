@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<!-- saved from url=(0129)file:///C:/Users/admin/Documents/Codex/2026-11-16/referenced-chatgpt-conversation-this-is-an/outputs/Vector_Challenge_Canvas.html -->
-<html lang="uk"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!doctype html>
+<html lang="uk">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vector Challenge — Вектори</title>
 <style>
@@ -48,55 +48,55 @@ body[data-theme=dark] #feedback[data-result="incorrect"]{color:#ffd0d0;backgroun
 #examTime{font-variant-numeric:tabular-nums;font-weight:700}
 #examReview{margin-top:18px}#review li{padding:10px 0;border-bottom:1px solid var(--line)}#review p{margin:4px 0}#review .review-result{font-weight:700}#review [data-result="correct"]{color:#167342}#review [data-result="incorrect"]{color:#a12323}body[data-theme=dark] #review [data-result="correct"]{color:#9df0b4}body[data-theme=dark] #review [data-result="incorrect"]{color:#ffb7b7}
 </style>
-</head><body data-theme="blue"><main>
+<main>
 <header class="header"><div class="logo" aria-hidden="true"><span class="logo-vector first"></span><span class="logo-vector second"></span><span class="logo-origin"></span></div><div class="head-title grow"><div class="eyebrow">ЛІНІЙНА АЛГЕБРА · ІНТЕРАКТИВНИЙ ТРЕНАЖЕР</div><h1>Vector Operations Challenge</h1><div class="muted">Вектори · від координат до геометричного змісту</div></div><div class="header-actions"><label>Кольорова тема <select id="theme"><option value="blue">Синя</option><option value="green">Зелена</option><option value="violet">Фіолетова</option><option value="sand">Пісочна</option><option value="gray">Сіра</option><option value="dark">Темна</option></select></label><button id="profileBtn" aria-controls="profile">👤 Мій профіль</button></div></header>
 <section class="panel">
 <h2>Режим роботи</h2>
-<div class="modes" id="modes"><button data-mode="practice" aria-pressed="true"><strong>📘 Навчання й тренування</strong><small>Формули, три рівні підказок і розв’язки</small></button><button data-mode="game" hidden="" aria-pressed="false"><strong>🎮 Гра</strong><small>8 рівнів, життя, бали та серії</small></button><button data-mode="test" aria-pressed="false"><strong>📝 Контрольна</strong><small><span id="examTaskCount">8</span> завдань за темами тренування</small></button></div>
+<div class="modes" id="modes"><button data-mode="practice"><strong>📘 Навчання й тренування</strong><small>Формули, три рівні підказок і розв’язки</small></button><button data-mode="game" hidden><strong>🎮 Гра</strong><small>8 рівнів, життя, бали та серії</small></button><button data-mode="test"><strong>📝 Контрольна</strong><small><span id="examTaskCount"></span> завдань за темами тренування</small></button></div>
 </section>
 <section class="panel" id="settings">
 <h2>Тема й налаштування</h2>
-<div class="module-grid" id="modules" role="group" aria-label="Теми"><button aria-pressed="true">Координати й довжина вектора</button><button aria-pressed="false">Додавання та віднімання</button><button aria-pressed="false">Множення на число</button><button aria-pressed="false">Лінійна комбінація</button><button aria-pressed="false">Проєкція вектора</button><button aria-pressed="false">Скалярний добуток і кут між векторами</button><button aria-pressed="false">Взаємне розміщення</button><button aria-pressed="false">Одиничний вектор</button><button aria-pressed="false">Векторний добуток</button><button aria-pressed="false">Змішаний добуток</button></div>
-<div class="settings"><label id="dimLabel">Простір<select id="dim"><option value="2">Площина ℝ²</option><option value="3">Простір ℝ³</option></select></label><label id="gameLevelLabel" hidden="">Рівень гри<select id="gameLevel"><option value="1">Рівень 1</option><option value="2">Рівень 2</option><option value="3">Рівень 3</option><option value="4">Рівень 4</option><option value="5">Рівень 5</option><option value="6">Рівень 6</option><option value="7">Рівень 7</option><option value="8">Рівень 8</option></select></label><button id="newTask" class="primary">Нове завдання</button></div>
-<div class="row" id="sumOperations" role="group" aria-label="Операція з векторами" hidden="" style="margin-top:12px"><span>Операція</span><button type="button" id="sumAdd" aria-label="Додавання" aria-pressed="true">+</button><button type="button" id="sumSubtract" aria-label="Віднімання" aria-pressed="false">−</button></div>
+<div class="module-grid" id="modules" role="group" aria-label="Теми"></div>
+<div class="settings"><label id="dimLabel">Простір<select id="dim"><option value="2">Площина ℝ²</option><option value="3">Простір ℝ³</option></select></label><label id="gameLevelLabel" hidden>Рівень гри<select id="gameLevel"></select></label><button id="newTask" class="primary">Нове завдання</button></div>
+<div class="row" id="sumOperations" role="group" aria-label="Операція з векторами" hidden style="margin-top:12px"><span>Операція</span><button type="button" id="sumAdd" aria-label="Додавання">+</button><button type="button" id="sumSubtract" aria-label="Віднімання">−</button></div>
 <p class="section-note">Векторний і змішаний добутки обчислюються в ℝ³.</p>
 </section>
 <section class="panel" aria-labelledby="modeTitle">
-<h2 id="modeTitle">Завдання</h2>
-<p id="examClock" hidden="">Час до завершення <time id="examTime" role="timer">20:00</time></p>
-<p id="examProgressRow" hidden=""><strong id="examProgress"></strong></p>
-<p id="task">A = (−1; 2), B = (0; −1). Знайдіть координати <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>=</mo><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo>→</mo></mover></mrow><annotation encoding="application/x-tex">\vec{r}=\overrightarrow{AB}</annotation></semantics></math> та довжину <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>|</mo><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>|</mo></mrow><annotation encoding="application/x-tex">|\vec{r}|</annotation></semantics></math>.</p><p id="lesson" hidden="">Від координат кінця відніміть відповідні координати початку. Формула: <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo>→</mo></mover><mo>=</mo><mo>(</mo><msub><mi>B</mi><mn>1</mn></msub><mo>−</mo><msub><mi>A</mi><mn>1</mn></msub><mo>;</mo><mo>…</mo><mo>;</mo><msub><mi>B</mi><mi>n</mi></msub><mo>−</mo><msub><mi>A</mi><mi>n</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">\overrightarrow{AB}=(B_1-A_1;\ldots;B_n-A_n)</annotation></semantics></math> і <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>|</mo><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>|</mo><mo>=</mo><msqrt><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>^</mo><mn>2</mn><mo>+</mo><mo>⋯</mo><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub><mo>^</mo><mn>2</mn></mrow></msqrt></mrow><annotation encoding="application/x-tex">|\vec{r}|=\sqrt{a_1^2+\cdots+a_n^2}</annotation></semantics></math>. Результат: <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>(</mo><mn>1</mn><mo>;</mo><mspace width="0.25em"></mspace><mo>−</mo><mn>3</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">\left(1;\ -3\right)</annotation></semantics></math>, <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>|</mo><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>|</mo><mo>=</mo><mn>3</mn><mrow><mo>,</mo></mrow><mn>16</mn></mrow><annotation encoding="application/x-tex">|\vec{r}|=3{,}16</annotation></semantics></math>.</p>
+<h2 id="modeTitle"></h2>
+<p id="examClock" hidden>Час до завершення <time id="examTime" role="timer">20:00</time></p>
+<p id="examProgressRow" hidden><strong id="examProgress"></strong></p>
+<p id="task"></p><p id="lesson"></p>
 <div id="construction">
 <h3>Інтерактивна побудова векторів на Canvas</h3>
-<p id="canvasHelp">Перетягніть кінець помаранчевої стрілки з точки A. Координати з’являться в полях. Для точного зміщення використовуйте клавіші зі стрілками. Точки A і B теж можна перетягувати. Потягніть за порожнє місце, щоб пересунути сітку.</p>
+<p id="canvasHelp"></p>
 
 <div class="row" role="group" aria-label="Масштаб координатної сітки">
 <button type="button" id="zoomOut" aria-label="Віддалити">−</button>
 <output id="zoomValue" aria-live="polite">100%</output>
 <button type="button" id="zoomIn" aria-label="Наблизити">+</button>
 <button type="button" id="zoomReset">Скинути масштаб</button>
-<label><input type="checkbox" id="showGrid" checked=""> Показувати сітку</label>
-<label><input type="checkbox" id="showAxes" checked=""> Показувати осі</label>
+<label><input type="checkbox" id="showGrid" checked> Показувати сітку</label>
+<label><input type="checkbox" id="showAxes" checked> Показувати осі</label>
 <label>Крок підписів осей <select id="axisLabelStep"><option value="">Авто</option><option value="0.5">0,5</option><option value="1">1</option><option value="2">2</option><option value="5">5</option><option value="10">10</option></select></label>
-<button type="button" id="rotateAnswer" hidden="">Повернути вектор на 180°</button>
-<button type="button" id="lockUnit" aria-pressed="false" hidden="">Зафіксувати довжину 1</button>
+<button type="button" id="rotateAnswer" hidden>Повернути вектор на 180°</button>
+<button type="button" id="lockUnit" aria-pressed="false" hidden>Зафіксувати довжину 1</button>
 <button type="button" id="restoreTask">Повернути початкове завдання</button>
-<button type="button" id="guideToggle" aria-expanded="false" aria-controls="constructionGuide" hidden="">Показати схему</button>
+<button type="button" id="guideToggle" aria-expanded="false" aria-controls="constructionGuide" hidden>Показати схему</button>
 </div>
-<div id="constructionGuide" class="section-note" aria-live="polite" hidden=""></div>
-<div class="canvas-wrap"><canvas id="plane" aria-label="Координатна площина поточного завдання" aria-describedby="canvasHelp" data-panning="false" data-interactive="true" tabindex="0" width="1288" height="538"></canvas><span id="projectionLabel" hidden=""></span><span id="projectionSign" hidden=""></span></div>
+<div id="constructionGuide" class="section-note" aria-live="polite" hidden></div>
+<div class="canvas-wrap"><canvas id="plane" aria-label="Координатна площина поточного завдання" aria-describedby="canvasHelp"></canvas><span id="projectionLabel" hidden></span><span id="projectionSign" hidden></span></div>
 <output id="coords"></output>
-<p id="projectionFormulas" hidden=""></p>
+<p id="projectionFormulas" hidden></p>
 </div>
-<p id="spatialNote" class="section-note" hidden="">Для завдань у ℝ³ введіть відповідь у поля.</p>
-<p id="unitHelp" class="section-note" hidden=""></p>
-<form id="form"><div id="answerFields" role="group" aria-label="Відповідь"><label>x<input type="text" autocomplete="off" required=""></label><label>y<input type="text" autocomplete="off" required=""></label><label><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>|</mo><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>|</mo></mrow><annotation encoding="application/x-tex">|\vec{r}|</annotation></semantics></math></span><span class="radical-input">√<input type="text" autocomplete="off" required="" aria-label="Число під коренем для модуля вектора"></span></label></div><button class="primary" id="check">Перевірити</button></form>
+<p id="spatialNote" class="section-note" hidden>Для завдань у ℝ³ введіть відповідь у поля.</p>
+<p id="unitHelp" class="section-note" hidden></p>
+<form id="form"><div id="answerFields" role="group" aria-label="Відповідь"></div><button class="primary" id="check">Перевірити</button></form>
 <p id="format">У поле під знаком √ введіть суму квадратів координат вектора. Сам корінь обчислювати не потрібно.</p>
-<div class="row"><button id="next" hidden="">Нове завдання</button><button id="hint">Підказка</button></div>
+<div class="row"><button id="next">Нове завдання</button><button id="hint">Підказка</button></div>
 <output id="feedback" aria-live="polite"></output>
-<div id="examReview" hidden=""><h3>Розбір контрольної</h3><ol id="review"></ol></div>
+<div id="examReview" hidden><h3>Розбір контрольної</h3><ol id="review"></ol></div>
 </section>
-<details id="profile"><summary>Профіль та історія</summary><p id="stats">Відповідей: 0 · правильних: 0</p><ol id="history"></ol></details>
+<details id="profile"><summary>Профіль та історія</summary><p id="stats"></p><ol id="history"></ol></details>
 </main>
 <script>
 "use strict";
@@ -1010,5 +1010,4 @@ $("gameLevel").onchange=()=>setMode("game",Number($("gameLevel").value));
 profileView();setMode("practice");
 </script>
 <style>[hidden]{display:none!important}</style>
-
-</body></html>
+</html>
