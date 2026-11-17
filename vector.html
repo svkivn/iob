@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<!-- saved from url=(0129)file:///C:/Users/admin/Documents/Codex/2026-11-16/referenced-chatgpt-conversation-this-is-an/outputs/Vector_Challenge_Canvas.html -->
+<html lang="uk"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vector Challenge — Вектори</title>
+<style>
+*{box-sizing:border-box}body{--accent:#245ac9;--paper:#fff;--bg:#eef3f9;--ink:#172842;--line:#ccd8e8;margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,sans-serif}body[data-theme=green]{--bg:#e8f5ed;--accent:#20663e}body[data-theme=violet]{--bg:#f1ecfa;--accent:#6840a5}body[data-theme=sand]{--bg:#faf0dc;--accent:#865112}body[data-theme=gray]{--bg:#e9edf1;--accent:#3d5369}main{max-width:1120px;margin:auto;padding:24px}header,section,details{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}header{background:#132748;color:white}h1,h2,p{margin:0 0 12px}h1{font-size:clamp(28px,5vw,48px)}h2{font-size:clamp(20px,3vw,28px)}.row,nav,form{display:flex;gap:10px;align-items:center;flex-wrap:wrap}nav{margin-bottom:16px}button,select,input{font:inherit;color:inherit;background:white;border:1px solid var(--line);border-radius:8px;padding:7px 10px}button{cursor:pointer}button[aria-pressed=true],button.primary{background:var(--accent);color:white}button:disabled{opacity:.55;cursor:default}canvas{display:block;width:100%;height:clamp(260px,55vw,430px);touch-action:none;background:#FEF7F2;border:1px solid var(--line);border-radius:10px;margin-top:12px}output{display:block;margin-top:8px;font-weight:650}.blue{color:#245ac9}.green{color:#08754c}.orange{color:#a04a00}#answer{width:16ch}summary{cursor:pointer}label{display:inline-flex;gap:6px;align-items:center}input[type=number]{width:7ch}#feedback{white-space:pre-line}li{margin-bottom:5px}
+
+.header{display:flex;gap:16px;align-items:center;padding:24px;background:linear-gradient(120deg,var(--header-start),var(--header-end))}
+.logo{display:grid;place-items:center;width:60px;height:60px;flex:none;border-radius:16px;background:#dbeafe;color:#173c89;font-size:34px;font-weight:800}
+.grow{flex:1}.eyebrow{font-size:.72rem;font-weight:750;letter-spacing:.09em;color:#bbd2f6}.muted{color:#dce8fa}
+.header h1{margin:2px 0;font-size:clamp(1.55rem,4vw,2.65rem);line-height:1.2}#profileBtn{color:#172842}
+.panel{box-shadow:0 4px 16px #152d5010}.modes,.module-grid{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.modes{grid-template-columns:repeat(2,minmax(0,1fr))}.module-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.modes button,.module-grid button{text-align:left;padding:12px}.modes small{display:block;margin-top:4px}
+.settings{display:flex;align-items:end;flex-wrap:wrap;gap:10px;margin-top:16px}.settings label{display:grid;font-weight:650}.section-note{margin:12px 0 0;color:#475a72;font-size:.92rem}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+@media(max-width:740px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.modes{grid-template-columns:1fr}.header{flex-wrap:wrap}.header .grow{flex-basis:65%}}
+@media(max-width:420px){main{padding:12px}.header,section{padding:14px}.module-grid{grid-template-columns:1fr}}
+#feedback[data-result]{padding:8px 12px;border:1px solid;border-radius:8px}
+#feedback[data-result="correct"]{color:#14532d;background:#dcfce7;border-color:#86dba5}
+#feedback[data-result="incorrect"]{color:#8a1c1c;background:#fee2e2;border-color:#f6a6a6}
+math{font-size:1.12em}#lesson{line-height:2.1}
+
+.logo{position:relative;overflow:hidden;background:linear-gradient(145deg,#173868,#0b1c38);border:1px solid #597caf}
+.logo-vector{position:absolute;left:16px;top:42px;width:34px;height:4px;border-radius:4px;background:currentColor;transform-origin:2px center}
+.logo-vector::after{content:"";position:absolute;right:0;top:-4px;width:8px;height:8px;border-top:3px solid;border-right:3px solid;transform:rotate(45deg)}
+.logo-vector.first{color:#85c4ff;transform:rotate(-62deg)}
+.logo-vector.second{color:#84efc7;transform:rotate(-19deg)}
+.logo-origin{position:absolute;left:14px;top:40px;width:8px;height:8px;border-radius:50%;background:#fff}
+#construction{margin:16px 0}.canvas-wrap{position:relative}.canvas-wrap canvas{margin-top:0}.canvas-wrap{margin-top:12px}#projectionLabel,#projectionSign{position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;color:#865112;background:#fff4dc;padding:1px 5px;border-radius:4px;font-size:13px;line-height:1.4}#construction h3{margin:0 0 6px}#projectionSign{font-weight:700}#canvasHelp,#format{color:#475a72;font-size:.92rem}
+#answerFields{display:flex;gap:8px;flex-wrap:wrap}
+#answerFields label{display:grid;gap:3px;font-weight:650}#answerFields input{width:8ch}.radical-input{display:flex;align-items:center;gap:2px;font-size:1.35em}.radical-input input{font-size:16px;border-top:2px solid currentColor;border-radius:0 0 8px 8px}
+#form{align-items:end;margin:12px 0 6px}canvas{cursor:grab}canvas[data-interactive=true]{cursor:crosshair}canvas[data-panning=true]{cursor:grabbing}canvas:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+body{--header-start:#142747;--header-end:#223e70;--focus:#789de7;accent-color:var(--accent)}
+body[data-theme=green]{--paper:#fbfffc;--line:#bdd8c8;--ink:#15382a;--header-start:#163927;--header-end:#245c43;--focus:#65ae88}
+body[data-theme=violet]{--paper:#fefbff;--line:#d9c9e9;--ink:#362449;--header-start:#38244f;--header-end:#5b367a;--focus:#ae87d5}
+body[data-theme=sand]{--paper:#fffdf7;--line:#e5d2b3;--ink:#493018;--header-start:#52351f;--header-end:#775027;--focus:#c79454}
+body[data-theme=gray]{--paper:#fcfdfe;--line:#cbd3dd;--ink:#263646;--header-start:#263747;--header-end:#43566a;--focus:#8a9db0}
+.header-actions{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.header-actions label{display:grid;gap:3px;font-size:.85rem}
+.header-actions select,.header-actions button{background:var(--paper);color:var(--ink)}
+body[data-theme=dark]{color-scheme:dark;--bg:#101823;--paper:#182433;--ink:#edf4fc;--line:#43546a;--accent:#294c7a;--header-start:#101b2b;--header-end:#233b55;--focus:#91baff}
+body[data-theme=dark] :is(button,select,input){background:#202f40;color:var(--ink)}
+body[data-theme=dark] button:is([aria-pressed=true],.primary){background:var(--accent);color:#fff}
+body[data-theme=dark] :is(.section-note,#canvasHelp,#format){color:#c0d0e1}
+body[data-theme=dark] #feedback[data-result="correct"]{color:#bcf7ce;background:#143a2a;border-color:#478961}
+body[data-theme=dark] #feedback[data-result="incorrect"]{color:#ffd0d0;background:#4a252d;border-color:#985763}
+#examTime{font-variant-numeric:tabular-nums;font-weight:700}
+#examReview{margin-top:18px}#review li{padding:10px 0;border-bottom:1px solid var(--line)}#review p{margin:4px 0}#review .review-result{font-weight:700}#review [data-result="correct"]{color:#167342}#review [data-result="incorrect"]{color:#a12323}body[data-theme=dark] #review [data-result="correct"]{color:#9df0b4}body[data-theme=dark] #review [data-result="incorrect"]{color:#ffb7b7}
+</style>
+</head><body data-theme="blue"><main>
+<header class="header"><div class="logo" aria-hidden="true"><span class="logo-vector first"></span><span class="logo-vector second"></span><span class="logo-origin"></span></div><div class="head-title grow"><div class="eyebrow">ЛІНІЙНА АЛГЕБРА · ІНТЕРАКТИВНИЙ ТРЕНАЖЕР</div><h1>Vector Operations Challenge</h1><div class="muted">Вектори · від координат до геометричного змісту</div></div><div class="header-actions"><label>Кольорова тема <select id="theme"><option value="blue">Синя</option><option value="green">Зелена</option><option value="violet">Фіолетова</option><option value="sand">Пісочна</option><option value="gray">Сіра</option><option value="dark">Темна</option></select></label><button id="profileBtn" aria-controls="profile">👤 Мій профіль</button></div></header>
+<section class="panel">
+<h2>Режим роботи</h2>
+<div class="modes" id="modes"><button data-mode="practice" aria-pressed="true"><strong>📘 Навчання й тренування</strong><small>Формули, три рівні підказок і розв’язки</small></button><button data-mode="game" hidden="" aria-pressed="false"><strong>🎮 Гра</strong><small>8 рівнів, життя, бали та серії</small></button><button data-mode="test" aria-pressed="false"><strong>📝 Контрольна</strong><small><span id="examTaskCount">8</span> завдань за темами тренування</small></button></div>
+</section>
+<section class="panel" id="settings">
+<h2>Тема й налаштування</h2>
+<div class="module-grid" id="modules" role="group" aria-label="Теми"><button aria-pressed="true">Координати й довжина вектора</button><button aria-pressed="false">Додавання та віднімання</button><button aria-pressed="false">Множення на число</button><button aria-pressed="false">Лінійна комбінація</button><button aria-pressed="false">Проєкція вектора</button><button aria-pressed="false">Скалярний добуток і кут між векторами</button><button aria-pressed="false">Взаємне розміщення</button><button aria-pressed="false">Одиничний вектор</button><button aria-pressed="false">Векторний добуток</button><button aria-pressed="false">Змішаний добуток</button></div>
+<div class="settings"><label id="dimLabel">Простір<select id="dim"><option value="2">Площина ℝ²</option><option value="3">Простір ℝ³</option></select></label><label id="gameLevelLabel" hidden="">Рівень гри<select id="gameLevel"><option value="1">Рівень 1</option><option value="2">Рівень 2</option><option value="3">Рівень 3</option><option value="4">Рівень 4</option><option value="5">Рівень 5</option><option value="6">Рівень 6</option><option value="7">Рівень 7</option><option value="8">Рівень 8</option></select></label><button id="newTask" class="primary">Нове завдання</button></div>
+<div class="row" id="sumOperations" role="group" aria-label="Операція з векторами" hidden="" style="margin-top:12px"><span>Операція</span><button type="button" id="sumAdd" aria-label="Додавання" aria-pressed="true">+</button><button type="button" id="sumSubtract" aria-label="Віднімання" aria-pressed="false">−</button></div>
+<p class="section-note">Векторний і змішаний добутки обчислюються в ℝ³.</p>
+</section>
+<section class="panel" aria-labelledby="modeTitle">
+<h2 id="modeTitle">Завдання</h2>
+<p id="examClock" hidden="">Час до завершення <time id="examTime" role="timer">20:00</time></p>
+<p id="examProgressRow" hidden=""><strong id="examProgress"></strong></p>
+<p id="task">A = (−1; 2), B = (0; −1). Знайдіть координати <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>=</mo><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo>→</mo></mover></mrow><annotation encoding="application/x-tex">\vec{r}=\overrightarrow{AB}</annotation></semantics></math> та довжину <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>|</mo><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>|</mo></mrow><annotation encoding="application/x-tex">|\vec{r}|</annotation></semantics></math>.</p><p id="lesson" hidden="">Від координат кінця відніміть відповідні координати початку. Формула: <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo>→</mo></mover><mo>=</mo><mo>(</mo><msub><mi>B</mi><mn>1</mn></msub><mo>−</mo><msub><mi>A</mi><mn>1</mn></msub><mo>;</mo><mo>…</mo><mo>;</mo><msub><mi>B</mi><mi>n</mi></msub><mo>−</mo><msub><mi>A</mi><mi>n</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">\overrightarrow{AB}=(B_1-A_1;\ldots;B_n-A_n)</annotation></semantics></math> і <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>|</mo><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>|</mo><mo>=</mo><msqrt><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>^</mo><mn>2</mn><mo>+</mo><mo>⋯</mo><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub><mo>^</mo><mn>2</mn></mrow></msqrt></mrow><annotation encoding="application/x-tex">|\vec{r}|=\sqrt{a_1^2+\cdots+a_n^2}</annotation></semantics></math>. Результат: <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>(</mo><mn>1</mn><mo>;</mo><mspace width="0.25em"></mspace><mo>−</mo><mn>3</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">\left(1;\ -3\right)</annotation></semantics></math>, <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>|</mo><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>|</mo><mo>=</mo><mn>3</mn><mrow><mo>,</mo></mrow><mn>16</mn></mrow><annotation encoding="application/x-tex">|\vec{r}|=3{,}16</annotation></semantics></math>.</p>
+<div id="construction">
+<h3>Інтерактивна побудова векторів на Canvas</h3>
+<p id="canvasHelp">Перетягніть кінець помаранчевої стрілки з точки A. Координати з’являться в полях. Для точного зміщення використовуйте клавіші зі стрілками. Точки A і B теж можна перетягувати. Потягніть за порожнє місце, щоб пересунути сітку.</p>
+
+<div class="row" role="group" aria-label="Масштаб координатної сітки">
+<button type="button" id="zoomOut" aria-label="Віддалити">−</button>
+<output id="zoomValue" aria-live="polite">100%</output>
+<button type="button" id="zoomIn" aria-label="Наблизити">+</button>
+<button type="button" id="zoomReset">Скинути масштаб</button>
+<label><input type="checkbox" id="showGrid" checked=""> Показувати сітку</label>
+<label><input type="checkbox" id="showAxes" checked=""> Показувати осі</label>
+<label>Крок підписів осей <select id="axisLabelStep"><option value="">Авто</option><option value="0.5">0,5</option><option value="1">1</option><option value="2">2</option><option value="5">5</option><option value="10">10</option></select></label>
+<button type="button" id="rotateAnswer" hidden="">Повернути вектор на 180°</button>
+<button type="button" id="lockUnit" aria-pressed="false" hidden="">Зафіксувати довжину 1</button>
+<button type="button" id="restoreTask">Повернути початкове завдання</button>
+<button type="button" id="guideToggle" aria-expanded="false" aria-controls="constructionGuide" hidden="">Показати схему</button>
+</div>
+<div id="constructionGuide" class="section-note" aria-live="polite" hidden=""></div>
+<div class="canvas-wrap"><canvas id="plane" aria-label="Координатна площина поточного завдання" aria-describedby="canvasHelp" data-panning="false" data-interactive="true" tabindex="0" width="1288" height="538"></canvas><span id="projectionLabel" hidden=""></span><span id="projectionSign" hidden=""></span></div>
+<output id="coords"></output>
+<p id="projectionFormulas" hidden=""></p>
+</div>
+<p id="spatialNote" class="section-note" hidden="">Для завдань у ℝ³ введіть відповідь у поля.</p>
+<p id="unitHelp" class="section-note" hidden=""></p>
+<form id="form"><div id="answerFields" role="group" aria-label="Відповідь"><label>x<input type="text" autocomplete="off" required=""></label><label>y<input type="text" autocomplete="off" required=""></label><label><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>|</mo><mover accent="true"><mrow><mi>r</mi></mrow><mo>→</mo></mover><mo>|</mo></mrow><annotation encoding="application/x-tex">|\vec{r}|</annotation></semantics></math></span><span class="radical-input">√<input type="text" autocomplete="off" required="" aria-label="Число під коренем для модуля вектора"></span></label></div><button class="primary" id="check">Перевірити</button></form>
+<p id="format">У поле під знаком √ введіть суму квадратів координат вектора. Сам корінь обчислювати не потрібно.</p>
+<div class="row"><button id="next" hidden="">Нове завдання</button><button id="hint">Підказка</button></div>
+<output id="feedback" aria-live="polite"></output>
+<div id="examReview" hidden=""><h3>Розбір контрольної</h3><ol id="review"></ol></div>
+</section>
+<details id="profile"><summary>Профіль та історія</summary><p id="stats">Відповідей: 0 · правильних: 0</p><ol id="history"></ol></details>
+</main>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const add=(a,b)=>a.map((x,i)=>x+b[i]);
+const mul=(k,a)=>a.map(x=>k*x);
+const sub=(a,b)=>add(a,mul(-1,b));
+const dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0);
+const len=a=>Math.hypot(...a);
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const rounded=x=>String(Math.round(x*100)/100).replace(".",",").replace("-","−");
+const vec=a=>"("+a.map(rounded).join("; ")+")";
+const show=x=>Array.isArray(x)?vec(x):rounded(x);
+const angleBetween=(a,b)=>Math.acos(Math.max(-1,Math.min(1,dot(a,b)/(len(a)*len(b)))))*180/Math.PI;
+const relationLabels=["Перпендикулярні","Колінеарні","Інше"];
+function vectorRelation(a,b){
+ if(dot(a,b)===0)return 0;
+ const j=a.findIndex(value=>value!==0);
+ return a.every((value,i)=>value*b[j]===b[i]*a[j])?1:2;
+}
+const topics=[
+ ["Додавання та віднімання","Додавайте або віднімайте відповідні координати.",(a,b,k,i)=>[i?"a − b":"a + b",i?sub(a,b):add(a,b),i?"aᵢ − bᵢ":"aᵢ + bᵢ"]],
+ ["Множення на число","Помножте кожну координату на задане число.",(a,b,k)=>[k+" · a",mul(k,a)]],
+ ["Лінійна комбінація","Спочатку помножте вектори на коефіцієнти, потім додайте результати.",(a,b,k)=>[k+" · a + 2 · b",add(mul(k,a),mul(2,b))]],
+ ["Вектор за двома точками","Від координат кінця відніміть відповідні координати початку.",(a,b)=>["вектор AB за точками A і B",sub(b,a)]],
+ ["Довжина вектора","Складіть квадрати координат і знайдіть квадратний корінь.",a=>["довжину a",len(a)]],
+ ["Скалярний добуток і кут між векторами","Помножте відповідні координати й додайте добутки.",(a,b)=>["a · b",dot(a,b)]],
+ ["Кут між векторами","Поділіть скалярний добуток на добуток довжин. Знайдіть арккосинус і переведіть результат у градуси.",(a,b)=>["кут між a і b у градусах",angleBetween(a,b)]],
+ ["Векторний добуток (3D)","Обчисліть три різниці попарних добутків координат.",(a,b)=>["a × b",cross(a,b)]]
+];
+
+topics.push(
+ ["Проєкція вектора","Скалярна проєкція на ℓ = OX дорівнює першій координаті вектора x зі знаком.",(a,b)=>["проєкцію x на напрямлену вісь ℓ = OX",b[0]]],
+ ["Взаємне розміщення","Перевірте, чи скалярний добуток дорівнює нулю і чи є один вектор кратним іншому.",(a,b)=>["взаємне розміщення a і b",vectorRelation(a,b)]],
+ ["Одиничний вектор","Поділіть кожну координату на довжину вектора.",a=>["одиничний вектор у напрямі a",mul(1/len(a),a)]],
+ ["Змішаний добуток","Знайдіть векторний добуток перших двох векторів і помножте його скалярно на третій.",(a,b,k,i,c)=>["(a × b) · c",dot(cross(a,b),c)]]
+);
+topics[3][0]="Координати й довжина вектора";
+topics[7][0]="Векторний добуток";
+
+const tex=String.raw;
+const formulas=[
+ [tex`c_i=a_i+b_i`,tex`c_i=a_i-b_i`],
+ tex`r_i=k\cdot a_i`,
+ tex`r_i=k\cdot a_i+2\cdot b_i`,
+ tex`\overrightarrow{AB}=(B_1-A_1;\ldots;B_n-A_n)`,
+ tex`|\vec{a}|=\sqrt{a_1^2+\cdots+a_n^2}`,
+ tex`\vec{a}\cdot\vec{b}=a_1b_1+\cdots+a_nb_n`,
+ tex`\theta=\arccos\left(\frac{\vec{a}\cdot\vec{b}}{|\vec{a}|\cdot|\vec{b}|}\right)`,
+ tex`\vec{a}\times\vec{b}=(a_2b_3-a_3b_2;\ a_3b_1-a_1b_3;\ a_1b_2-a_2b_1)`,
+ tex`\mathrm{pr}_{\ell}\vec{x}=|\vec{x}|\cos\theta=x_1`,
+ tex`\vec{a}\perp\vec{b}\iff\vec{a}\cdot\vec{b}=0`,
+ tex`\vec{a}_0=\frac{\vec{a}}{|\vec{a}|}`,
+ tex`(\vec{a}\times\vec{b})\cdot\vec{c}`
+];
+const escapeMarkup=value=>String(value).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+function mathMarkup(latex){
+ const tokens=latex.match(/\\[a-zA-Z]+|\\ |[0-9]+|[^\s]/g)||[];
+ let i=0;
+ const tag=(name,content)=>"<"+name+">"+content+"</"+name+">";
+ const row=content=>tag("mrow",content);
+ const symbols={cdot:"⋅",cdots:"⋯",ldots:"…",times:"×",perp:"⊥",iff:"⇔"};
+ function atom(){
+  const token=tokens[i++];
+  if(token==="{"){
+   const content=expression();
+   if(tokens[i++]!=="}")throw Error("Missing LaTeX closing brace");
+   return row(content);
+  }
+  if(token.startsWith("\\")){
+   const command=token.slice(1);
+   if(Object.hasOwn(symbols,command))return tag("mo",symbols[command]);
+   switch(command){
+    case "ell":return tag("mi","ℓ");
+    case "theta":return tag("mi","θ");
+    case "cos":case "arccos":return tag("mi",command);
+    case "left":case "right":return atom();
+    case " ":return "<mspace width='0.25em'></mspace>";
+    case "frac":return tag("mfrac",atom()+atom());
+    case "sqrt":return tag("msqrt",atom());
+    case "vec":case "overrightarrow":case "hat":
+     return "<mover accent='true'>"+atom()+tag("mo",command==="hat"?"^":"→")+"</mover>";
+    case "mathrm":{
+     if(tokens[i++]!=="{")throw Error("Missing LaTeX opening brace");
+     let text="";
+     while(i<tokens.length&&tokens[i]!=="}")text+=tokens[i++];
+     if(tokens[i++]!=="}")throw Error("Missing LaTeX closing brace");
+     return tag("mtext",escapeMarkup(text));
+    }
+    default:throw Error("Unsupported LaTeX command "+command);
+   }
+  }
+  if(/^[0-9]+$/.test(token))return tag("mn",token);
+  if(/^[a-zA-Z]$/.test(token))return tag("mi",token);
+  return tag("mo",escapeMarkup(token==="-"?"−":token));
+ }
+ function expression(){
+  let markup="";
+  while(i<tokens.length&&tokens[i]!=="}"){
+   let base=atom();
+   if(tokens[i]==="_"||tokens[i]==="^"){
+    const script=tokens[i++];
+    base=tag(script==="_"?"msub":"msup",base+atom());
+   }
+   markup+=base;
+  }
+  return markup;
+ }
+ const markup=expression();
+ return "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics>"+row(markup)+
+ "<annotation encoding='application/x-tex'>"+escapeMarkup(latex)+"</annotation></semantics></math>";
+}
+function promptMarkup(task){
+ const prompt=escapeMarkup(task.prompt);
+ if(task.index===10){
+  const a=mathMarkup(tex`\vec{a}`);
+  return a+" = "+mathMarkup(answerTex(task.a))+". Знайдіть орт "+
+   mathMarkup(tex`\vec{a}_0`)+" вектора "+a+".";
+ }
+ if(task.index===0){
+  const [a,b,c]=["a","b","c"].map(name=>tex`\vec{`+name+"}");
+  return mathMarkup(a+"="+answerTex(task.a))+", "+mathMarkup(b+"="+answerTex(task.b))+
+   ". Знайдіть "+mathMarkup(c+"="+a+(task.variant?"-":"+")+b)+".";
+ }
+ return task.index===3?prompt.replace("вектор AB за точками A і B","координати "+mathMarkup(tex`\vec{r}=\overrightarrow{AB}`)+" та довжину "+mathMarkup(tex`|\vec{r}|`)) : prompt.replace(/(?<![\p{L}\p{N}])([abcx])(?![\p{L}\p{N}])/gu,
+  (_,name)=>mathMarkup(tex`\vec{`+name+"}"));
+}
+function answerTex(value){
+ const number=x=>rounded(x).replace("−","-").replace(",","{,}");
+ return Array.isArray(value)?tex`\left(`+value.map(number).join(tex`;\ `)+tex`\right)`:number(value);
+}
+function lengthFormula(){return mathMarkup(formulas[4].replace(tex`\vec{a}`,tex`\vec{r}`));}
+function lessonMarkup(task){
+ return escapeMarkup(topics[task.index][1])+" Формула: "+mathMarkup(task.formula)+(task.index===3?" і "+lengthFormula():"")+
+ ". Результат: "+mathMarkup(answerTex(task.value)+(task.index===6?"^\\circ".replace("\\circ","{°}"):""))+(task.index===3?", "+mathMarkup(tex`|\vec{r}|=`+answerTex(len(task.value))):"")+".";
+}
+const names={learn:"Навчання",practice:"Завдання",game:"Гра",test:"Контрольна робота"};
+const random=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
+const maxLevel=8;
+let mode,task,answered,hints,score,streak,attempts,results,lives,topicIndex=3;
+let profile={total:0,correct:0,history:[],theme:"blue"};
+try{Object.assign(profile,JSON.parse(localStorage.getItem("vector-challenge")||"{}"));}catch{}
+function save(){try{localStorage.setItem("vector-challenge",JSON.stringify(profile));}catch{}}
+function profileView(){
+ $("stats").textContent="Відповідей: "+profile.total+" · правильних: "+profile.correct;
+ $("history").replaceChildren(...profile.history.map(line=>Object.assign(document.createElement("li"),{textContent:line})));
+}
+const moduleOrder=[3,0,1,2,8,5,9,10,7,11];
+const examModules=moduleOrder.filter(index=>![7,11].includes(index));
+const examCount=examModules.length;
+$("examTaskCount").textContent=examCount;
+const moduleButtons=moduleOrder.map(index=>{
+ const button=document.createElement("button");
+ button.textContent=topics[index][0];
+ button.onclick=()=>{topicIndex=index;refreshTopics();if(mode!=="game"||lives)newTask();};
+ $("modules").append(button);return {button,index};
+});
+function refreshTopics(){
+ moduleButtons.forEach(({button,index})=>button.setAttribute("aria-pressed",index===topicIndex));
+ $("dimLabel").hidden=[7,11].includes(topicIndex);
+}
+function makeTask(){
+ const index=mode==="test"?examModules[results.length]:topicIndex;
+ const level=Math.min(maxLevel,1+Math.floor(attempts/3));
+ const n=[7,11].includes(index)?3:Number($("dim").value);
+ const max=mode==="game"?level+2:7;
+ const coordinateLimit=mode==="game"?max:3;
+ const vector=()=>{const a=Array.from({length:n},()=>random(-coordinateLimit,coordinateLimit));if(!len(a))a[0]=1;return a;};
+ const a=vector(),c=vector(),k=random(2,max)*(random(0,1)?1:-1);
+ let b=vector();
+ if(index===9){
+  const kind=random(0,2);
+  const j=a.findIndex(x=>x!==0),l=(j+1)%n;
+  const perpendicular=Array(n).fill(0);
+  perpendicular[j]=-a[l];perpendicular[l]=a[j];
+  if(kind===0)b=perpendicular;
+  else if(kind===1)b=mul(random(0,1)?1:-1,a);
+  else b=add(a,perpendicular);
+ }
+ const variant=index===0&&mode!=="test"?sumVariant:random(0,1);
+ const [operation,value]=topics[index][2](a,b,k,variant,c);
+ const formula=index===0?formulas[0][variant]:formulas[index];
+ const data=index===8?"x = "+vec(b):index===3?"A = "+vec(a)+", B = "+vec(b):"a = "+vec(a)+([1,4,10].includes(index)?"":", b = "+vec(b))+(index===11?", c = "+vec(c):"");
+ return {index,value,formula,a,b,k,variant,n,data,draftAngle:index===0?Math.random()*2*Math.PI:0,draftLength:index===0?Math.max(len(a),len(b)):0,prompt:data+". Знайдіть "+operation+"."};
+}
+let initialTask,sumVariant=0;
+function newTask(restore=false){
+ if(!restore)initialTask=makeTask();
+ task=structuredClone(initialTask);
+ renderTask();
+}
+function renderTask(keepStarts=false){
+ answered=false;hints=0;
+ $("task").innerHTML=promptMarkup(task);
+ $("examProgressRow").hidden=mode!=="test";
+ if(mode==="test")$("examProgress").textContent="Завдання "+(results.length+1)+"/"+examCount;
+ $("task").hidden=false;
+ $("lesson").innerHTML=lessonMarkup(task);
+ $("lesson").hidden=mode!=="learn";
+ $("form").hidden=mode==="learn";$("format").hidden=mode!=="practice"||task.index!==3;
+ const unitHelp=$("unitHelp");
+ unitHelp.hidden=task.index!==10||mode!=="practice";
+ if(!unitHelp.hidden){
+  const manual="Для обчислення вручну поділіть кожну координату вихідного вектора на його модуль " +
+   mathMarkup(tex`|\vec{a}|`)+". "+mathMarkup(formulas[10])+". Введіть отримані координати й натисніть «Перевірити».";
+  const canvasSteps="Натисніть «Зафіксувати довжину 1» і поверніть помаранчеву стрілку так, щоб вона вказувала в той самий бік, що й синя. Координати з’являться в полях. Натисніть «Перевірити».";
+  unitHelp.innerHTML=task.n===2?canvasSteps+"<br>"+manual:manual;
+ }
+ setupAnswer(keepStarts);$("check").disabled=false;refreshSumOperations();
+ $("check").textContent=mode==="test"?"Зберегти відповідь":"Перевірити";
+ $("hint").hidden=mode!=="practice";$("hint").disabled=false;
+ $("next").hidden=true;$("next").textContent="Нове завдання";
+ delete $("feedback").dataset.result;$("feedback").textContent=mode==="game"?gameStatus():"";
+}
+function refreshSumOperations(){
+ $("sumOperations").hidden=task.index!==0||mode==="test";
+ $("sumAdd").setAttribute("aria-pressed",task.variant===0);
+ $("sumSubtract").setAttribute("aria-pressed",task.variant===1);
+ const locked=mode==="game"&&answered;
+ $("sumAdd").disabled=locked;$("sumSubtract").disabled=locked;
+}
+function selectSumOperation(variant){
+ if(task.index!==0||mode==="test"||drag!==null||task.variant===variant||(mode==="game"&&answered))return;
+ sumVariant=variant;
+ for(const current of [task,initialTask]){
+  current.variant=variant;
+  current.value=variant?sub(current.a,current.b):add(current.a,current.b);
+  current.formula=formulas[0][variant];
+ }
+ renderTask(true);
+}
+function gameStatus(){const level=Math.min(maxLevel,1+Math.floor(attempts/3));$("gameLevel").value=String(level);return "Рівень "+level+"/"+maxLevel+" · Життя "+lives+" · Бали "+score+" · Серія "+streak;}
+function setMode(value,startLevel=1){
+ stopExamTimer();
+ $("examClock").hidden=value!=="test";
+ mode=value;$("newTask").disabled=false;score=streak=0;attempts=(startLevel-1)*3;lives=3;results=[];
+ $("modeTitle").textContent=names[mode];
+ document.querySelectorAll("[data-mode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===(mode==="learn"?"practice":mode)));
+ $("gameLevelLabel").hidden=mode!=="game";$("settings").hidden=mode==="test";refreshTopics();
+ $("examReview").hidden=true;$("review").replaceChildren();newTask();
+ if(mode==="test")startExamTimer();
+}
+const examDuration=20*60*1000;
+let examDeadline=0,examTimer=null;
+function stopExamTimer(){
+ if(examTimer!==null)clearInterval(examTimer);
+ examTimer=null;
+}
+function updateExamTimer(){
+ const seconds=Math.max(0,Math.ceil((examDeadline-Date.now())/1000));
+ $("examTime").textContent=[Math.floor(seconds/60),seconds%60].map(n=>String(n).padStart(2,"0")).join(":");
+ if(!seconds)stopExamTimer();
+}
+function startExamTimer(){
+ examDeadline=Date.now()+examDuration;
+ updateExamTimer();
+ examTimer=setInterval(updateExamTimer,250);
+}
+function examReviewItem({task,response,correct}){
+ const entry=document.createElement("li"),title=document.createElement("strong");
+ const prompt=document.createElement("p"),answer=document.createElement("p"),status=document.createElement("p");
+ title.textContent=topics[task.index][0];
+ prompt.innerHTML=promptMarkup(task);
+ const responseMarkup=task.index===3
+  ?vec(response.slice(0,task.n))+", "+mathMarkup(tex`|\vec{r}|=\sqrt{`+answerTex(response[task.n])+"}")
+  :task.index===9?relationLabels[response[0]]:show(response.length===1?response[0]:response);
+ answer.innerHTML="Ваша відповідь: "+responseMarkup;
+ const itemScore=100/examCount;
+ status.className="review-result";
+ status.dataset.result=correct?"correct":"incorrect";
+ status.textContent=(correct?"Правильно":"Неправильно")+" · "+rounded(correct?itemScore:0)+" / "+rounded(itemScore)+" бала";
+ entry.append(title,prompt,answer,status);
+ return entry;
+}
+function finishExam(){
+ stopExamTimer();answered=true;
+ $("examProgressRow").hidden=true;
+  $("task").hidden=true;$("unitHelp").hidden=true;$("form").hidden=true;$("format").hidden=true;$("construction").hidden=true;$("spatialNote").hidden=true;
+  const correctCount=results.filter(r=>r.correct).length;
+  const points=100*correctCount/examCount;
+  $("feedback").textContent="Результат: "+rounded(points)+" зі 100 балів. Правильних відповідей: "+correctCount+" із "+examCount+".";
+  $("review").replaceChildren(...results.map(examReviewItem));
+  $("examReview").hidden=false;
+ $("next").hidden=false;$("next").textContent="Почати нову контрольну";
+}
+function readNumber(raw){
+ const s=raw.trim().replaceAll("−","-").replaceAll(",",".");
+ const parts=s.split("/");
+ if(parts.length>2||parts.some(p=>!/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(p.trim())))return NaN;
+ return Number(parts[0])/(parts.length===2?Number(parts[1]):1);
+}
+$("form").onsubmit=e=>{
+ e.preventDefault();if(answered)return;
+ const values=answerFields.map(field=>readNumber(field.value));
+ const expected=[task.value].flat();
+ if(task.index===3)expected.push(dot(task.value,task.value));
+ if(values.length!==expected.length||values.some(v=>!Number.isFinite(v))){
+  $("feedback").textContent=task.index===3?"Введіть координати й число під коренем.":task.index===9?"Оберіть варіант відповіді.":"Введіть "+(expected.length===1?"одне число.":expected.length+" координати у відповідні поля.");return;
+ }
+ const correct=expected.every((v,i)=>Math.abs(v-values[i])<0.0050000001);
+ answered=true;refreshSumOperations();profile.total++;profile.correct+=Number(correct);
+ profile.history.unshift(topics[task.index][0]+" · "+(correct?"правильно":"помилка"));
+ profile.history=profile.history.slice(0,20);save();profileView();
+ if(mode==="test"){
+  results.push({task,response:values,correct});
+  if(results.length<examCount){newTask();answerFields[0].focus();return;}
+  finishExam();return;
+ }
+ if(mode==="game"){attempts++;streak=correct?streak+1:0;if(correct)score+=10+2*(streak-1);else lives--;if(!lives){$("next").hidden=false;$("next").textContent="Почати нову гру";$("newTask").disabled=true;}}
+ $("feedback").dataset.result=correct?"correct":"incorrect";
+ $("feedback").textContent=(correct?"Правильно!":"Неправильно.")+(mode==="game"?" "+gameStatus():"");
+ if(task.n===2&&task.index!==8&&Array.isArray(task.value)&&!unitLocked)placed=values.slice(0,task.n);
+ $("check").disabled=true;answerFields.forEach(field=>field.disabled=true);draw();
+};
+$("hint").onclick=()=>{
+ const steps=[escapeMarkup(topics[task.index][1]),"Формула: "+mathMarkup(task.formula)+".","Результат: "+mathMarkup(answerTex(task.value))+"."];
+ if(task.index===3){
+  steps[1]+=" Для довжини: "+lengthFormula()+".";
+  steps[2]=escapeMarkup(topics[4][1]);
+ }else if(task.index===5){
+  steps[1]+=" Для кута: "+mathMarkup(formulas[6])+".";
+  steps[2]="Поділіть скалярний добуток на добуток модулів векторів і знайдіть арккосинус у градусах.";
+ }else if(task.index===9){
+  steps[1]+=" Для колінеарності перевірте, чи можна помножити всі координати одного вектора на те саме число й отримати інший.";
+  steps[2]="Якщо жодна умова не виконується, оберіть «Інше».";
+ }
+  delete $("feedback").dataset.result;$("feedback").innerHTML="Підказка "+(hints+1)+"/3. "+steps[hints++];if(hints===3)$("hint").disabled=true;
+};
+$("next").onclick=()=>setMode(mode);
+$("newTask").onclick=()=>mode==="learn"?setMode("practice"):newTask();
+$("dim").onchange=()=>{if(mode!=="game"||lives)newTask();};
+$("profileBtn").onclick=()=>{const panel=$("profile");panel.open=true;panel.scrollIntoView({block:"nearest"});panel.querySelector("summary").focus({preventScroll:true});};
+document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+$("theme").value=profile.theme;
+document.body.dataset.theme=profile.theme;
+$("theme").onchange=()=>{document.body.dataset.theme=profile.theme=$("theme").value;save();};
+
+const canvas=$("plane"),ctx=canvas.getContext("2d");
+const colors={a:"#245ac9",b:"#08754c",answer:"#a34b00",solution:"#7629ae"};
+let answerFields=[],placed=null,view=null,drag=null,zoom=1,pan=[0,0];
+const origin=[0,0];
+const canPlace=()=>task.n===2&&task.index!==8&&Array.isArray(task.value)&&mode!=="learn"&&!answered;
+const canMovePoints=()=>task.n===2&&task.index===3&&["learn","practice"].includes(mode);
+let vectorStarts;
+const canMoveOperands=()=>task.n===2&&task.index===0&&["learn","practice"].includes(mode);
+const canMoveVectors=()=>canMoveOperands()||canPlace()&&task.index===0;
+const draftVector=()=>placed||mul(task.draftLength,
+ [Math.cos(task.draftAngle),Math.sin(task.draftAngle)]);
+function vectorHandles(){
+ const vectors=canMoveOperands()?["a","b"]:[];
+ if(canPlace()&&task.index===0)vectors.push("c");
+ return vectors.flatMap(key=>{
+  const start=vectorStarts[key],end=add(start,key==="c"?draftVector():task[key]);
+  return [{key,endpoint:false,at:start,other:end},{key,endpoint:true,at:end,other:start}];
+ });
+}
+const canMoveDotVectors=()=>[5,8].includes(task.index)&&task.n===2&&mode==="practice";
+function translationSegments(){
+ if(![1,2].includes(task.index)||!canPlace())return [];
+ const vectors=[["a",task.a],["c",placed||task.a]];
+ if(task.index===2)vectors.push(["b",task.b]);
+ return vectors.map(([key,vector])=>{
+  const at=vectorStarts[key];
+  return {key,at,other:add(at,vector)};
+ });
+}
+const stepSize=()=>task.index===10?0.01:0.5;
+let unitLocked=false,guideOpen=false;
+function setupAnswer(keepStarts=false){
+ unitLocked=false;
+ if(!keepStarts)guideOpen=false;
+ placed=null;drag=null;view=null;canvas.dataset.panning="false";
+ if(!keepStarts){
+  pan=[0,0];zoom=1;syncZoomControls();
+  vectorStarts={a:[0,0],b:[-1,-1],c:[1,-1]};
+  if(task.index===1&&task.n===2)vectorStarts.c=[-Math.sign(task.a[1]),Math.sign(task.a[0])];
+ }
+ const names=Array.isArray(task.value)?["x","y","z"].slice(0,task.value.length):["Відповідь"];
+ if(task.index===3)names.push("Довжина");
+ answerFields=names.map(name=>{
+  const label=document.createElement("label"),field=document.createElement(task.index===9?"select":"input");
+  if(task.index===9){
+   for(const [value,text] of [["","Оберіть варіант"],...relationLabels.map((text,i)=>[String(i),text])]){
+    const option=document.createElement("option");option.value=value;option.textContent=text;field.append(option);
+   }
+   field.required=true;label.append(name,field);return field;
+  }
+  field.type="text";field.autocomplete="off";field.required=true;
+  field.addEventListener("input",()=>{
+   unitLocked=false;
+   const coords=answerFields.slice(0,task.n).map(input=>readNumber(input.value));
+   placed=canPlace()&&coords.every(Number.isFinite)?coords:null;draw();
+  });
+  if(name==="Довжина"){
+   const radical=document.createElement("span");radical.className="radical-input";radical.append("√",field);
+   field.setAttribute("aria-label","Число під коренем для модуля вектора");
+   const caption=document.createElement("span");
+   caption.innerHTML=mathMarkup(tex`|\vec{r}|`);
+   label.append(caption,radical);
+  }else label.append(name,field);
+  return field;
+ });
+ $("answerFields").replaceChildren(...answerFields.map(field=>field.closest("label")));
+ $("construction").hidden=task.n!==2&&![5,8].includes(task.index);
+ $("spatialNote").hidden=task.n!==3||mode==="learn";
+ draw();
+}
+function setPlaced(vector){
+ if(unitLocked){
+  const magnitude=len(vector);
+  if(!magnitude)return;
+  placed=mul(1/magnitude,vector);
+ }else placed=vector.map(x=>Math.round(x*100)/100);
+ answerFields.slice(0,placed.length).forEach((field,i)=>field.value=rounded(placed[i]));
+ draw();
+}
+function line(a,b,color,width){
+ ctx.strokeStyle=color;ctx.lineWidth=width;
+ ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();
+}
+function components(base,vector){
+ const [dx,dy]=vector;
+ const start=view.pixel(base),corner=view.pixel(add(base,[dx,0])),end=view.pixel(add(base,vector));
+ ctx.setLineDash([5,4]);
+ if(dx)line(start,corner,"#245ac9",2);
+ if(dy)line(corner,end,"#08754c",2);
+ ctx.setLineDash([]);
+ ctx.font="bold 13px system-ui";
+ ctx.textAlign="center";
+ if(dx){
+  ctx.fillStyle="#245ac9";
+  ctx.fillText("Δx = "+rounded(dx),(start[0]+corner[0])/2,corner[1]+(corner[1]>view.h-26?-10:20));
+ }
+ ctx.textAlign=corner[0]>view.w-85?"right":"left";
+ if(dy){
+  ctx.fillStyle="#08754c";
+  ctx.fillText("Δy = "+rounded(dy),corner[0]+(ctx.textAlign==="right"?-9:9),(corner[1]+end[1])/2);
+ }
+ ctx.textAlign="start";
+}
+function arrow(a,b,color,label){
+ const u=view.pixel(a),v=view.pixel(b),angle=Math.atan2(v[1]-u[1],v[0]-u[0]);
+ const distance=len(sub(v,u));
+ ctx.fillStyle=color;
+ ctx.beginPath();ctx.arc(...u,3,0,2*Math.PI);ctx.fill();
+ if(distance>=1){
+  const headLength=Math.min(20,distance*0.8);
+  const spread=0.19,depth=headLength*Math.cos(spread);
+  line(u,[v[0]-depth*Math.cos(angle),v[1]-depth*Math.sin(angle)],color,3);
+  ctx.beginPath();ctx.moveTo(...v);
+  for(const offset of [-spread,spread]){
+   ctx.lineTo(v[0]-headLength*Math.cos(angle+offset),v[1]-headLength*Math.sin(angle+offset));
+  }
+  ctx.closePath();ctx.fill();
+ }
+ ctx.font="bold 14px system-ui";
+ const showRatio=task.index===1&&label==="r";
+ const side=(Math.cos(angle)<0?-1:1)*(showRatio?-1:1);
+ const x=(u[0]+v[0])/2+side*17*Math.sin(angle)-3;
+ const y=(u[1]+v[1])/2-side*17*Math.cos(angle)+4;
+ if(!showRatio)ctx.fillText(label,x,y);
+ if(showRatio){
+  const [ax,ay]=task.a,[rx,ry]=sub(b,a);
+  const ratio=dot([rx,ry],task.a)/dot(task.a,task.a);
+  const collinear=Math.abs(ax*ry-ay*rx)<1e-9;
+  const multiplier=rounded(ratio);
+  const caption=collinear?multiplier+" × ":"Не паралельний";
+  ctx.fillText(caption,x-ctx.measureText(caption).width,y);
+  ctx.fillText(collinear?"a":"r",x,y);
+ }
+ if(label==="r"||[0,5,8,10].includes(task.index)){
+  line([x-1,y-12],[x+8,y-12],color,1);
+  line([x+5,y-15],[x+8,y-12],color,1);
+  line([x+5,y-9],[x+8,y-12],color,1);
+ }
+}
+function geometry(){
+ const {index,a,b,k}=task;
+ if(index===8){
+  const u=task.n===2?b:[b[0],Math.hypot(...b.slice(1))];
+  const v=[1,0],foot=[b[0],0];
+  return {base:origin,guides:[[u,colors.b,"x"]],points:[],
+   bound:Math.max(...u.map(Math.abs),1),dotPlane:{u,v,foot}};
+ }
+ if(index===5){
+  const parallel=dot(a,b)/len(a);
+  const u=task.n===2?a:[len(a),0];
+  const v=task.n===2?b:[parallel,len(cross(a,b))/len(a)];
+  const foot=mul(dot(a,b)/dot(b,b),v);
+  return {base:origin,guides:[[u,colors.a,"a"],[v,colors.b,"b"]],points:[],
+   bound:Math.max(...[...u,...v,...foot].map(Math.abs)),dotPlane:{u,v,foot}};
+ }
+ if(index===3)return {base:a,guides:[],points:[[a,"A"],[b,"B"]],bound:Math.max(...a.map((x,i)=>Math.abs(x)+Math.abs(b[i])))};
+ if(index===0){
+  const base=vectorStarts.c;
+  const guides=["a","b"].map(key=>[add(vectorStarts[key],task[key]),colors[key],key,vectorStarts[key]]);
+  const bound=Math.max(...guides.flatMap(([end,,,start])=>[...end,...start]).map(Math.abs),
+   ...base.map((x,i)=>Math.abs(x)+Math.abs(a[i])+Math.abs(b[i])), ...add(base,draftVector()).map(Math.abs));
+  return {base,guides,points:[],bound};
+ }
+ if(index===1)return {base:vectorStarts.c,guides:[[add(vectorStarts.a,a),colors.a,"a",vectorStarts.a]],points:[],bound:0};
+ if(index===2){
+  const base=vectorStarts.c;
+  const guides=["a","b"].map(key=>[add(vectorStarts[key],task[key]),colors[key],key,vectorStarts[key]]);
+  const bounds=[base,add(base,task.a),...guides.flatMap(([end,,,start])=>[start,end])];
+  const bound=Math.max(...bounds.flat().map(Math.abs),
+   ...base.map((x,i)=>Math.abs(x)+Math.abs(k*a[i])+2*Math.abs(b[i])));
+  return {base,guides,points:[],bound};
+ }
+ const guides=[[a,colors.a,"a"]];
+ if(![1,4,10].includes(index))guides.push([b,colors.b,"b"]);
+ const bound=Math.max(...a.map((x,i)=>{
+  return Math.abs(x);
+ }),...b.map(Math.abs));
+ return {base:origin,guides,points:[],bound};
+}
+function drawDotGeometry({u,v,foot}){
+ const o=view.pixel(origin),p=view.pixel(foot),q=view.pixel(u);
+ const color="#865112";
+ if(len(sub(p,q))>=1){
+  ctx.setLineDash([5,4]);line(q,p,color,1.5);ctx.setLineDash([]);
+ }
+ const hasLength=len(sub(p,o))>=1;
+ if(hasLength){
+  line(o,p,"#b77b00",2);
+ }
+ ctx.beginPath();ctx.arc(...p,5,0,2*Math.PI);
+ ctx.fillStyle="#ffd75e";ctx.fill();
+ ctx.strokeStyle="#865112";ctx.lineWidth=1.5;ctx.stroke();
+ const product=task.index===8?task.b[0]:dot(task.a,task.b);
+ const sign=product>0?"+":product<0?"−":"0";
+ const label=$("projectionLabel"),signLabel=$("projectionSign");
+ label.hidden=false;
+ label.innerHTML=mathMarkup(task.index===8?tex`\mathrm{pr}_{\ell}\vec{x}`:tex`\mathrm{pr}_{\vec{b}}\vec{a}`);
+ signLabel.textContent=sign;
+ const center=mul(0.5,add(o,p));
+ const angle=Math.atan2(p[1]-o[1],p[0]-o[0]);
+ const side=Math.cos(angle)<0?-1:1;
+ const offset=mul(side*18,[-Math.sin(angle),Math.cos(angle)]);
+ const [x,y]=add(center,offset),[sx,sy]=sub(center,offset);
+ label.style.left=x+"px";label.style.top=y+"px";
+ signLabel.style.left=sx+"px";signLabel.style.top=sy+"px";
+ const startVector=sub(q,o),endVector=sub(view.pixel(v),o);
+ const start=Math.atan2(startVector[1],startVector[0]);
+ const turn=Math.atan2(startVector[0]*endVector[1]-startVector[1]*endVector[0],dot(startVector,endVector));
+ const radius=Math.min(31,Math.max(12,Math.min(len(startVector),len(endVector))*0.55));
+ if(Math.abs(turn)>0.015){
+  ctx.beginPath();ctx.arc(...o,radius,start,start+turn,turn<0);
+  ctx.strokeStyle=color;ctx.lineWidth=1.7;ctx.stroke();
+ }
+ if(task.index===5||Math.abs(turn)>0.015){
+  const mid=start+turn/2;
+  const caption=task.index===5?"θ = "+angleBetween(task.a,task.b).toFixed(1).replace(".",",")+"°":"θ";
+  ctx.fillStyle=color;ctx.font="bold 13px system-ui";
+  const x=o[0]+(radius+12)*Math.cos(mid);
+  const y=o[1]+(radius+12)*Math.sin(mid)+(Math.abs(turn)<=0.015?-12:4);
+  ctx.fillText(caption,x-ctx.measureText(caption).width/2,y);
+ }
+}
+function dotProductExplanation(){
+ const a=mathMarkup(tex`\vec{a}`),b=mathMarkup(tex`\vec{b}`);
+ const coordinates=mathMarkup(tex`\vec{a}\cdot\vec{b}=a_1b_1+a_2b_2`+
+  (task.n===3?"+a_3b_3":""));
+ const angle=mathMarkup(tex`\vec{a}\cdot\vec{b}=|\vec{a}|\cdot|\vec{b}|\cos\theta`);
+ const projections=mathMarkup(tex`\vec{a}\cdot\vec{b}=|\vec{b}|\cdot\mathrm{pr}_{\vec{b}}\vec{a}=|\vec{a}|\cdot\mathrm{pr}_{\vec{a}}\vec{b}`);
+ const projection=mathMarkup(tex`\mathrm{pr}_{\vec{a}}\vec{b}=|\vec{b}|\cos\theta`);
+ return "<strong>Через координати</strong><br>"+coordinates+
+  "<br><strong>За кутом між векторами</strong><br>"+angle+
+  "<br><strong>Через скалярну проєкцію</strong><br>"+projections+
+  "<br>На рисунку показано проєкцію "+a+" на напрям "+b+
+  ". Для проєкції "+b+" на напрям "+a+" маємо "+projection+"."+
+  "<br><strong>Кут між векторами</strong><br>"+mathMarkup(formulas[6])+
+  ". На рисунку кут показано в градусах.";
+}
+function answerEnd(base){
+ return add(base,placed||(task.index===3?[0,-1]:task.index===0?draftVector():[1,2].includes(task.index)?task.a:origin));
+}
+function guideState(){
+ if(mode!=="practice"||task.n!==2||![0,10].includes(task.index)||answered)return null;
+ if(task.index===10){
+  if(!unitLocked)return {text:"1/2. Натисніть «Зафіксувати довжину 1». Кінчик одиничного вектора лежатиме на колі."};
+  const aligned=placed&&task.value.every((v,i)=>Math.abs(v-readNumber(answerFields[i].value))<0.0050000001);
+  return {text:aligned?"2/2. Напрям збігається. Натисніть «Перевірити».":
+   "2/2. Рухайте кінчик помаранчевого вектора вздовж кола, доки його напрям не збігатиметься з напрямом синього вектора."};
+ }
+ const start=vectorStarts.a,aTip=add(start,task.a),bStart=vectorStarts.b;
+ const joint=task.variant?add(bStart,task.b):bStart;
+ if(len(sub(joint,aTip))>0.01)return {mark:aTip,text:task.variant?
+  "1/3. Перетягніть зелений вектор за тіло стрілки так, щоб його кінець збігся з кінцем синього. Віднімання використовує зелений вектор у зворотному напрямі.":
+  "1/3. Перетягніть зелений вектор за тіло стрілки так, щоб його початок збігся з кінцем синього."};
+ if(len(sub(vectorStarts.c,start))>0.01)return {mark:start,
+  text:"2/3. Перенесіть початок помаранчевого вектора до початку синього. Щоб перенести весь вектор, потягніть за тіло стрілки."};
+ const aligned=placed&&len(sub(placed,task.value))<0.005;
+ return {mark:add(start,task.value),text:aligned?"3/3. Побудову завершено. Натисніть «Перевірити».":
+  "3/3. Перетягніть кінчик помаранчевої стрілки до позначеної точки."};
+}
+function drawConstructionGuide(guide){
+ const color="#90620c";
+ ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
+ ctx.beginPath();
+ if(task.index===10)ctx.arc(...view.pixel(origin),view.unit,0,2*Math.PI);
+ else if(guide.mark)ctx.arc(...view.pixel(guide.mark),10,0,2*Math.PI);
+ ctx.stroke();ctx.setLineDash([]);
+}
+function draw(){
+ if(!task||$("construction").hidden)return;
+ $("restoreTask").disabled=mode==="game"&&answered;
+ const guide=guideState(),toggle=$("guideToggle"),guideNote=$("constructionGuide");
+ toggle.hidden=!guide;
+ toggle.setAttribute("aria-expanded",Boolean(guide&&guideOpen));
+ const guideName=task.index===10?"одиничне коло":"схему";
+ toggle.textContent=(guideOpen?"Приховати ":"Показати ")+guideName;
+ guideNote.hidden=!guide||!guideOpen;
+ if(!guideNote.hidden&&guideNote.textContent!==guide.text)guideNote.textContent=guide.text;
+ const interactive=canPlace(),vectorTask=Array.isArray(task.value);
+ $("rotateAnswer").hidden=task.index!==1||!interactive;
+ $("lockUnit").hidden=task.index!==10||!interactive;
+ $("lockUnit").setAttribute("aria-pressed",unitLocked);
+ $("lockUnit").textContent=unitLocked?"Розблокувати довжину":"Зафіксувати довжину 1";
+ const solution=vectorTask&&task.index!==8&&mode==="learn";
+ const {base,guides,points,bound,dotPlane}=geometry();
+ const projectionFormulas=$("projectionFormulas");
+ projectionFormulas.hidden=mode==="test"||![5,8].includes(task.index);
+ if(task.index===8){
+  projectionFormulas.innerHTML="Скалярна проєкція "+mathMarkup(task.formula)+". Введіть одне число зі знаком.";
+ }else if(task.index===5){
+  projectionFormulas.innerHTML=dotProductExplanation();
+ }
+ $("canvasHelp").textContent=interactive
+  ?"Перетягніть кінець помаранчевої стрілки з точки "+(task.index===3?"A":"O")+". Координати з’являться в полях. Для точного зміщення використовуйте клавіші зі стрілками."
+  :solution?"Фіолетова стрілка показує правильний результат.":"На площині показано дані поточного завдання.";
+ canvas.dataset.interactive=String(interactive||canMovePoints()||canMoveVectors()||canMoveDotVectors());canvas.tabIndex=interactive?0:-1;
+ $("coords").textContent=placed?"Ваша побудова "+vec(placed):"";
+ if(interactive&&task.index===1)$("canvasHelp").textContent="Перетягніть кінчик вектора вздовж його напряму. Крок множника 0,5. Потягніть за тіло стрілки, щоб перенести вектор паралельно. Множник також можна змінити клавішами зі стрілками.";
+ if(canMoveVectors())$("canvasHelp").textContent=canMoveOperands()?"Перетягуйте початки й кінці векторів. Щоб перенести весь вектор, затисніть ліву кнопку на тілі стрілки.":"Перетягніть початок або кінець вектора c, щоб задати відповідь. Перетягніть тіло стрілки, щоб перенести вектор цілком.";
+ if(interactive&&task.index===2)$("canvasHelp").textContent="Потягніть за тіло стрілки, щоб перенести вектор паралельно. Щоб задати відповідь, перетягніть кінчик результуючого вектора.";
+ if(dotPlane){
+  const plane=task.n===3?" Показано площину, що містить обидва вектори.":"";
+  const controls=canMoveDotVectors()?" Перетягуйте кінчики векторів. Якщо кінчики збігаються, звичайне перетягування рухає b, а з натиснутою Shift — a.":"";
+  if(task.index===8){
+   $("canvasHelp").textContent="Пунктир іде від кінчика вектора x перпендикулярно до осі ℓ. Жовтим виділено проєкцію, θ — кут із додатним напрямом осі ℓ."+
+    (task.n===3?" Показано площину, що містить вісь ℓ і вектор x.":"")+
+    (canMoveDotVectors()?" Перетягуйте кінчик вектора x, щоб змінити його координати.":"");
+  }else{
+   $("canvasHelp").textContent="Пунктир іде від кінчика вектора a до прямої вздовж вектора b. Жовтим виділено проєкцію a на b, θ — кут між векторами."+plane+controls;
+  }
+ }
+ if(canMovePoints())$("canvasHelp").textContent+=" Точки A і B теж можна перетягувати.";
+ $("canvasHelp").hidden=mode==="test";
+ canvas.setAttribute("aria-describedby",mode==="test"?"":"canvasHelp");
+ $("canvasHelp").append(" Потягніть за порожнє місце, щоб пересунути сітку.");
+ const {width:w,height:h}=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+ if(w<20||h<20)return;
+ canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ let fitBound=Math.max(2,bound,solution?Math.max(...add(base,task.value).map(Math.abs)):0);
+ if(task.index===1){
+  const radius=Math.min(w,h)/2-18;
+  const positions=[vectorStarts.a,add(vectorStarts.a,task.a),base,add(base,task.value),add(base,task.a)];
+  fitBound=Math.max(1,...positions.map(([x,y])=>radius*Math.max(Math.abs(x)/(w/2-18),Math.abs(y)/(h/2-18))));
+ }
+ const extent=(drag?.point||drag?.handle)?drag.view.extent:fitBound*1.14;
+ const unit=(Math.min(w,h)/2-18)/extent*zoom;
+ const cx=w/2+pan[0],cy=h/2+pan[1];
+ const pixel=([x,y])=>[cx+x*unit,cy-y*unit];
+ view={w,h,unit,pixel,base,extent,cx,cy};
+ const showGrid=$("showGrid").checked,showAxes=$("showAxes").checked;
+ const rough=24/unit, power=10**Math.floor(Math.log10(rough));
+ const step=[1,2,5,10].map(k=>k*power).find(k=>k>=rough);
+ ctx.font="11px system-ui";
+ for(let i=Math.ceil(-cx/(unit*step));i<=Math.floor((w-cx)/(unit*step));i++){
+  const [x]=pixel([i*step,0]);if(showGrid||(showAxes&&!i))line([x,0],[x,h],i||!showAxes?"#dce6f3":"#687e99",i||!showAxes?1:1.5);
+ }
+ for(let i=Math.ceil((cy-h)/(unit*step));i<=Math.floor(cy/(unit*step));i++){
+  const [,y]=pixel([0,i*step]);if(showGrid||(showAxes&&!i))line([0,y],[w,y],i||!showAxes?"#dce6f3":"#687e99",i||!showAxes?1:1.5);
+ }
+ if(showAxes){
+  const labelStep=Number($("axisLabelStep").value)||step;
+  const axisColor="#485e7a";
+  ctx.fillStyle=axisColor;
+  for(let i=Math.ceil(-cx/(unit*labelStep));i<=Math.floor((w-cx)/(unit*labelStep));i++){
+   if(!i)continue;
+   const [x]=pixel([i*labelStep,0]);
+   line([x,cy-3],[x,cy+3],axisColor,1);
+   ctx.fillText(rounded(i*labelStep),x+2,cy+13);
+  }
+  for(let i=Math.ceil((cy-h)/(unit*labelStep));i<=Math.floor(cy/(unit*labelStep));i++){
+   if(!i)continue;
+   const [,y]=pixel([0,i*labelStep]);
+   line([cx-3,y],[cx+3,y],axisColor,1);
+   ctx.fillText(rounded(i*labelStep),cx+4,y-3);
+  }
+  ctx.beginPath();
+  if(task.index!==8){ctx.moveTo(w-5,cy);ctx.lineTo(w-15,cy-5);ctx.lineTo(w-15,cy+5);ctx.closePath();}
+  ctx.moveTo(cx,5);ctx.lineTo(cx-5,15);ctx.lineTo(cx+5,15);ctx.closePath();ctx.fill();
+  ctx.font="bold 12px system-ui";
+  ctx.fillText("O",cx+5,cy+13);
+  if(task.index!==8)ctx.fillText("x",w-19,cy-9);
+  ctx.fillText("y",cx+9,16);
+ }
+ if(task.index===8){
+  const color="#624485";
+  line([0,cy],[w-6,cy],color,1.5);
+  line([w-16,cy-5],[w-6,cy],color,1.5);
+  line([w-16,cy+5],[w-6,cy],color,1.5);
+  ctx.font="bold 16px system-ui";ctx.fillStyle=color;
+  ctx.fillText("ℓ",w-24,cy-8);
+ }
+ if(guide&&guideOpen)drawConstructionGuide(guide);
+ guides.forEach(([end,color,label,start=origin])=>arrow(start,end,color,label));
+ $("projectionLabel").hidden=$("projectionSign").hidden=!dotPlane;
+ if(dotPlane)drawDotGeometry(dotPlane);
+ points.forEach(([point,label])=>{
+  const [x,y]=pixel(point);
+  ctx.fillStyle=colors.a;ctx.beginPath();ctx.arc(x,y,5,0,2*Math.PI);ctx.fill();
+  ctx.font="11px system-ui";
+  const text=label+" "+vec(point);
+  const left=x+9+ctx.measureText(text).width>view.w-5;
+  ctx.textAlign=left?"right":"left";
+  ctx.fillText(text,x+(left?-9:9),y+(y>view.h-20?-9:15));
+  ctx.textAlign="start";
+ });
+ const componentVector=solution?task.value:placed;
+ if(componentVector&&task.index!==0&&task.index!==1)components(base,componentVector);
+ const resultLabel=task.index===0?"c":task.index===10?"a₀":"r";
+ if(solution)arrow(base,add(base,task.value),colors.solution,resultLabel);
+ if(interactive||(placed&&!solution)){
+  const end=answerEnd(base);
+  arrow(base,end,colors.answer,resultLabel);
+  if(interactive&&task.index!==0){ctx.beginPath();ctx.arc(...pixel(end),7,0,2*Math.PI);ctx.strokeStyle=colors.answer;ctx.stroke();}
+ }
+}
+function scaledAnswer(factor){return mul(Math.round(factor*2)/2,task.a);}
+function placePointer(e){
+ const rect=canvas.getBoundingClientRect(),step=stepSize(),{w,h,unit,base,cx,cy}=view;
+ const point=[(Math.max(0,Math.min(w,e.clientX-rect.left))-cx)/unit,(cy-Math.max(0,Math.min(h,e.clientY-rect.top)))/unit];
+ const offset=sub(point,base);
+ const value=unitLocked?offset:task.index===1?scaledAnswer(dot(offset,task.a)/dot(task.a,task.a)):
+  offset.map(x=>Math.round(x/step)*step);
+ setPlaced(value);
+}
+function moveVector(e){
+ const {handle,view:fixed,offset}=drag;
+ const rect=canvas.getBoundingClientRect();
+ const x=Math.max(10,Math.min(fixed.w-10,e.clientX-rect.left-offset[0]));
+ const y=Math.max(10,Math.min(fixed.h-10,e.clientY-rect.top-offset[1]));
+ const next=[(x-fixed.cx)/fixed.unit,(fixed.cy-y)/fixed.unit].map(v=>Math.round(v*2)/2);
+ const {key,endpoint,other}=handle;
+ if(handle.translate){
+  vectorStarts[key]=next;
+  if(key==="c"&&!placed){
+   placed=handle.vector;
+   answerFields.forEach((field,i)=>field.value=rounded(placed[i]));
+   draw();
+  }
+  else draw();
+  return;
+ }
+ const vector=endpoint?sub(next,other):sub(other,next);
+ if(!endpoint)vectorStarts[key]=next;
+ if(key==="c"){setPlaced(vector);return;}
+ const dotTask=task.index===5,axisProjection=task.index===8;
+ if((dotTask||axisProjection)&&(!len(vector)||vector.every((value,i)=>value===task[key][i])))return;
+ task[key]=vector;
+ task.value=axisProjection?task.b[0]:dotTask?dot(task.a,task.b):task.variant?sub(task.a,task.b):add(task.a,task.b);
+ task.data="a = "+vec(task.a)+", b = "+vec(task.b);
+ if(dotTask||axisProjection){
+  if(axisProjection){task.data="x = "+vec(task.b);placed=null;}
+  task.prompt=task.data+(axisProjection?". Знайдіть проєкцію x на напрямлену вісь ℓ = OX.":". Знайдіть a · b.");
+  answerFields.forEach(field=>field.value="");
+ }
+ $("task").innerHTML=promptMarkup(task);
+ $("lesson").innerHTML=lessonMarkup(task);
+ answered=false;hints=0;
+ answerFields.forEach(field=>{field.disabled=false;});
+ $("check").disabled=false;$("hint").disabled=false;delete $("feedback").dataset.result;$("feedback").textContent="";
+ draw();
+}
+function movePoint(e){
+ const {point,view:fixed,offset}=drag;
+ const rect=canvas.getBoundingClientRect();
+ const x=e.clientX-rect.left-offset[0],y=e.clientY-rect.top-offset[1];
+ const grid=value=>Math.round(value*2)/2;
+ const next=[grid((Math.max(16,Math.min(fixed.w-16,x))-fixed.cx)/fixed.unit),grid((fixed.cy-Math.max(20,Math.min(fixed.h-20,y)))/fixed.unit)];
+ if(next.every((v,i)=>v===task[point][i]))return;
+ task[point]=next;
+ task.value=sub(task.b,task.a);
+ task.data="A = "+vec(task.a)+", B = "+vec(task.b);
+ task.prompt=task.data+". Знайдіть вектор AB за точками A і B.";
+ $("task").innerHTML=promptMarkup(task);
+ $("lesson").innerHTML=lessonMarkup(task);
+ if(answered||placed||answerFields.some(field=>field.value)){
+  placed=null;answerFields.forEach(field=>{field.value="";field.disabled=false;});
+ }
+ answered=false;hints=0;$("check").disabled=false;$("hint").disabled=false;delete $("feedback").dataset.result;$("feedback").textContent="";
+ draw();
+}
+canvas.onpointerdown=e=>{
+ if(!view||e.button!==0||drag!==null)return;
+ const rect=canvas.getBoundingClientRect(),cursor=[e.clientX-rect.left,e.clientY-rect.top];
+ const point=canMovePoints()?["a","b"].map(key=>({key,offset:sub(cursor,view.pixel(task[key]))}))
+  .sort((u,v)=>len(u.offset)-len(v.offset)).find(hit=>len(hit.offset)<=10):null;
+ const dotDrag=canMoveDotVectors();
+ const dotOrder=e.shiftKey?["a","b"]:["b","a"];
+ const handles=canMoveVectors()?vectorHandles():dotDrag?(task.index===8?["b"]:dotOrder).map(key=>({key,endpoint:true,at:task[key],other:origin})):[];
+ let handle=handles.map(hit=>({...hit,offset:sub(cursor,view.pixel(hit.at))}))
+  .filter(hit=>len(hit.offset)<=(dotDrag?17:10))
+   .sort((a,b)=>len(a.offset)-len(b.offset)||Number(b.endpoint)-Number(a.endpoint))[0];
+ if(!handle){
+  let best=8;
+  for(const {key,endpoint,at,other} of [...handles,...translationSegments()]){
+   if(endpoint)continue;
+   const start=view.pixel(at),delta=sub(view.pixel(other),start);
+   const lengthSquared=dot(delta,delta);
+   if(!lengthSquared)continue;
+   const offset=sub(cursor,start),t=dot(offset,delta)/lengthSquared;
+   if(t<=0||t>=1||([1,2].includes(task.index)&&key==="c"&&len(sub(cursor,view.pixel(other)))<=10))continue;
+   const distance=len(sub(offset,mul(t,delta)));
+   if(distance<best){best=distance;handle={key,translate:true,vector:sub(other,at),offset};}
+  }
+ }
+ const answer=canPlace()&&len(sub(cursor,view.pixel(answerEnd(view.base))))<=10;
+ const grid=!point&&!handle&&!answer;
+ drag={id:e.pointerId,point:point?.key,handle,offset:point?.offset||handle?.offset,view,
+  grid,cursor,panStart:pan,moved:false};
+ canvas.setPointerCapture(drag.id);
+ canvas.dataset.panning=String(grid);
+ if(!grid)draw();
+};
+canvas.onpointermove=e=>{
+ if(drag?.id!==e.pointerId)return;
+ if(drag.handle)moveVector(e);
+ else if(drag.point)movePoint(e);
+ else if(drag.grid){
+  const rect=canvas.getBoundingClientRect();
+  const delta=sub([e.clientX-rect.left,e.clientY-rect.top],drag.cursor);
+  if(drag.moved||len(delta)>=4){drag.moved=true;pan=add(drag.panStart,delta);draw();}
+ }else if(canPlace())placePointer(e);
+};
+canvas.onpointerup=e=>{
+ if(drag?.id!==e.pointerId||!drag.grid||drag.moved||!canPlace())return;
+ const rect=canvas.getBoundingClientRect();
+ if(len(sub([e.clientX-rect.left,e.clientY-rect.top],drag.cursor))<4)placePointer(e);
+};
+canvas.onlostpointercapture=e=>{
+ if(drag?.id===e.pointerId){drag=null;canvas.dataset.panning="false";draw();}
+};
+canvas.onkeydown=e=>{
+ const directions={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,1],ArrowDown:[0,-1]};
+ if(!canPlace()||!Object.hasOwn(directions,e.key))return;
+ e.preventDefault();
+ if(task.index===1){
+  const factor=placed?dot(placed,task.a)/dot(task.a,task.a):1;
+  const direction=["ArrowRight","ArrowUp"].includes(e.key)?1:-1;
+  setPlaced(scaledAnswer(Math.round(factor*2)/2+direction*0.5));
+ }else setPlaced(add(placed||origin,mul(stepSize(),directions[e.key])));
+};
+function syncZoomControls(){
+ $("zoomValue").textContent=Math.round(zoom*100)+"%";
+ $("zoomOut").disabled=zoom===0.25;
+ $("zoomIn").disabled=zoom===4;
+}
+function setZoom(value,anchor=null){
+ if(drag!==null)return;
+ const next=Math.max(0.25,Math.min(4,value));
+ if(view){
+  const [x,y]=anchor||[view.w/2,view.h/2];
+  const ratio=next/zoom;
+  pan=[x+(view.cx-x)*ratio-view.w/2,y+(view.cy-y)*ratio-view.h/2];
+ }
+ zoom=next;
+ syncZoomControls();
+ draw();
+}
+$("guideToggle").onclick=()=>{if(guideState()){guideOpen=!guideOpen;draw();}};
+$("lockUnit").onclick=()=>{
+ if(task.index!==10||!canPlace()||drag!==null)return;
+ unitLocked=!unitLocked;
+ if(unitLocked)setPlaced(placed&&len(placed)?placed:[1,0]);
+ else draw();
+};
+$("rotateAnswer").onclick=()=>{if(task.index===1&&canPlace()&&drag===null)setPlaced(mul(-1,placed||task.a));};
+$("showGrid").onchange=$("showAxes").onchange=$("axisLabelStep").onchange=draw;
+$("zoomOut").onclick=()=>setZoom(zoom/Math.SQRT2);
+$("zoomIn").onclick=()=>setZoom(zoom*Math.SQRT2);
+$("zoomReset").onclick=()=>{
+ if(drag!==null)return;
+ setZoom(1);pan=[0,0];draw();
+};
+$("restoreTask").onclick=()=>{
+ if(drag!==null||mode==="game"&&answered)return;
+ newTask(true);
+};
+canvas.addEventListener("wheel",e=>{
+ if(!view||drag!==null||!e.deltaY)return;
+ e.preventDefault();
+ const rect=canvas.getBoundingClientRect();
+ const pixels=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?rect.height:1);
+ const factor=Math.exp(-Math.max(-180,Math.min(180,pixels))*0.003);
+ setZoom(zoom*factor,[e.clientX-rect.left,e.clientY-rect.top]);
+},{passive:false});
+new ResizeObserver(draw).observe(canvas);
+$("sumAdd").onclick=()=>selectSumOperation(0);
+$("sumSubtract").onclick=()=>selectSumOperation(1);
+for(let level=1;level<=maxLevel;level++){
+ const option=document.createElement("option");
+ option.value=String(level);option.textContent="Рівень "+level;
+ $("gameLevel").append(option);
+}
+$("gameLevel").onchange=()=>setMode("game",Number($("gameLevel").value));
+profileView();setMode("practice");
+</script>
+<style>[hidden]{display:none!important}</style>
+
+</body></html>
