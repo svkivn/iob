@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<!-- saved from url=(0099)file:///C:/Users/admin/Documents/Codex/2026-11-16/new-chat/outputs/Matrix_Operations_Challenge.html -->
+<html lang="uk"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Matrix Operations Challenge — матриці та операції</title>
+<style>
+:root{--p:#4f67d8;--bg:#f4f6fb;--panel:#fff;--soft:#f7f8fc;--border:#dfe5f1;--text:#20283a;--muted:#71809a;--green:#14835a;--red:#be4050;--heading:#26365d}*{box-sizing:border-box}body{margin:0;padding:24px;font:14px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}.wrap{max-width:1300px;margin:auto}.header{display:flex;gap:15px;align-items:center;margin-bottom:18px}.logo{display:grid;place-items:center;width:60px;height:60px;border-radius:18px;background:linear-gradient(140deg,#7084ed,#4559b3);font:34px Georgia;color:white}.head-title h1{margin:0;font-size:28px;color:var(--heading)}.eyebrow{font-size:11px;color:var(--p);font-weight:800;letter-spacing:1px}.muted{color:var(--muted);font-size:12px}.grow{flex:1}.panel{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 6px 25px #1f2d5310}h2{margin:0 0 14px;font-size:18px;color:var(--heading)}h3{margin:9px 0;font-size:15px;color:var(--heading)}button,select,input{font:inherit;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:10px;padding:9px 11px}button{cursor:pointer;font-weight:650}button:hover{border-color:var(--p)}button:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--p);border-color:var(--p);color:white}.subtle{background:var(--soft)}.danger{color:var(--red)}.tabs,.row,.themes{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tabs{margin-bottom:14px}.tabs button.active{background:var(--p);border-color:var(--p);color:white}.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.modes button{padding:13px;text-align:left}.modes button strong,.modes button small{display:block}.modes button small{font-size:11px;color:var(--muted);font-weight:400;margin-top:3px}.modes button.active{background:color-mix(in srgb,var(--p) 11%,var(--panel));border-color:var(--p);color:var(--p)}.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}.grid .panel{min-width:0}.settings label{font-size:12px;display:flex;flex-direction:column;gap:4px;color:var(--muted)}.settings input[type=number]{width:76px}.settings{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.matrix-zone{overflow:auto;padding:12px 3px}.mat-block{display:inline-flex;gap:7px;align-items:stretch;vertical-align:middle;max-width:100%}.bracket{width:9px;flex-shrink:0;border:2px solid var(--p)}.bracket.left{border-right:0;border-radius:7px 0 0 7px}.bracket.right{border-left:0;border-radius:0 7px 7px 0}.mat-grid{display:grid;gap:6px}.cell{width:62px;min-width:0;height:39px;text-align:center;padding:4px;border:1px solid var(--border);border-radius:8px;font:600 17px Georgia,serif;background:var(--panel)}.readonly-cell{display:grid;place-items:center;border:1px solid transparent;background:var(--soft);border-radius:7px;min-height:39px;min-width:52px;padding:5px;font:600 17px Georgia,serif}.cell.good{background:#e6f8ed;border:2px solid var(--green)}.cell.bad{background:#ffedf0;border:2px solid var(--red)}.cell.pending{background:#fff8e4;border:2px solid #d9a23b}.matrix-title{font-weight:750;color:var(--heading);margin:5px 0 8px}.matrix-group{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0}.math-op{font-size:25px;font-weight:800;color:var(--p)}.result-wrap{padding:12px;background:var(--soft);border:1px solid var(--border);border-radius:15px}.feedback{border:1px solid var(--border);border-radius:11px;padding:12px;margin:11px 0;background:var(--soft)}.feedback.ok{border-color:#a0d8b9;background:#eaf9f0;color:#156b49}.feedback.no{border-color:#edb6bf;background:#fff0f1;color:#92323e}.steps{max-height:310px;overflow:auto}.step{padding:8px 0;border-bottom:1px dashed var(--border);font-size:13px}.hidden{display:none!important}.hint{padding:13px;background:color-mix(in srgb,var(--p) 7%,var(--panel));border-left:3px solid var(--p);border-radius:10px;margin:10px 0;line-height:1.7}.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{padding:12px;background:var(--soft);border:1px solid var(--border);border-radius:12px}.stat strong{display:block;font-size:23px;color:var(--p)}.stat small{font-size:11px;color:var(--muted)}.badge{display:inline-block;border-radius:99px;background:var(--soft);border:1px solid var(--border);padding:4px 9px;font-size:11px}.pill{background:var(--soft);border:1px solid var(--border);padding:8px 10px;border-radius:9px}.section-note{font-size:12px;color:var(--muted);margin:7px 0 12px}.op-note{font-size:14px;font-weight:650;color:var(--p);margin:10px 0}.footer{font-size:11px;color:var(--muted);text-align:center;padding:12px}.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:10px 0}.legend span:before{content:' ';display:inline-block;width:12px;height:12px;margin-right:5px;border-radius:3px;vertical-align:-1px}.legend .g:before{background:#a6dfbb}.legend .r:before{background:#f2aebb}.history{font-size:12px;max-height:180px;overflow:auto}.history>div{padding:6px 0;border-bottom:1px solid var(--border)}.gauss-controls{display:flex;flex-wrap:wrap;align-items:end;gap:8px;padding:10px;background:var(--soft);border-radius:11px}.gauss-controls label{display:flex;flex-direction:column;gap:4px;font-size:11px}.gauss-controls select{min-width:66px}.gauss-controls input{width:76px}.highlight{background:color-mix(in srgb,var(--p) 10%,var(--panel))}.exam-question{padding:11px;border-bottom:1px solid var(--border)}.theme-btn{padding:6px 10px;font-size:11px}body[data-theme=dark]{--bg:#111827;--panel:#1c2636;--soft:#253349;--border:#35445b;--text:#e8eef7;--muted:#a5b2c7;--heading:#eef3ff;--p:#9bb6ff}body[data-theme=ocean]{--bg:#eaf5f7;--panel:#fcffff;--soft:#edf7f8;--border:#c8e0e4;--p:#087e8b;--heading:#075965}body[data-theme=mint]{--bg:#edf5ef;--panel:#fcfffc;--soft:#f0f7f1;--border:#d0e2d4;--p:#287b59;--heading:#205d40}body[data-theme=lavender]{--bg:#f3eff9;--panel:#fff;--soft:#f7f3fb;--border:#ded3ec;--p:#7652a8;--heading:#503578}@media(max-width:900px){.grid{grid-template-columns:1fr}.modes{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){body{padding:12px}.panel{padding:13px}.header h1{font-size:22px}.logo{height:46px;width:46px}.modes button{padding:9px}.cell{width:46px;height:36px}.readonly-cell{min-width:42px}.stat-grid{grid-template-columns:repeat(2,1fr)}}
+.cell.product-row{outline:2px solid var(--p);outline-offset:-2px;background:color-mix(in srgb,var(--p) 16%,var(--panel))}.cell.product-column{outline:2px solid var(--green);outline-offset:-2px;background:color-mix(in srgb,var(--green) 14%,var(--panel))}.scale-operand{display:flex;align-items:center;gap:8px}.scale-factor{display:flex;align-items:center;gap:8px;flex-shrink:0}.size-stepper{display:flex;align-items:center;gap:4px}.linear-operands>div{margin-top:34px}.linear-matrix{position:relative}.linear-matrix>.matrix-title{position:absolute;bottom:100%;left:0;width:100%;text-align:center;white-space:nowrap;margin:0 0 8px}.linear-operands>.math-op{margin-top:34px}.gauss-filled{background:var(--soft)}.gauss-step-layout .grid>.panel{display:flex;flex-direction:column}
+.gauss-step-layout #operands,.gauss-step-layout .result-wrap{order:-1}
+.gauss-step-layout #taskTitle,.gauss-step-layout #resultTitle{order:-2}
+.gauss-step-layout #operands>.matrix-group{margin:0}
+.gauss-step-layout #operands .matrix-title{display:none}
+.gauss-step-layout .result-wrap{padding:0;border:0;background:transparent}
+.gauss-step-layout #operands .matrix-group{display:block}
+.gauss-step-layout .mat-block{max-width:none}.setup-dimensions{align-items:start}.matrix-dimensions{display:flex;flex-wrap:wrap;gap:10px;min-width:0;margin:0;padding:5px 10px 8px;border:1px solid var(--border);border-radius:10px}.matrix-dimensions legend{padding:0 4px;font-weight:700;color:var(--heading)}.matrix-dimensions input[type=number]{width:48px;text-align:center;padding-inline:4px;appearance:textfield}.matrix-dimensions input::-webkit-inner-spin-button,.matrix-dimensions input::-webkit-outer-spin-button{appearance:none;margin:0}.matrix-dimensions .size-stepper button{padding:5px 8px;min-width:30px}.setup-actions{margin-top:10px}.matrix-dimensions .size-caption{text-align:center}.matrix-dimensions .size-stepper{display:grid;grid-template-columns:30px 48px 30px}.game-shell{background:linear-gradient(125deg,#111c36,#243b68 52%,#44316f);border:1px solid #344b78;border-radius:18px;padding:20px;color:#f5f7ff;margin-bottom:16px}
+.game-shell h2{color:inherit;margin-bottom:4px}.game-shell p{color:#d2dbf4;margin:4px 0;font-size:13px}
+.game-stats,.game-levels{display:grid;gap:8px;margin:12px 0}.game-stats{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}.game-levels{grid-template-columns:repeat(4,minmax(0,1fr))}
+.game-stat,.game-level,.game-challenge{border:1px solid #ffffff38;border-radius:12px;background:#ffffff14;padding:10px;color:inherit}
+.game-stat strong,.game-level strong,.game-level small{display:block}.game-stat strong{font-size:20px}.game-level{text-align:left;min-height:82px}.game-level small{color:#d2dbf4}.game-level[aria-pressed=true]{border-color:#c3b6ff;background:#a28cff40}
+.game-stars,.game-achievements{color:#ffe18a}.game-challenge{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+#gameProgress{width:100%;accent-color:#86deb4}#gameResult:not(:empty),.game-achievements{margin-top:10px}.game-achievements span{display:inline-block;margin:0 6px 4px 0;border:1px solid #ffffff36;border-radius:99px;padding:4px 8px}
+@media(max-width:700px){.game-levels{grid-template-columns:repeat(2,minmax(0,1fr))}}.game-level:disabled{opacity:.65}
+@keyframes row-confirmed{from{box-shadow:inset 0 0 0 2px #3bb987;background:color-mix(in srgb,#3bb987 25%,var(--panel))}to{box-shadow:inset 0 0 0 2px transparent}}
+#operands .row-confirmed,#answer .row-confirmed{animation:row-confirmed 850ms ease-out}
+@keyframes star-appear{from{opacity:0;transform:translateY(5px) scale(.75)}to{opacity:1;transform:none}}
+.game-award-star{display:inline-block;color:#ffe18a;animation:star-appear 260ms ease-out both}
+@media(prefers-reduced-motion:reduce){#operands .row-confirmed,#answer .row-confirmed,.game-award-star{animation:none}}
+
+.row-diagram{display:inline-flex;align-items:stretch;gap:10px}
+.row-diagram-labels{display:grid;grid-auto-rows:minmax(39px,1fr);gap:6px;flex:none}
+.row-diagram-label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;white-space:nowrap}
+.row-diagram-target{color:var(--p)}.row-diagram-source{color:var(--green)}
+.row-diagram .readonly-cell.row-diagram-target,.row-diagram .readonly-cell.row-diagram-source{outline:1px solid currentColor;outline-offset:-1px;background:color-mix(in srgb,currentColor 11%,var(--panel))}
+
+:root{--row-arrow-color:#000}.row-diagram-add .row-diagram-labels{grid-auto-rows:39px}
+.row-diagram-add .row-diagram-label{justify-content:flex-end}
+.row-diagram-route{position:relative;padding-right:27px}.row-diagram-arrow{position:absolute;inset:0;pointer-events:none;overflow:visible;color:var(--row-arrow-color)}
+.row-transformation-formula{margin:8px 0 0;color:var(--heading);font-weight:700}.gauss-step-history{margin:6px 0 0;padding-inline-start:26px;max-height:180px;overflow:auto}.gauss-step-history li{padding:3px 0}#rowTrainingTask li[aria-current=step]{font-weight:750;color:var(--p)}#modes{display:flex;flex-wrap:wrap}#modes button{width:min(100%,180px)}
+.profile-themes{margin-top:14px}.profile-themes button[aria-pressed=true]{border-color:var(--p);color:var(--p)}
+
+@keyframes factor-flash{50%{background:#3bb98744;box-shadow:0 0 0 3px #3bb98744}}
+@keyframes route-fade{to{opacity:0}}
+@keyframes route-flow{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.row-factor-flash{animation:factor-flash 380ms ease-out}
+.row-route-flow{fill:none;stroke:#2a9a70;stroke-width:2.5;stroke-dasharray:1;stroke-dashoffset:1;animation:route-flow 650ms ease-out 320ms forwards,route-fade 260ms ease-out 970ms forwards}
+.cell.product-pair{outline:3px solid #ad6a05;outline-offset:-3px;background:color-mix(in srgb,#ffc66d 36%,var(--panel))}
+.product-calculation{margin-top:6px;color:var(--heading);overflow-wrap:anywhere}
+@media(prefers-reduced-motion:reduce){.row-factor-flash,.row-route-flow{animation:none}.row-route-flow{stroke-dashoffset:0}.row-confirmed{background:#3bb98738}}
+
+.gauss-controls{display:grid;gap:10px}
+.gauss-move-picker button{padding:6px 9px}
+.gauss-move-picker button[aria-pressed=true]{background:var(--p);border-color:var(--p);color:#fff}
+.gauss-expression{min-height:42px;font-weight:700;color:var(--heading)}
+.gauss-expression[data-move=scale],.gauss-expression[data-move=add]{padding-top:14px}
+.gauss-expression select,.gauss-expression input:not([type=hidden]){padding:6px 8px}
+.gauss-expression #rowI,.gauss-expression[data-move=swap] #rowJ{border-color:var(--p);color:var(--p)}
+.gauss-expression[data-move=add] #rowJ{border-color:var(--green);color:var(--green)}
+#gaussAction #rowFactor{position:relative}
+#rowFactor>span{position:absolute;bottom:100%;left:0;font-size:10px;color:var(--muted)}
+#gaussAction .gauss-actions{gap:6px}
+</style></head><body data-theme="default"><div class="wrap">
+<header class="header"><div class="logo">∑</div><div class="head-title"><div class="eyebrow">ІНТЕРАКТИВНИЙ НАВЧАЛЬНИЙ ТРЕНАЖЕР</div><h1>Matrix Operations Challenge</h1><div class="muted">Матриці · точні дроби · обчислення · елементарні перетворення</div></div><div class="grow"></div><button id="profileBtn">👤 Профіль</button></header>
+<section class="panel"><h2>Режим роботи</h2><div class="modes" id="modes"><button data-mode="train" class="active"><strong>📘 Навчання й тренування</strong><small>Формули, підказки й перевірка</small></button><button data-mode="game"><strong>🎮 Гра</strong><small>Бали та серії</small></button><button data-mode="exam"><strong>📝 Контрольна</strong><small>Без підказок до завершення</small></button></div></section>
+<section class="panel"><h2>Оберіть модуль</h2><div class="tabs" id="operations"><button data-op="add" class="active">1. Додавання / віднімання</button><button data-op="scale">2. Множення на число</button><button data-op="linear">3. Лінійна комбінація</button><button data-op="multiply">4. Множення матриць</button><button data-op="row">5. Елементарні операції над рядками</button><button data-op="gauss">6. Зведення до східчастого вигляду</button></div><div id="theory" class="hint"><p>Додавання й віднімання виконують поелементно. Матриці мають однакові розміри.</p><math display="block"><semantics><mrow><msub><mi>c</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>±</mo><msub><mi>b</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">c_{ij}=a_{ij}\pm b_{ij}</annotation></semantics></math></div></section>
+<section class="panel" id="setupPanel" data-operation="add"><h2>Налаштування прикладу</h2><div class="settings setup-dimensions"><fieldset class="matrix-dimensions"><legend>Матриця A</legend><label><span class="size-caption">Рядки</span><span class="size-stepper"><button type="button" data-size="rowsA" data-step="-1" aria-label="Зменшити кількість рядків">−</button><input type="number" id="rowsA" min="1" max="5" value="2"><button type="button" data-size="rowsA" data-step="1" aria-label="Збільшити кількість рядків">+</button></span></label><label><span class="size-caption">Стовпці</span><span class="size-stepper"><button type="button" data-size="colsA" data-step="-1" aria-label="Зменшити кількість стовпців">−</button><input type="number" id="colsA" min="1" max="5" value="2"><button type="button" data-size="colsA" data-step="1" aria-label="Збільшити кількість стовпців">+</button></span></label></fieldset><fieldset id="matrixBSettings" class="matrix-dimensions"><legend>Матриця B</legend><label><span class="size-caption">Рядки</span><span class="size-stepper"><button type="button" data-size="rowsB" data-step="-1" aria-label="Зменшити кількість рядків B">−</button><input type="number" id="rowsB" min="1" max="5" value="2"><button type="button" data-size="rowsB" data-step="1" aria-label="Збільшити кількість рядків B">+</button></span></label><label><span class="size-caption">Стовпці</span><span class="size-stepper"><button type="button" data-size="colsB" data-step="-1" aria-label="Зменшити кількість стовпців B">−</button><input type="number" id="colsB" min="1" max="5" value="2"><button type="button" data-size="colsB" data-step="1" aria-label="Збільшити кількість стовпців B">+</button></span></label></fieldset></div><div id="dimensionError" class="feedback no hidden" role="alert"></div><div class="settings setup-actions"><label>Елементи<select id="difficulty"><option value="4">Цілі</option><option value="5">Із дробами</option></select></label><button type="button" id="generateElements" class="primary">Згенерувати</button><button id="example">Готовий приклад</button><button id="undo" class="subtle">↶ Скасувати</button></div><div class="section-note">Матриці A і B можна редагувати в режимах навчання та тренування. Дозволено вводити цілі числа та дроби, наприклад −3/4.</div><div class="section-note" id="dimensionNote">Для додавання й лінійної комбінації матриці мають однакові розміри.</div></section>
+<section id="gameShell" class="game-shell hidden" aria-label="Ігровий режим">
+  <h2>Матричний виклик</h2>
+  <p>Тимчасово всі рівні доступні в будь-якому порядку.</p>
+  <div id="gameStats" class="game-stats"></div>
+  <progress id="gameProgress" max="8" value="0" aria-label="Пройдені рівні"></progress>
+  <div id="gameLevels" class="game-levels"></div>
+  <div class="game-challenge"><div><strong id="gameTitle"></strong><p id="gameDescription"></p></div><div class="row"><button id="gameStart">Почати рівень</button><button id="gamePause">Завершити спробу</button></div></div>
+  <div id="gameResult" role="status"></div>
+  <div id="gameAchievements" class="game-achievements"></div>
+</section>
+<div id="mainContent"><div class="grid"><section class="panel"><h2 id="taskTitle">Умова завдання</h2><div class="op-note" id="taskText">Обчисліть <select aria-label="Операція з матрицями"><option value="1">A + B</option><option value="-1">A − B</option></select></div><div id="operands" class="matrix-zone"><div class="matrix-group"><div><div class="matrix-title">Матриця A</div><div class="mat-block"><span class="bracket left"></span><div class="mat-grid" style="grid-template-columns: repeat(2, auto);"><input class="cell" inputmode="text" aria-label="A рядок 1, стовпець 1"><input class="cell" inputmode="text" aria-label="A рядок 1, стовпець 2"><input class="cell" inputmode="text" aria-label="A рядок 2, стовпець 1"><input class="cell" inputmode="text" aria-label="A рядок 2, стовпець 2"></div><span class="bracket right"></span></div></div><span class="math-op">+</span><div><div class="matrix-title">Матриця B</div><div class="mat-block"><span class="bracket left"></span><div class="mat-grid" style="grid-template-columns: repeat(2, auto);"><input class="cell" inputmode="text" aria-label="B рядок 1, стовпець 1"><input class="cell" inputmode="text" aria-label="B рядок 1, стовпець 2"><input class="cell" inputmode="text" aria-label="B рядок 2, стовпець 1"><input class="cell" inputmode="text" aria-label="B рядок 2, стовпець 2"></div><span class="bracket right"></span></div></div></div></div><div class="row hidden" id="coefficientControls"></div><div id="specialControls" class="hidden"></div><div id="stepNavigator" class="row hidden"></div></section><section class="panel"><h2 id="resultTitle">Ваш результат</h2><div id="stepStatus" class="section-note">Заповніть усі клітинки матриці результату та натисніть «Перевірити».</div><div class="result-wrap"><div id="answer" class="matrix-zone"><div class="mat-block"><span class="bracket left"></span><div class="mat-grid" style="grid-template-columns: repeat(2, auto);"><input class="cell" inputmode="text" aria-label="Результат рядок 1, стовпець 1" placeholder="?"><input class="cell" inputmode="text" aria-label="Результат рядок 1, стовпець 2" placeholder="?"><input class="cell" inputmode="text" aria-label="Результат рядок 2, стовпець 1" placeholder="?"><input class="cell" inputmode="text" aria-label="Результат рядок 2, стовпець 2" placeholder="?"></div><span class="bracket right"></span></div></div></div><div class="legend"><span class="g">Правильно</span><span class="r">Помилка</span></div><div class="row"><button class="primary" id="check">Перевірити</button><button id="clear">Очистити</button><button id="hintBtn">💡 Підказка 1/3</button><button id="solutionBtn" aria-controls="solution" aria-expanded="false">Показати розв’язок</button><button id="autoSolve" class="subtle hidden" aria-controls="solution">Розв’язати автоматично</button></div><div id="feedback"></div><div id="hintBox" class="hidden hint"></div><div id="solution" class="hidden"></div></section></div><section class="panel"><h2>Історія та прогрес</h2><div class="stat-grid" id="stats"><div class="stat"><strong>0</strong><small>Завдань із перевіркою</small></div><div class="stat"><strong>0%</strong><small>Повністю правильних</small></div><div class="stat"><strong>0 XP</strong><small>Ігрові бали</small></div><div class="stat"><strong>0</strong><small>Серія успіхів</small></div><div class="stat"><strong>0</strong><small>Використано підказок</small></div><div class="stat"><strong>0</strong><small>Автоматичних розв’язань</small></div><div class="stat"><strong>0</strong><small>Переглядів розв’язку</small></div></div><h3>Останні дії</h3><div id="history" class="history"><div class="muted">Історія поки порожня.</div></div></section></div>
+<section class="panel hidden" id="examPanel"><h2>Контрольна робота</h2><div class="section-note">8 завдань. Відповіді зберігаються під час переходу між завданнями. Перевірка відбувається після завершення контрольної.</div><div class="row"><button class="primary" id="startExam">Почати нову контрольну</button><span class="badge" id="examState">Ще не розпочато</span></div><div id="examWork"></div><div id="examFinal" class="feedback hidden"></div></section>
+<div id="profileModal" class="hidden" style="position:fixed;inset:0;background:#1118;z-index:50;display:grid;place-items:center;padding:12px"><div class="panel" style="width:min(620px,100%);max-height:92vh;overflow:auto"><div class="row"><h2>👤 Мій профіль</h2><div class="grow"></div><button id="closeProfile">✕</button></div><label>Ім’я користувача <input id="profileName" maxlength="40" placeholder="Ваше ім’я"></label><div class="themes profile-themes" role="group" aria-labelledby="profileThemeLabel"><b class="muted" id="profileThemeLabel">Тема</b><button class="theme-btn" data-theme="default">Класична</button><button class="theme-btn" data-theme="ocean">Океан</button><button class="theme-btn" data-theme="lavender">Лаванда</button><button class="theme-btn" data-theme="mint">М’ята</button><button class="theme-btn" data-theme="dark">Темна</button></div><div class="stat-grid" id="profileStats" style="margin:15px 0"></div><h3>Статистика за модулями</h3><div id="profileModules"></div><div class="row"><button id="saveProfile" class="primary">Зберегти</button><button id="resetStats" class="danger">Очистити статистику</button></div></div></div>
+<footer class="footer">Matrix Operations Challenge · Навчальна програма працює локально у браузері. Статистика зберігається на цьому пристрої.</footer></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id), names={add:'Додавання та віднімання',scale:'Множення матриці на число',linear:'Лінійна комбінація',multiply:'Множення двох матриць',gauss:'Елементарні перетворення',row:'Елементарні операції над рядками'}, keys=Object.keys(names);
+const gcd=(a,b)=>{a=a<0n?-a:a;b=b<0n?-b:b;while(b){[a,b]=[b,a%b]}return a||1n};
+class Q{constructor(n,d=1n){n=BigInt(n);d=BigInt(d);if(!d)throw Error('Нульовий знаменник');if(d<0n){n=-n;d=-d}const g=gcd(n,d);this.n=n/g;this.d=d/g}static of(s){s=String(s).trim().replace('−','-').replace(',','.');if(!s)throw Error('Порожня клітинка');if(/^[-+]?\d+\/[-+]?\d+$/.test(s)){const [a,b]=s.split('/');return new Q(a,b)}if(/^[-+]?\d+$/.test(s))return new Q(s);if(/^[-+]?\d+\.\d+$/.test(s)){let neg=s.startsWith('-');const v=s.replace(/^[-+]/,'').split('.');return new Q((neg?'-':'')+v.join(''),10n**BigInt(v[1].length))}throw Error('Некоректне число: '+s)}add(o){return new Q(this.n*o.d+o.n*this.d,this.d*o.d)}neg(){return new Q(-this.n,this.d)}sub(o){return this.add(o.neg())}mul(o){return new Q(this.n*o.n,this.d*o.d)}div(o){if(!o.n)throw Error('Ділення на нуль');return new Q(this.n*o.d,this.d*o.n)}eq(o){return this.n===o.n&&this.d===o.d}z(){return this.n===0n}str(){return this.d===1n?String(this.n):this.n+'/'+this.d}toString(){return this.str()}}
+const q=n=>new Q(n), copy=M=>M.map(r=>r.slice()), zeros=(r,c)=>Array.from({length:r},()=>Array.from({length:c},()=>q(0))), dims=M=>[M.length,M[0].length], add=(A,B)=>A.map((r,i)=>r.map((v,j)=>v.add(B[i][j]))), scale=(A,k)=>A.map(r=>r.map(v=>v.mul(k))), mult=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((a,v,k)=>a.add(v.mul(B[k][j])),q(0))));
+function canonical(M){const a=copy(M),rows=a.length,cols=a[0].length,operations=[];let pivotRow=0;for(let c=0;c<cols&&pivotRow<rows;c++){let i=pivotRow;while(i<rows&&a[i][c].z())i++;if(i===rows)continue;if(i!==pivotRow){[a[i],a[pivotRow]]=[a[pivotRow],a[i]];operations.push(`R${pivotRow+1} ↔ R${i+1}`)}const x=a[pivotRow][c];if(!x.eq(q(1))){a[pivotRow]=a[pivotRow].map(v=>v.div(x));operations.push(`R${pivotRow+1} ← (${q(1).div(x).str()})·R${pivotRow+1}`)}for(let k=0;k<rows;k++){if(k===pivotRow||a[k][c].z())continue;const f=a[k][c];a[k]=a[k].map((v,j)=>v.sub(f.mul(a[pivotRow][j])));operations.push(`R${k+1} ← R${k+1} − (${f.str()})·R${pivotRow+1}`)}pivotRow++}return {M:a,operations}}
+function echelon(M){let last=-1,zeroRows=false;for(let i=0;i<M.length;i++){const p=M[i].findIndex(x=>!x.z());if(p<0){zeroRows=true;continue}if(zeroRows||p<=last)return false;for(let k=i+1;k<M.length;k++)if(!M[k][p].z())return false;last=p}return true}
+function rowEquivalent(A,B){const x=canonical(A).M,y=canonical(B).M;return x.length===y.length&&x.every((r,i)=>r.every((v,j)=>v.eq(y[i][j])))}
+function stepGauss(M){const a=copy(M),out=[];let pivot=0;for(let c=0;c<a[0].length&&pivot<a.length;c++){let r=pivot;while(r<a.length&&a[r][c].z())r++;if(r===a.length)continue;if(r!==pivot){const before=copy(a);[a[r],a[pivot]]=[a[pivot],a[r]];out.push({before,after:copy(a),label:`Поміняти R${pivot+1} і R${r+1}`,kind:'swap',i:pivot,j:r,k:q(1),pivot:[pivot,c]})}for(let i=pivot+1;i<a.length;i++){if(a[i][c].z())continue;const factor=a[i][c].div(a[pivot][c]).neg(),before=copy(a);a[i]=a[i].map((v,j)=>v.add(factor.mul(a[pivot][j])));out.push({before,after:copy(a),label:`R${i+1} ← R${i+1} + (${factor.str()})·R${pivot+1}`,kind:'add',i,j:pivot,k:factor,pivot:[pivot,c]})}pivot++}return {M:a,steps:out}}
+let state={mode:'train',op:'add',A:null,B:null,alpha:q(2),beta:q(-1),sign:1,k:q(2),answer:[],checked:false,verified:false,hint:0,stage:0,gaussSteps:[],gaussCurrent:null,gaussHistory:[],history:[],gameStreak:0,gameXP:0,hintsUsed:0,autoSolutions:0,solutionViews:0,stats:{},username:'',exam:null,attempted:false};
+try{const s=JSON.parse(localStorage.getItem('matrixChallengeV1')||'{}');state.stats=s.stats||{};state.hintsUsed=s.hintsUsed||0;state.autoSolutions=s.autoSolutions||0;state.solutionViews=s.solutionViews||0;state.gameXP=s.xp||0;state.gameStreak=s.streak||0;state.username=s.name||'';document.body.dataset.theme=s.theme||'default'}catch(_){}
+function save(){try{localStorage.setItem('matrixChallengeV1',JSON.stringify({stats:state.stats,hintsUsed:state.hintsUsed,autoSolutions:state.autoSolutions,solutionViews:state.solutionViews,xp:state.gameXP,streak:state.gameStreak,name:state.username,theme:document.body.dataset.theme}))}catch(_){}}
+function record(s){state.history.unshift(`${new Date().toLocaleTimeString('uk-UA')}: ${s}`);state.history=state.history.slice(0,35);renderHistory()}
+function n(id,fallback){let x=Math.trunc(Number($(id).value));return Number.isFinite(x)?Math.max(1,Math.min(5,x)):fallback}
+function randomQ(level){const max=[0,3,5,7,9,10][level]||5;let x=Math.floor(Math.random()*(2*max+1))-max;if(level===5&&Math.random()<.24){let d=2+Math.floor(Math.random()*4);return new Q(BigInt(x),BigInt(d))}return q(x)}
+function randomMatrix(r,c,lev){return Array.from({length:r},()=>Array.from({length:c},()=>randomQ(lev)))}
+function dimensions(){const r=n('rowsA',2),c=n('colsA',2),b=n('colsB',2);return [r,c,b]}
+function incompatibleDimensions(op,rowsA,colsA,rowsB,colsB){return op==='multiply'?colsA!==rowsB:['add','linear'].includes(op)&&(rowsA!==rowsB||colsA!==colsB)}
+function generate(demo=false,elementsOnly=false){const [r,c,b]=dimensions(),rowsB=n('rowsB',2),lev=Number($('difficulty').value);const error=$('dimensionError');if(!demo&&state.op==='row'&&r<2){error.textContent='Для цієї вправи потрібні щонайменше два рядки.';error.classList.remove('hidden');return;}const mismatch=!demo&&incompatibleDimensions(state.op,r,c,rowsB,b);error.textContent=mismatch&&state.op!=='multiply'?`Задайте однакові розміри матриць. A: ${r}×${c}, B: ${rowsB}×${b}.`:mismatch?`Стовпців A: ${c}. Рядків B: ${rowsB}. Вкажіть однакові значення й повторіть генерацію.`:'';error.classList.toggle('hidden',!mismatch);if(mismatch)return;let A,B;if(demo){A=[[2,1,-1],[4,3,1],[2,2,2]].map(row=>row.map(q));B=[[1,2],[3,-1],[2,1]].map(row=>row.map(q));if(!isRowModule()){A=[[1,2],[3,4]].map(row=>row.map(q));B=[[2,-1],[0,3]].map(row=>row.map(q))}}else{A=randomMatrix(r,c,lev);B=randomMatrix(['add','multiply','linear'].includes(state.op)?rowsB:r,['add','multiply','linear'].includes(state.op)?b:c,lev);}state.A=A;state.B=B;if(!elementsOnly){state.alpha=q(2);state.beta=q(-1);state.k=q(2);state.sign=1;}state.stage=state.op==='row'?1:0;if(state.op==='row')state.rowTask=makeRowTrainingTask(A.length);state.gaussHistory=[];state.hint=0;state.verified=false;state.attempted=false;state.awarded=false;state.checked=false;state.taskProgress=null;state.gaussSteps=stepGauss(A).steps;state.gaussCurrent=copy(A);resetAnswer();record('Створено завдання: '+names[state.op]);render()}
+function expected(){const{A,B,op}=state;if(op==='add')return state.sign===1?add(A,B):add(A,scale(B,q(-1)));if(op==='scale')return scale(A,state.k);if(op==='linear')return add(scale(A,state.alpha),scale(B,state.beta));if(op==='multiply')return mult(A,B);return stepGauss(A).M}
+function isRowModule(){return state.op==='gauss'||state.op==='row'}
+function currentGoal(){if(gameRun?.target)return gameRun.target;if(isRowModule()&&state.stage===1){const i=state.gaussHistory.length;return state.gaussSteps[i]?.after||state.gaussCurrent}return expected()}
+function gaussRowNeedsAnswer(row) {
+  const move = state.pendingRow;
+  return move && (row === move.i || (move.kind === 'swap' && row === move.j));
+}
+function gaussStepAnswer() {
+  const matrix = state.pendingRow?.after || state.gaussCurrent;
+  return matrix.map((row,i) => row.map(value => gaussRowNeedsAnswer(i) ? '' : value.str()));
+}
+function resetAnswer(keepSolution=false){state.pendingRow=null;const M=currentGoal();state.answer=isRowModule()&&state.stage===1?gaussStepAnswer():M.map(r=>r.map(()=>''));state.checked=false;state.verified=false;$('feedback').innerHTML='';$('hintBox').classList.add('hidden');if(!keepSolution)hideSolution()}
+function renderMatrix(M,editable,prefix,callback){const [r,c]=dims(M);const wrap=document.createElement('div');wrap.className='mat-block';const L=document.createElement('span');L.className='bracket left';wrap.append(L);const grid=document.createElement('div');grid.className='mat-grid';grid.style.gridTemplateColumns=`repeat(${c},auto)`;M.forEach((row,i)=>row.forEach((v,j)=>{if(editable){let inp=document.createElement('input');inp.className='cell';inp.value=String(v);inp.inputMode='text';inp.setAttribute('aria-label',`${prefix} рядок ${i+1}, стовпець ${j+1}`);inp.addEventListener('change',()=>callback(i,j,inp.value,inp));grid.append(inp)}else{const cell=document.createElement('span');cell.className='readonly-cell';cell.textContent=String(v);grid.append(cell)}}));const R=document.createElement('span');R.className='bracket right';wrap.append(grid,R);return wrap}
+function rowTransformationFormula({kind,i,j,k}) {
+  const target='R'+(i+1);
+  const source='R'+(j+1);
+  if(kind==='swap')return target+' ↔ '+source;
+  const factor=formatCoefficient(k);
+  if(kind==='scale')return target+' ← '+factor+' · '+target;
+  return target+' ← '+target+' + '+factor+' · '+source;
+}
+function addRowDiagram(matrix,move) {
+  const wrap=document.createElement('div');
+  wrap.className='row-diagram';
+  const labels=document.createElement('div');
+  labels.className='row-diagram-labels';
+  const {kind,i,j,k}=move;
+  const value=formatCoefficient(k);
+  const addend='×'+value;
+  const target=kind==='scale'?'×'+value:'';
+  const source=kind==='swap'?'':addend;
+  const grid=matrix.querySelector('.mat-grid');
+  const columns=state.gaussCurrent[0].length;
+  const cells=Array.from(grid.children);
+  state.gaussCurrent.forEach((_,row)=>{
+    const label=document.createElement('span');
+    label.className='row-diagram-label';
+    const role=row===i?'row-diagram-target':row===j&&kind!=='scale'?'row-diagram-source':'';
+    if(role){
+      label.classList.add(role);
+      label.textContent=row===i?target:source;
+      cells.slice(row*columns,(row+1)*columns).forEach(cell=>cell.classList.add(role));
+    }
+    labels.append(label);
+  });
+  wrap.append(matrix,labels);
+  if(kind==='add'||kind==='swap'){
+    wrap.classList.add('row-diagram-add');
+    const route=document.createElement('div');
+    route.className='row-diagram-route';
+    labels.replaceWith(route);
+    route.append(labels);
+    const ns='http://www.w3.org/2000/svg';
+    const arrow=document.createElementNS(ns,'svg');
+    const height=state.gaussCurrent.length*45-6;
+    arrow.setAttribute('class','row-diagram-arrow');
+    arrow.setAttribute('width','100%');
+    arrow.setAttribute('height',height);
+    arrow.setAttribute('aria-hidden','true');
+    const path=document.createElementNS(ns,'path');
+    const from=j*45+19.5,to=i*45+19.5;
+
+    path.setAttribute('stroke','currentColor');
+    path.setAttribute('stroke-width','1.5');
+    path.setAttribute('fill','none');
+    const middle=(from+to)/2;
+    const badge=document.createElementNS(ns,'circle');
+    badge.setAttribute('cy',middle);
+    badge.setAttribute('r','6');
+    badge.setAttribute('fill','var(--panel)');
+    const plus=document.createElementNS(ns,'text');
+    plus.setAttribute('y',middle);
+    plus.setAttribute('text-anchor','middle');
+    plus.setAttribute('dominant-baseline','central');
+    plus.setAttribute('fill','currentColor');
+    plus.setAttribute('font-weight','700');
+    plus.textContent='+';
+    arrow.append(path);
+    if(kind==='add')arrow.append(badge,plus);
+    route.append(arrow);
+    let flow;
+    const observer=new ResizeObserver(([entry])=>{
+      if(!route.isConnected){observer.disconnect();return}
+      const width=entry.contentRect.width;
+      const bend=width+20;
+      const left=kind==='swap'?0:width+2;
+      const sourceHead=kind==='swap'?' M 5 '+(from-4)+' L 0 '+from+' L 5 '+(from+4):'';
+      path.setAttribute('d','M '+left+' '+from+' H '+bend+' V '+to+' H 0 M 5 '+(to-4)+' L 0 '+to+' L 5 '+(to+4)+sourceHead);
+      if(kind==='add'){
+        if(!flow){
+          labels.children[j].classList.add('row-factor-flash');
+          flow=document.createElementNS(ns,'path');
+          flow.setAttribute('class','row-route-flow');
+          flow.setAttribute('pathLength','1');
+          arrow.insertBefore(flow,badge);
+        }
+        flow.setAttribute('d','M '+left+' '+from+' H '+bend+' V '+to+' H 0');
+      }
+      badge.setAttribute('cx',bend);
+      plus.setAttribute('x',bend);
+    });
+    observer.observe(route);
+  }
+  return wrap;
+}
+function renderOperands(){const el=$('operands');el.replaceChildren();const editing=state.mode==='train';const source=isRowModule()&&state.stage===1?state.gaussCurrent:state.A;const group=document.createElement('div');group.className='matrix-group';if(state.op==='linear')group.classList.add('linear-operands');const A=document.createElement('div');A.innerHTML=`<div class="matrix-title">${isRowModule()&&state.stage===1?'Поточна матриця':'Матриця A'}</div>`;const hasFactor=['scale','linear'].includes(state.op);const expression=hasFactor?document.createElement('div'):A;if(hasFactor){expression.className='scale-operand';A.append(expression);const factor=document.createElement('div');factor.id=state.op==='scale'?'scaleFactor':'linearFactorA';factor.className='scale-factor';expression.append(factor)}const matrixA=renderMatrix(source,editing&&!(isRowModule()&&state.stage===1),'A',(i,j,v,inp)=>editSource('A',i,j,v,inp));const move=editing&&isRowModule()&&state.stage===1?state.pendingRow:null;expression.append(move?addRowDiagram(matrixA,move):matrixA);if(move){const formula=document.createElement('p');formula.className='row-transformation-formula';formula.append(renderStepMath(move));expression.append(formula)}group.append(A);if(['add','linear','multiply'].includes(state.op)){const sp=document.createElement('span');sp.className='math-op';sp.textContent=state.op==='multiply'?'×':state.op==='linear'?'+':state.sign===1?'+':'−';group.append(sp);const B=document.createElement('div');B.innerHTML='<div class="matrix-title">Матриця B</div>';let expressionB=B;if(state.op==='linear'){expressionB=document.createElement('div');expressionB.className='scale-operand';const factor=document.createElement('span');factor.id='linearFactorB';expressionB.append(factor);B.append(expressionB)}expressionB.append(renderMatrix(state.B,editing,'B',(i,j,v,inp)=>editSource('B',i,j,v,inp)));group.append(B);if(state.op==='linear'){for(const operand of [A,B]){const title=operand.querySelector('.matrix-title');const matrix=operand.querySelector('.mat-block');const labeled=document.createElement('div');labeled.className='linear-matrix';matrix.replaceWith(labeled);labeled.append(title,matrix)}}}el.append(group);if(editing&&state.op==='multiply'){const calculation=document.createElement('div');calculation.id='productCalculation';calculation.className='product-calculation';el.append(calculation)}}
+function editSource(which,i,j,value,inp){try{state[which][i][j]=Q.of(value);inp.value=state[which][i][j].str();state.taskProgress=null;state.gaussSteps=stepGauss(state.A).steps;state.gaussCurrent=copy(state.A);state.gaussHistory=[];state.stage=0;resetAnswer();render()}catch(e){inp.classList.add('bad');notice(e.message,'no')}}
+function formatCoefficient(value) {
+  const text = value.str();
+  return value.n < 0n ? `(${text})` : text;
+}
+function renderCoefficients(){const box=$('coefficientControls');box.replaceChildren();function field(label,key,target=box){const l=document.createElement('label');l.textContent=label;const v=document.createElement('input');v.value=state[key].str();v.style.width='76px';v.readOnly=state.mode==='game';v.addEventListener('change',()=>{try{state[key]=Q.of(v.value);state.taskProgress=null;resetAnswer();render()}catch(e){notice(e.message,'no')}});l.append(v);target.append(l);return v}if(state.op==='scale'){const factor=scaleFactor;const input=field('','k',factor);input.setAttribute('aria-label','Множник k');input.classList.add('cell');const dot=document.createElement('span');dot.className='math-op';dot.textContent='·';factor.append(dot)}if(state.op==='linear'){const alpha=field('','alpha',linearFactorA);const beta=field('','beta',linearFactorB);alpha.classList.add('cell');beta.classList.add('cell');alpha.setAttribute('aria-label','Коефіцієнт α');beta.setAttribute('aria-label','Коефіцієнт β')}const task=$('taskText');if(state.op==='add'){const sel=document.createElement('select');sel.setAttribute('aria-label','Операція з матрицями');sel.innerHTML='<option value="1">A + B</option><option value="-1">A − B</option>';sel.value=String(state.sign);sel.disabled=state.mode==='game';sel.onchange=()=>{state.sign=Number(sel.value);state.taskProgress=null;resetAnswer();render()};task.replaceChildren('Обчисліть ',sel)}box.classList.toggle('hidden',!box.childElementCount);if(state.op!=='add')task.textContent=state.op==='scale'?`Обчисліть ${state.k.str()} · A`:state.op==='linear'?`Обчисліть ${formatCoefficient(state.alpha)} · A + ${formatCoefficient(state.beta)} · B`:state.op==='multiply'?'Обчисліть добуток A · B':state.op==='row'?'Виконайте вибрану елементарну операцію над рядками.':'Зведіть матрицю A до східчастого вигляду (REF)';$('dimensionNote').textContent=state.op==='multiply'?`Для множення задайте однакову кількість стовпців A і рядків B. Спільний розмір у поточному прикладі (${state.A[0].length}). Поточні розміри — A ${state.A.length}×${state.A[0].length} і B ${state.B.length}×${state.B[0].length}.`:state.op==='row'?'':state.op==='gauss'?'Східчастий вигляд не є єдиним: система приймає будь-який коректний еквівалентний результат.':'Для додавання й лінійної комбінації матриці мають однакові розміри.'}
+let productPairTimer;
+function showProductPairs(matrixA,matrixB,row,column) {
+  clearTimeout(productPairTimer);
+  const cellsA=Array.from(matrixA.children),cellsB=Array.from(matrixB.children);
+  const calculation=$('productCalculation');
+  const clear=()=>[...cellsA,...cellsB].forEach(cell=>cell.classList.remove('product-pair'));
+  clear();
+  if(!calculation)return;
+  calculation.textContent='';
+  if(row<0||column<0)return;
+  const terms=state.A[row].map((value,k)=>formatCoefficient(value)+' × '+formatCoefficient(state.B[k][column]));
+  const label='c'+(row+1)+','+(column+1)+' = ';
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    calculation.textContent=label+terms.join(' + ');
+    return;
+  }
+  let index=0;
+  function next(){
+    if(!calculation.isConnected)return;
+    clear();
+    if(index===terms.length)return;
+    calculation.textContent=label+terms.slice(0,index+1).join(' + ');
+    cellsA[row*terms.length+index].classList.add('product-pair');
+    cellsB[index*state.B[0].length+column].classList.add('product-pair');
+    index++;
+    productPairTimer=setTimeout(next,520);
+  }
+  next();
+}
+function highlightOperands(row, column) {
+  const [matrixA, matrixB] = $('operands').querySelectorAll('.mat-grid');
+  const product = state.op === 'multiply';
+  matrixA.querySelectorAll('.cell').forEach((cell, index) => {
+    cell.classList.toggle('product-row', Math.floor(index / state.A[0].length) === row && (product || index % state.A[0].length === column));
+  });
+  if (state.op === 'scale') {
+    $('scaleFactor').querySelector('input').classList.toggle('product-column', row >= 0);
+    return;
+  }
+  if (state.op === 'linear') {
+    $('linearFactorA').querySelector('input').classList.toggle('product-row', row >= 0);
+    $('linearFactorB').querySelector('input').classList.toggle('product-column', row >= 0);
+  }
+  matrixB.querySelectorAll('.cell').forEach((cell, index) => {
+    cell.classList.toggle('product-column', index % state.B[0].length === column && (product || Math.floor(index / state.B[0].length) === row));
+  });
+  if(product)showProductPairs(matrixA,matrixB,row,column);
+}
+function renderAnswer(){const el=$('answer');el.replaceChildren();const M=state.answer;const guide=state.mode==='train'&&['multiply','add','scale','linear'].includes(state.op);if(guide)highlightOperands(-1,-1);const wrap=renderMatrix(M,true,'Результат',(i,j,v,inp)=>{state.answer[i][j]=v;state.checked=false;state.verified=false;inp.classList.remove('good','bad');$('feedback').innerHTML=''});wrap.querySelectorAll('input').forEach((inp,idx)=>{const c=M[0].length,i=Math.floor(idx/c),j=idx%c;inp.placeholder='?';if(isRowModule()&&state.stage===1&&!gaussRowNeedsAnswer(i)){inp.readOnly=true;inp.tabIndex=-1;inp.classList.add('gauss-filled');}if(guide)inp.addEventListener('focus',()=>highlightOperands(i,j));if(state.checked){try{inp.classList.add((state.verified||Q.of(state.answer[i][j]).eq(currentGoal()[i][j]))?'good':'bad')}catch(_){inp.classList.add('bad')}}});el.append(wrap)}
+function notice(txt,kind=''){ $('feedback').innerHTML=`<div class="feedback ${kind==='ok'?'ok':kind==='no'?'no':''}">${escapeHTML(txt)}</div>`}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function readAnswers(){const M=state.answer;return M.map(row=>row.map(s=>{try{return Q.of(s)}catch(_){return null}}))}
+function recordTaskProgress(correct,total,complete) {
+  const stats=state.stats[state.op]??={attempts:0,correct:0,cells:0,good:0};
+  stats.checks=(stats.checks||0)+1;
+  const previous=state.taskProgress;
+  if(!previous){
+    stats.attempts++;
+    state.taskProgress={correct:0,total:0,complete:false};
+  }
+  const progress=state.taskProgress;
+  if(!progress.complete){
+    stats.cells+=total-progress.total;
+    stats.good+=correct-progress.correct;
+    progress.total=total;
+    progress.correct=correct;
+    if(complete){stats.correct++;progress.complete=true}
+  }
+  save();
+}
+function markStats(correct,total){const k=state.op;state.stats[k]??={attempts:0,correct:0,cells:0,good:0};state.stats[k].attempts++;state.stats[k].correct+=Number(correct===total);state.stats[k].cells+=total;state.stats[k].good+=correct;save()}
+function evaluate(final=false){const values=readAnswers(),target=currentGoal(),total=target.length*target[0].length;let correct=0;const gaussFinal=state.op==='gauss'&&state.stage!==1&&!gameRun?.action;let alternative=false;if(gaussFinal&&values.every(r=>r.every(Boolean))){alternative=echelon(values)&&rowEquivalent(state.A,values)}values.forEach((row,i)=>row.forEach((v,j)=>{if(v&&(alternative||v.eq(target[i][j])))correct++}));recordTaskProgress(correct,total,correct===total);if(state.mode==='game'&&correct!==total){state.gameStreak=0;save()}state.checked=true;state.verified=correct===total;renderAnswer();return {correct,total,done:correct===total}}
+function check(){if(state.mode==='exam')return;if(isRowModule()&&state.stage===1){checkGaussStep();return}const r=evaluate(!state.attempted);state.attempted=true;if(gameRun){if(r.done){completeGameLevel();render()}else gameRun.mistakes++}notice(`${r.correct} з ${r.total} елементів правильні. ${r.done?'Завдання виконано!':state.mode==='game'?'Виправте позначені помилки.':'Виправте позначені помилки або відкрийте розв’язок.'}`,r.done?'ok':'no');if(r.done)record('Завершено: '+names[state.op]);renderStats()}
+function renderStepMath({kind,i,j,k}) {
+  const ns='http://www.w3.org/1998/Math/MathML';
+  function node(tag,...children){
+    const element=document.createElementNS(ns,tag);
+    element.append(...children);
+    return element;
+  }
+  const row=index=>node('msub',node('mi','R'),node('mn',String(index+1)));
+  const texRow=index=>'R_{'+(index+1)+'}';
+  const slash=String.fromCharCode(92);
+  const numerator=String(k.n<0n?-k.n:k.n),denominator=String(k.d);
+  const unsigned=k.d===1n?node('mn',numerator):node('mfrac',node('mn',numerator),node('mn',denominator));
+  const unsignedTex=k.d===1n?numerator:slash+'frac{'+numerator+'}{'+denominator+'}';
+  const factor=k.n<0n?node('mrow',node('mo','('),node('mo','−'),unsigned,node('mo',')')):unsigned;
+  const texFactor=k.n<0n?'(-'+unsignedTex+')':unsignedTex;
+  const expression=node('mrow',row(i),node('mo',kind==='swap'?'↔':'←'));
+  let latex=texRow(i)+' '+slash+(kind==='swap'?'leftrightarrow ':'leftarrow ');
+  if(kind==='swap'){
+    expression.append(row(j));
+    latex+=texRow(j);
+  }else{
+    if(kind==='add'){
+      expression.append(row(i),node('mo','+'));
+      latex+=texRow(i)+' + ';
+    }
+    const index=kind==='add'?j:i;
+    expression.append(factor,node('mo','·'),row(index));
+    latex+=texFactor+' '+slash+'cdot '+texRow(index);
+  }
+  const source=node('annotation',latex);
+  source.setAttribute('encoding','application/x-tex');
+  return node('math',node('semantics',expression,source));
+}
+function makeRowTrainingTask(rows) {
+  const kinds=['swap','add','scale'];
+  for(let i=kinds.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [kinds[i],kinds[j]]=[kinds[j],kinds[i]];
+  }
+  return kinds.map(kind=>{
+    const action=randomRowAction(kind,rows);
+    return {...action,k:q(action.k)};
+  });
+}
+function renderRowTrainingTask() {
+  const task=$('rowTrainingTask');
+  task.classList.remove('hidden');
+  const heading=document.createElement('h3');
+  heading.textContent='Виконайте три дії послідовно';
+  const list=document.createElement('ol');
+  list.className='gauss-step-history';
+  const done=state.gaussHistory.length;
+  state.rowTask.forEach((move,index)=>{
+    const item=document.createElement('li');
+    item.append(renderStepMath(move));
+    if(index<done)item.append(' ✓');
+    if(index===done)item.setAttribute('aria-current','step');
+    list.append(item);
+  });
+  task.replaceChildren(heading,list);
+  $('applyRow').disabled=done>=state.rowTask.length;
+}
+function matchesTrainingMove(expected,kind,i,j,k) {
+  if(!expected||expected.kind!==kind)return false;
+  if(kind==='swap')return (expected.i===i&&expected.j===j)||(expected.i===j&&expected.j===i);
+  return expected.i===i&&(kind==='scale'||expected.j===j)&&expected.k.eq(k);
+}
+function renderGaussStepHistory() {
+  const container=$('gaussStepHistory');
+  container.classList.remove('hidden');
+  const heading=document.createElement('h3');
+  heading.textContent='Історія кроків';
+  container.replaceChildren(heading);
+  if(!state.gaussHistory.length){
+    const empty=document.createElement('p');
+    empty.className='section-note';
+    empty.textContent='Виконані кроки з’являться тут.';
+    container.append(empty);
+    return;
+  }
+  const list=document.createElement('ol');
+  list.className='gauss-step-history';
+  for(const step of state.gaussHistory){
+    const item=document.createElement('li');
+    item.append(renderStepMath(step.move));
+    list.append(item);
+  }
+  container.append(list);
+}
+function bindGaussAction() {
+  const rows=state.A.length;
+  const rowName=index=>'R'+'₁₂₃₄₅'[index];
+  const options=Array.from({length:rows},(_,i)=>'<option value="'+i+'">'+rowName(i)+'</option>').join('');
+  const first=$('rowI'),second=$('rowJ'),factor=$('rowK'),operation=$('rowOp');
+  const buttons=$('gaussAction').querySelectorAll('[data-row-move]');
+  first.innerHTML=second.innerHTML=options;
+  const pending=state.pendingRow;
+  first.value=String(pending?.i??0);
+  second.value=String(pending?.j??Math.min(1,rows-1));
+  factor.value=pending?.k.str()??'1';
+  operation.value=pending?.kind??(rows===1?'scale':'add');
+  function update(){
+    const kind=operation.value;
+    const swap=kind==='swap',scale=kind==='scale';
+    $('rowExpression').dataset.move=kind;
+    $('rowRelation').textContent=swap?'↔':'←';
+    $('rowTargetCopy').textContent=rowName(Number(first.value))+' +';
+    $('rowTargetCopy').classList.toggle('hidden',kind!=='add');
+    $('rowScaleCopy').textContent=rowName(Number(first.value));
+    $('rowScaleCopy').classList.toggle('hidden',!scale);
+    $('rowFactor').classList.toggle('hidden',swap);
+    $('rowTimes').classList.toggle('hidden',swap);
+    second.classList.toggle('hidden',scale);
+    for(const option of second.options)option.disabled=!scale&&option.value===first.value;
+    if(!scale&&second.value===first.value)second.value=String((Number(first.value)+1)%rows);
+    for(const button of buttons)button.setAttribute('aria-pressed',String(button.dataset.rowMove===kind));
+  }
+  function invalidate(){
+    if(!state.pendingRow)return;
+    state.pendingRow=null;
+    state.answer=gaussStepAnswer();
+    state.checked=false;
+    state.verified=false;
+    hideSolution();
+    renderOperands();
+    renderAnswer();
+    $('feedback').replaceChildren();
+    $('stepStatus').textContent='Параметри змінено. Підготуйте перетворення знову.';
+  }
+  first.onchange=()=>{invalidate();update()};
+  second.onchange=invalidate;
+  factor.oninput=invalidate;
+  for(const button of buttons){
+    button.disabled=rows<2&&button.dataset.rowMove!=='scale';
+    button.onclick=()=>{invalidate();operation.value=button.dataset.rowMove;update()};
+  }
+  update();
+}
+function updateGaussControls(){const el=$('specialControls');const show=isRowModule()&&!gameRun?.action;el.classList.toggle('hidden',!show);if(!show)return;const on=state.stage===1;el.innerHTML=`<h3>Елементарні перетворення — керування кроками</h3><p class="section-note ${state.op==='row'?'hidden':''}">У звичайному режимі введіть будь-яку матрицю, еквівалентну A, у східчастому вигляді. У покроковому режимі виберіть перетворення і заповніть змінені рядки матриці.</p><div class="row"><button id="gaussFull" ${!on?'class="primary"':''}>Кінцевий результат</button><button id="gaussStep" ${on?'class="primary"':''}>Крок за кроком</button></div><div id="rowTrainingTask" class="hidden"></div><div id="gaussAction" class="gauss-controls ${on?'':'hidden'}"><div class="row gauss-move-picker" role="group" aria-label="Дія над рядками"><button type="button" data-row-move="swap">Переставити</button><button type="button" data-row-move="scale">Помножити</button><button type="button" data-row-move="add">Додати кратний</button></div><input type="hidden" id="rowOp"><div id="rowExpression" class="row gauss-expression"><select id="rowI" aria-label="Перший або цільовий рядок"></select><span id="rowRelation" aria-hidden="true"></span><span id="rowTargetCopy" aria-hidden="true"></span><label id="rowFactor"><span>Множник</span><input id="rowK" value="1" spellcheck="false"></label><span id="rowTimes" aria-hidden="true">×</span><span id="rowScaleCopy" aria-hidden="true"></span><select id="rowJ" aria-label="Другий рядок або рядок-джерело"></select></div><div class="row gauss-actions"><button type="button" id="applyRow" class="primary">Підготувати перетворення</button><button type="button" id="gaussUndo" class="subtle">↶ Скасувати крок</button></div></div><div id="gaussActionText" class="section-note"></div><div id="gaussStepHistory" class="hidden"></div>`;$('gaussFull').classList.toggle('hidden',state.mode==='game'||state.op==='row');$('gaussStep').classList.toggle('hidden',state.mode==='game'||state.op==='row');$('gaussFull').onclick=()=>setGaussStage(0);$('gaussStep').onclick=()=>setGaussStage(1);$('gaussUndo').onclick=undoGauss;if(on){if(state.mode==='train')renderGaussStepHistory();if(state.op==='row')renderRowTrainingTask();bindGaussAction();$('applyRow').onclick=prepareRow;const st=stepGauss(state.gaussCurrent).steps[0];$('gaussActionText').textContent=state.mode==='game'?'':state.op==='row'?(state.gaussHistory.length>=state.rowTask.length?'Усі три дії виконано.':'Виберіть поточну дію зі списку й заповніть змінені рядки.'):st?`Орієнтир для наступного кроку: ${st.label}. Можна виконувати й інші коректні елементарні перетворення.`:'Базову послідовність занулень завершено. Перевірте східчастий вигляд.';}}
+function addGaussDimension(field) {
+  const [rows, columns] = dims(state.A);
+  if (field === 'rowsA') {
+    if (rows >= Number($(field).max)) return;
+    state.A.push(Array.from({length:columns}, () => q(0)));
+  } else {
+    if (columns >= Number($(field).max)) return;
+    state.A.forEach(row => row.push(q(0)));
+  }
+  state.hint = 0;
+  state.attempted = false;
+  state.awarded = false;
+  setGaussStage(state.stage);
+}
+function setGaussStage(v){state.stage=v;state.gaussHistory=[];state.gaussCurrent=copy(state.A);state.gaussSteps=stepGauss(state.A).steps;resetAnswer();render()}
+function applyOperation(M,kind,i,j,k){const out=copy(M);if(kind==='swap'){if(i===j)throw Error('Виберіть два різні рядки');[out[i],out[j]]=[out[j],out[i]]}if(kind==='scale'){if(k.z())throw Error('Множник рядка не може дорівнювати нулю');out[i]=out[i].map(v=>v.mul(k))}if(kind==='add'){if(i===j)throw Error('Виберіть два різні рядки');out[i]=out[i].map((v,c)=>v.add(k.mul(M[j][c])))}return out}
+function prepareRow(){try{const kind=$('rowOp').value,i=+$('rowI').value,j=kind==='scale'?i:+$('rowJ').value,k=kind==='swap'?q(1):Q.of($('rowK').value);if(state.op==='row'&&!matchesTrainingMove(state.rowTask[state.gaussHistory.length],kind,i,j,k)){notice('Виберіть наступну дію зі списку завдання.','no');return}const after=applyOperation(state.gaussCurrent,kind,i,j,k);hideSolution();state.pendingRow={kind,i,j,k,after};state.answer=gaussStepAnswer();state.checked=false;state.verified=false;renderOperands();renderAnswer();updateSolutionButton();$('stepStatus').textContent=`Заповніть змінені рядки після операції: ${rowTransformationFormula(state.pendingRow)}`;$('feedback').innerHTML=''}catch(e){notice(e.message,'no')}}
+function animateSwappedRows(i,j) {
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const cells=Array.from($('operands').querySelector('.mat-grid').children);
+  const columns=state.gaussCurrent[0].length;
+  const distance=cells[j*columns].offsetTop-cells[i*columns].offsetTop;
+  for(const [row,offset] of [[i,distance],[j,-distance]]){
+    for(const cell of cells.slice(row*columns,(row+1)*columns)){
+      cell.animate([{transform:'translateY('+offset+'px)',opacity:.82},{transform:'translateY(0)',opacity:1}],{duration:520,easing:'ease-in-out'});
+    }
+  }
+}
+function animateConfirmedRows(rows) {
+  const columns=state.gaussCurrent[0].length;
+  for(const id of ['operands','answer']){
+    $(id).querySelectorAll('.mat-grid > *').forEach((cell,index)=>{
+      if(rows.includes(Math.floor(index/columns)))cell.classList.add('row-confirmed');
+    });
+  }
+}
+function checkGaussStep(){if(!state.pendingRow){notice('Спочатку виберіть і підготуйте елементарне перетворення.','no');return}const goal=state.pendingRow.after,values=readAnswers();let good=0,total=goal.length*goal[0].length;values.forEach((r,i)=>r.forEach((v,j)=>{if(v?.eq(goal[i][j]))good++}));state.checked=true;// Перевірка кроку: підсвічування за вибраним перетворенням
+const inputs=$('answer').querySelectorAll('input');inputs.forEach((inp,idx)=>{const i=Math.floor(idx/goal[0].length),j=idx%goal[0].length;if(inp.readOnly)return;inp.classList.remove('good','bad');inp.classList.add(values[i][j]?.eq(goal[i][j])?'good':'bad')});const finished=state.op==='row'?state.gaussHistory.length+1===state.rowTask.length:state.mode==='game'?goal.every((row,i)=>row.every((v,j)=>v.eq(canonical(state.A).M[i][j]))):echelon(goal);recordTaskProgress(good,total,good===total&&finished);if(good!==total){if(gameRun)gameRun.mistakes++;notice(`Правильно ${good} із ${total}. Виправте помилки для переходу до наступного кроку.`,'no');return}state.gaussHistory.push({before:copy(state.gaussCurrent),desc:$('stepStatus').textContent,move:{kind:state.pendingRow.kind,i:state.pendingRow.i,j:state.pendingRow.j,k:state.pendingRow.k}});const {kind,i,j}=state.pendingRow;state.gaussCurrent=copy(goal);state.pendingRow=null;state.answer=gaussStepAnswer();state.checked=false;state.hint=0;state.verified=echelon(state.gaussCurrent);record((state.op==='row'?'Перетворення рядків: ':'Крок Гаусса: ')+state.gaussHistory.at(-1).desc);if(state.op==='row'&&state.gaussHistory.length===state.rowTask.length)record('Тренування успішно завершено: усі три перетворення виконано правильно.');if(gameRun)finishGameStep();render();if(state.mode==='train'||gameRun)animateConfirmedRows(kind==='swap'?[i,j]:[i]);if(state.mode==='train'&&kind==='swap')animateSwappedRows(i,j);notice(state.op==='row'?(state.gaussHistory.length===state.rowTask.length?'Вітаємо! Усі три дії виконано правильно.':'Правильно. Виконайте наступну дію зі списку.'):gameRun?'Крок правильний. Продовжуй до зведеного східчастого вигляду.':echelon(state.gaussCurrent)?'Вітаємо! Крок правильний. Матриця вже має східчастий вигляд.':'Крок правильний. Можна виконувати наступне перетворення.','ok')}
+function undoGauss(){if(!state.gaussHistory.length){notice('Історія кроків порожня.','no');return}state.gaussCurrent=state.gaussHistory.pop().before;state.pendingRow=null;resetAnswer();render();record('Скасовано крок Гаусса')}
+function renderTheory() {
+  const sub=(letter,index)=>'<msub><mi>'+letter+'</mi><mrow>'+Array.from(index,c=>'<mi>'+c+'</mi>').join('')+'</mrow></msub>';
+  const mi=text=>'<mi>'+text+'</mi>';
+  const mo=text=>'<mo>'+text+'</mo>';
+  const c=sub('c','ij'),a=sub('a','ij'),b=sub('b','ij');
+  const ri=sub('R','i'),rj=sub('R','j');
+  const slash=String.fromCharCode(92);
+  const operations=[
+    [ri+mo('↔')+rj,'R_i '+slash+'leftrightarrow R_j'],
+    [ri+mo('←')+mi('k')+ri+mo(',')+mi('k')+mo('≠')+'<mn>0</mn>','R_i '+slash+'leftarrow kR_i, k '+slash+'ne 0'],
+    [ri+mo('←')+ri+mo('+')+mi('k')+rj,'R_i '+slash+'leftarrow R_i+kR_j']
+  ];
+  const definitions={
+    add:{text:'Додавання й віднімання виконують поелементно. Матриці мають однакові розміри.',formulas:[[c+mo('=')+a+mo('±')+b,'c_{ij}=a_{ij}'+slash+'pm b_{ij}']]},
+    scale:{text:'Кожний елемент матриці множимо на задане число.',formulas:[[c+mo('=')+mi('k')+mo('·')+a,'c_{ij}=k'+slash+'cdot a_{ij}']]},
+    linear:{text:'Помножте елементи кожної матриці на її коефіцієнт і додайте результати.',formulas:[[mi('C')+mo('=')+mi('α')+mi('A')+mo('+')+mi('β')+mi('B'),'C='+slash+'alpha A+'+slash+'beta B'],[c+mo('=')+mi('α')+a+mo('+')+mi('β')+b,'c_{ij}='+slash+'alpha a_{ij}+'+slash+'beta b_{ij}']]},
+    multiply:{text:'Помножте попарно елементи рядка A та стовпця B й додайте добутки. Кількість стовпців A дорівнює кількості рядків B.',formulas:[[c+mo('=')+'<munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover>'+sub('a','ik')+mo('·')+sub('b','kj'),'c_{ij}='+slash+'sum_{k=1}^{n}a_{ik}'+slash+'cdot b_{kj}']]},
+    row:{text:'Виконуйте елементарні операції над рядками у вказаному порядку.',formulas:operations},
+    gauss:{text:'Виберіть ненульовий ведучий елемент, за потреби переставте рядки й занульте елементи нижче нього. Використовуйте елементарні перетворення.',formulas:operations}
+  };
+  const theory=$('theory');
+  const definition=definitions[state.op];
+  const text=document.createElement('p');
+  text.textContent=definition.text;
+  theory.replaceChildren(text);
+  for(const [markup,latex] of definition.formulas){
+    const math=document.createElementNS('http://www.w3.org/1998/Math/MathML','math');
+    math.setAttribute('display','block');
+    math.innerHTML='<semantics><mrow>'+markup+'</mrow></semantics>';
+    const source=document.createElementNS(math.namespaceURI,'annotation');
+    source.setAttribute('encoding','application/x-tex');
+    source.textContent=latex;
+    math.firstElementChild.append(source);
+    theory.append(math);
+  }
+  theory.classList.toggle('hidden',state.mode!=='train');
+}
+function getExplanation(){const E=expected(),A=state.A,B=state.B;const lines=[];for(let i=0;i<E.length;i++)for(let j=0;j<E[0].length;j++){let s='';if(state.op==='add')s=`${A[i][j].str()} ${state.sign===1?'+':'−'} (${B[i][j].str()})`;if(state.op==='scale')s=`(${state.k.str()}) · (${A[i][j].str()})`;if(state.op==='linear')s=`(${state.alpha.str()})·(${A[i][j].str()}) + (${state.beta.str()})·(${B[i][j].str()})`;if(state.op==='multiply')s=A[i].map((a,k)=>`(${a.str()})·(${B[k][j].str()})`).join(' + ');if(s)lines.push(`c${i+1}${j+1} = ${s} = ${E[i][j].str()}`)}if(state.op==='gauss'){return stepGauss(A).steps.map((s,i)=>`${i+1}. ${s.label}`).concat(['Отримана матриця має східчастий вигляд.'])}return lines}
+function hintContent(level){const i=0,j=0,A=state.A,B=state.B;if(state.op==='row')return ['Виконайте вибрану дію поелементно.','Дія змінює лише позначені рядки.',state.pendingRow?rowTransformationFormula(state.pendingRow):'Спочатку підготуйте перетворення.'][level-1];if(state.op==='gauss'){const st=state.gaussSteps[state.gaussHistory.length];return [ 'Формула: елементарні перетворення рядків зберігають еквівалентність матриць.', 'Метод: знайдіть ненульовий елемент у поточному стовпці та зануліть елементи нижче нього.',st?`Можливий наступний крок: ${st.label}.`:'Матриця може вже бути у східчастому вигляді.'][level-1]}if(level===1)return({add:'Формула: cᵢⱼ = aᵢⱼ ± bᵢⱼ',scale:'Формула: cᵢⱼ = k·aᵢⱼ',linear:'Формула: cᵢⱼ = αaᵢⱼ + βbᵢⱼ',multiply:'Формула: cᵢⱼ = Σₖ aᵢₖbₖⱼ'})[state.op];if(level===2)return state.op==='multiply'?'Для клітинки (i,j) помножте елементи i-го рядка A на відповідні елементи j-го стовпця B та додайте добутки.':'Обчислюйте результат по клітинках. Почніть із елемента першого рядка і першого стовпця.';return getExplanation()[0]||'Спробуйте виконати наступне перетворення.'}
+function showHint(){if(state.mode!=='train')return;state.hint=Math.min(3,state.hint+1);$('hintBox').textContent=`Рівень ${state.hint}/3. ${hintContent(state.hint)}`;$('hintBox').classList.remove('hidden');$('hintBtn').textContent=`💡 Підказка ${Math.min(3,state.hint+1)}/3`;state.hintsUsed++;save();renderStats();record('Використано підказку рівня '+state.hint)}
+function updateSolutionButton() {
+  const button=$('solutionBtn');
+  const step=isRowModule()&&state.stage===1;
+  const open=!$('solution').classList.contains('hidden');
+  const anchor=$(step?'check':'hintBtn');
+  if(anchor.nextElementSibling!==button)anchor.after(button);
+  button.classList.toggle('subtle',step);
+  button.disabled=step&&!state.pendingRow&&!open;
+  button.textContent=step
+    ?open?'Приховати результат кроку':'Показати результат кроку'
+    :open?'Приховати розв’язок':'Показати розв’язок';
+  button.setAttribute('aria-expanded',String(open));
+}
+function hideSolution() {
+  $('solution').classList.add('hidden');
+  updateSolutionButton();
+}
+function solveTrainingExample() {
+  if(state.op==='row'){
+    let matrix=state.A;
+    const steps=state.rowTask.map(move=>{
+      const {kind,i,j,k}=move;
+      matrix=applyOperation(matrix,kind,i,j,k);
+      return {move,matrix};
+    });
+    return {matrix,steps,lines:[]};
+  }
+  if(state.op==='gauss'){
+    const {M,steps}=stepGauss(state.A);
+    return {matrix:M,steps:steps.map(move=>({move,matrix:move.after})),lines:[]};
+  }
+  return {matrix:expected(),steps:[],lines:getExplanation()};
+}
+const autoSolveModules=['row','gauss'];
+function canAutoSolve() {
+  return state.mode==='train'&&autoSolveModules.includes(state.op);
+}
+function renderAutomaticStepViewer(initial,steps) {
+  let index=0;
+  const viewer=document.createElement('div');
+  const navigation=document.createElement('div');
+  navigation.className='row';
+  const previous=document.createElement('button');
+  const next=document.createElement('button');
+  previous.type=next.type='button';
+  previous.textContent='Попередній крок';
+  next.textContent='Наступний крок';
+  const status=document.createElement('span');
+  status.setAttribute('aria-live','polite');
+  const formula=document.createElement('div');
+  formula.className='row-transformation-formula';
+  const preview=document.createElement('div');
+  preview.className='matrix-zone';
+
+  function update(){
+    const step=steps[index-1];
+    previous.disabled=index===0;
+    next.disabled=index===steps.length;
+    status.textContent=index===0?'Початкова матриця':('Крок '+index+' із '+steps.length+(next.disabled?' · Результат':''));
+    formula.replaceChildren(...(step?[renderStepMath(step.move)]:[]));
+    preview.replaceChildren(renderMatrix(step?step.matrix:initial,false,status.textContent));
+  }
+  previous.onclick=()=>{if(index>0){index--;update();if(previous.disabled)next.focus()}};
+  next.onclick=()=>{if(index<steps.length){index++;update();if(next.disabled)previous.focus()}};
+  navigation.append(previous,next,status);
+  viewer.append(navigation,formula,preview);
+  update();
+  return viewer;
+}
+function showAutomaticSolution() {
+  if(!canAutoSolve())return;
+  const {matrix,steps}=solveTrainingExample();
+  const box=$('solution');
+  const heading=document.createElement('h3');
+  heading.textContent='Автоматичне розв’язання';
+  box.replaceChildren(heading);
+  if(steps.length){
+    box.append(renderAutomaticStepViewer(state.A,steps));
+  }else{
+    const result=document.createElement('div');
+    result.className='matrix-zone';
+    result.append(renderMatrix(matrix,false,'Результат'));
+    box.append(result);
+    const note=document.createElement('p');
+    note.className='section-note';
+    note.textContent='Початкова матриця вже має східчастий вигляд.';
+    box.append(note);
+  }
+  box.classList.remove('hidden');
+  updateSolutionButton();
+  const moduleStats=state.stats[state.op]??={attempts:0,correct:0,cells:0,good:0};
+  moduleStats.autoSolutions=(moduleStats.autoSolutions||0)+1;
+  state.autoSolutions++;
+  save();
+  renderStats();
+  record('Автоматичне розв’язання: '+names[state.op]);
+}
+function showSolution(){if(state.mode!=='train')return;if(!$('solution').classList.contains('hidden')){hideSolution();return}if($('solutionBtn').disabled)return;let M=isRowModule()&&state.stage===1?(state.pendingRow?.after||state.gaussCurrent):expected();const box=$('solution');box.replaceChildren();let h=document.createElement('h3');h.textContent=isRowModule()&&state.stage===1?'Результат кроку':'Правильний результат і пояснення';box.append(h,renderMatrix(M,false,'',()=>{}));const lines=isRowModule()&&state.stage===1?[state.pendingRow?'Результат вибраного перетворення рядків.':'Спочатку оберіть перетворення.']:getExplanation();const details=document.createElement('div');details.className='steps';lines.forEach(s=>{const d=document.createElement('div');d.className='step';d.textContent=s;details.append(d)});box.append(details);box.classList.remove('hidden');updateSolutionButton();const moduleStats=state.stats[state.op]??={attempts:0,correct:0,cells:0,good:0};moduleStats.solutionViews=(moduleStats.solutionViews||0)+1;state.solutionViews++;save();renderStats();record(isRowModule()&&state.stage===1?'Показано результат кроку':'Відкрито повний розв’язок')}
+function renderStats(){const counts=keys.map(k=>state.stats[k]).filter(Boolean),attempts=counts.reduce((a,s)=>a+s.attempts,0),correct=counts.reduce((a,s)=>a+s.correct,0);$('stats').innerHTML=`<div class="stat"><strong>${attempts}</strong><small>Завдань із перевіркою</small></div><div class="stat"><strong>${attempts?Math.round(100*correct/attempts):0}%</strong><small>Повністю правильних</small></div><div class="stat"><strong>${state.gameXP} XP</strong><small>Ігрові бали</small></div><div class="stat"><strong>${state.gameStreak}</strong><small>Серія успіхів</small></div><div class="stat"><strong>${state.hintsUsed}</strong><small>Використано підказок</small></div><div class="stat"><strong>${state.autoSolutions}</strong><small>Автоматичних розв’язань</small></div><div class="stat"><strong>${state.solutionViews}</strong><small>Переглядів розв’язку</small></div>`}
+function renderHistory(){$('history').innerHTML=state.history.length?state.history.map(s=>`<div>${escapeHTML(s)}</div>`).join(''):'<div class="muted">Історія поки порожня.</div>'}
+function render(){const gaussStep=isRowModule()&&state.stage===1;$('mainContent').classList.toggle('gauss-step-layout',gaussStep);$('taskTitle').textContent=gaussStep?'Поточна матриця':'Умова завдання';$('setupPanel').dataset.operation=state.op;document.querySelectorAll('#operations button').forEach(b=>b.classList.toggle('active',b.dataset.op===state.op));document.querySelectorAll('#modes button').forEach(b=>b.classList.toggle('active',b.dataset.mode===state.mode));$('setupPanel').classList.toggle('hidden',state.mode==='exam');$('mainContent').classList.toggle('hidden',state.mode==='exam');$('examPanel').classList.toggle('hidden',state.mode!=='exam');$('matrixBSettings').classList.toggle('hidden',!['add','multiply','linear'].includes(state.op));$('rowsA').value=state.A.length;$('colsA').value=state.A[0].length;$('colsB').value=state.B[0].length;$('rowsB').value=state.B.length;renderTheory();renderOperands();renderCoefficients();if(gameRun?.action)$('taskText').textContent='Виконай перетворення '+gameRun.action.text;updateGaussControls();renderAnswer();$('stepStatus').textContent=isRowModule()&&state.stage===1?'Обирайте перетворення рядків. Після підготовки перетворення заповніть змінені рядки.':'Заповніть усі клітинки матриці результату та натисніть «Перевірити».';$('resultTitle').textContent=isRowModule()&&state.stage===1?'Матриця після перетворення':'Ваш результат';$('hintBtn').classList.toggle('hidden',state.mode==='game');$('solutionBtn').classList.toggle('hidden',state.mode==='game');$('autoSolve').classList.toggle('hidden',!canAutoSolve());updateSolutionButton();renderStats();renderHistory();renderGameMode()}
+function switchOp(op) {
+  if (state.mode !== 'train' || state.op === op) return;
+  state.op = op;
+  if(op==='row'){generate(true);return}
+  const [r,c,b] = dimensions();
+  if (incompatibleDimensions(op,r,c,n('rowsB',2),b)) {
+    const inputs = ['rowsA','colsA','rowsB','colsB'].map($);
+    const values = inputs.map(input => input.value);
+    generate(true);
+    inputs.forEach((input,index) => input.value = values[index]);
+    generate();
+    return;
+  }
+  generate();
+}
+const gameLevels=[
+  ['Додавання й віднімання','Обчисли суму або різницю двох матриць.','add'],
+  ['Множення на число','Помнож матрицю на задане число.','scale'],
+  ['Лінійна комбінація','Обчисли суму матриць із заданими коефіцієнтами.','linear'],
+  ['Добуток матриць','Знайди добуток матриць 2 × 3 і 3 × 2.','multiply'],
+  ['Перестановка рядків','Поміняй місцями два задані рядки.','gauss','swap'],
+  ['Множення рядка на число','Помнож заданий рядок на число.','gauss','scale'],
+  ['Додавання кратного рядка','Додай до одного рядка кратний іншого.','gauss','add'],
+  ['Елементарні перетворення','Зведи матрицю до зведеного східчастого вигляду.','gauss']
+];
+let selectedGameLevel=0, gameRun=null, gameResult='', gameBest={}, trainingMatrix=null;
+try {
+  const saved=localStorage.getItem('matrixChallengeEightLevelStars');
+  if(saved!==null)gameBest=JSON.parse(saved)||{};
+  else {
+    const previous=JSON.parse(localStorage.getItem('matrixChallengeOperationStars')||'{}')||{};
+    const {4: finalStars,...firstLevels}=previous;
+    gameBest={...firstLevels,7:finalStars||0};
+  }
+} catch (_) {}
+
+const temporarilyUnlockGameLevels=true;
+
+function isGameLevelUnlocked(index) {
+  return Number.isInteger(index)&&index>=0&&index<gameLevels.length
+    &&(temporarilyUnlockGameLevels||gameLevels.slice(0,index).every((_,i)=>gameBest[i]>0));
+}
+
+function renderGameMode() {
+  const playing=state.mode==='game';
+  $('gameShell').classList.toggle('hidden',!playing);
+  $('operations').classList.toggle('hidden',playing);
+  if(!playing)return;
+  if(!isGameLevelUnlocked(selectedGameLevel))selectedGameLevel=0;
+  $('setupPanel').classList.add('hidden');
+  $('mainContent').classList.toggle('hidden',!gameRun);
+  const completed=gameLevels.filter((_,i)=>gameBest[i]>0).length;
+  const stars=gameLevels.reduce((sum,_,i)=>sum+(gameBest[i]||0),0);
+  const stats=[['XP',state.gameXP],['Ранг',1+Math.floor(state.gameXP/250)],['Пройдено',completed+'/'+gameLevels.length],['Зірки',stars+'/'+(3*gameLevels.length)],['Серія',state.gameStreak]];
+  $('gameStats').innerHTML=stats.map(([label,value])=>`<div class="game-stat"><strong>${value}</strong>${label}</div>`).join('');
+  $('gameProgress').value=completed;
+  $('gameLevels').innerHTML=gameLevels.map(([name,description],i)=>`<button type="button" class="game-level" data-level="${i}" aria-pressed="${i===selectedGameLevel}" ${gameRun||!isGameLevelUnlocked(i)?'disabled':''}><strong>${i+1}. ${name}</strong><small>${isGameLevelUnlocked(i)?description:"Відкриється після рівня "+i}</small><span class="game-stars" aria-label="Зірки: ${gameBest[i]||0}">${'★'.repeat(gameBest[i]||0)}${'☆'.repeat(3-(gameBest[i]||0))}</span></button>`).join('');
+  $('gameTitle').textContent=gameLevels[selectedGameLevel][0];
+  $('gameDescription').textContent=gameRun&&state.stage===1?`Правильні кроки: ${gameRun.steps} · Орієнтир: 9`:'Для кожної спроби генерується нова матриця.';
+  $('gameStart').textContent=gameBest[selectedGameLevel]?'Повторити рівень':'Почати рівень';
+  $('gameStart').disabled=Boolean(gameRun);
+  $('gamePause').classList.toggle('hidden',!gameRun);
+  const result=$('gameResult');
+  if(result.textContent!==gameResult){
+    const stars=gameResult.match(/★+/);
+    if(!stars)result.textContent=gameResult;
+    else{
+      const icons=Array.from(stars[0],(star,index)=>{
+        const icon=document.createElement('span');
+        icon.className='game-award-star';
+        icon.style.animationDelay=(index*120)+'ms';
+        icon.textContent=star;
+        return icon;
+      });
+      result.replaceChildren(gameResult.slice(0,stars.index),...icons,gameResult.slice(stars.index+stars[0].length));
+    }
+  }
+  const achievements=[['Перший рівень',completed>0],['Три зірки',Object.values(gameBest).includes(3)],['Усі рівні',completed===gameLevels.length]];
+  $('gameAchievements').innerHTML=achievements.filter(([,earned])=>earned).map(([name])=>`<span>${name}</span>`).join('');
+}
+
+function startGameLevel() {
+  if(gameRun||!isGameLevelUnlocked(selectedGameLevel))return;
+  gameResult='';
+  gameRun={steps:0,mistakes:0};
+  const [, , op, kind]=gameLevels[selectedGameLevel];
+  const factor=()=>q([-3,-2,-1,2,3][Math.floor(Math.random()*5)]);
+  state.op=op;
+  state.hint=0;
+  state.attempted=false;
+  state.taskProgress=null;
+  state.A=randomMatrix(op==='gauss'?3:2,['gauss','multiply'].includes(op)?3:2,2);
+  state.B=randomMatrix(op==='multiply'?3:2,2,2);
+  state.sign=Math.random()<.5?1:-1;
+  state.k=factor();
+  state.alpha=factor();
+  state.beta=factor();
+  if(kind){
+    const action=randomRowAction(kind);
+    gameRun.action=action;
+    gameRun.target=applyOperation(state.A,kind,action.i,action.j,q(action.k));
+    state.stage=0;
+    resetAnswer();
+    render();
+  }else if(op==='gauss'){
+    const reduced=canonical(state.A).M;
+    if(state.A.every((row,i)=>row.every((v,j)=>v.eq(reduced[i][j]))))state.A[0][0]=q(2);
+    setGaussStage(1);
+  }else{
+    state.stage=0;
+    resetAnswer();
+    render();
+  }
+}
+
+function finishGameStep() {
+  gameRun.steps++;
+  const reduced=canonical(state.A).M;
+  if(state.gaussCurrent.every((row,i)=>row.every((v,j)=>v.eq(reduced[i][j]))))completeGameLevel();
+}
+
+function completeGameLevel() {
+  const run=gameRun;
+  const stars=!run.mistakes&&run.steps<=9?3:!run.mistakes?2:1;
+  const xp=stars*25;
+  gameBest[selectedGameLevel]=Math.max(stars,gameBest[selectedGameLevel]||0);
+  state.gameXP+=xp;
+  state.gameStreak++;
+  save();
+  try {localStorage.setItem('matrixChallengeEightLevelStars',JSON.stringify(gameBest));} catch (_) {}
+  gameResult=`Вітаємо! Рівень пройдено. ${'★'.repeat(stars)} · +${xp} XP`;
+  gameRun=null;
+}
+function switchMode(mode) {
+  if(state.mode===mode)return;
+  if(state.mode==='train'){
+    const {op,A,B,stage,gaussSteps,gaussCurrent,gaussHistory,hint,attempted,awarded,sign,k,alpha,beta,answer,checked,verified,pendingRow,rowTask,taskProgress}=state;
+    trainingMatrix={op,A,B,stage,gaussSteps,gaussCurrent,gaussHistory,hint,attempted,awarded,sign,k,alpha,beta,answer,checked,verified,pendingRow,rowTask,taskProgress};
+  }
+  if(state.mode==='game'){
+    if(gameRun){gameRun=null;state.gameStreak=0;save()}
+    gameResult='';
+  }
+  state.mode=mode;
+  if(mode==='train'&&trainingMatrix){
+    Object.assign(state,trainingMatrix);
+    $('feedback').replaceChildren();
+    $('hintBox').classList.add('hidden');
+    hideSolution();
+    render();
+    return;
+  }
+  resetAnswer();
+  render();
+  if(mode==='exam')makeExam();
+}
+function clearAnswer(){state.answer=isRowModule()&&state.stage===1?gaussStepAnswer():state.answer.map(row=>row.map(()=>''));state.checked=false;state.verified=false;$('feedback').innerHTML='';renderAnswer()}
+function updateProfileTheme(){document.querySelectorAll('.theme-btn').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.theme===(document.body.dataset.theme||'default'))))}
+function profile(){updateProfileTheme(); $('profileModal').classList.remove('hidden');$('profileName').value=state.username;$('profileStats').innerHTML=$('stats').innerHTML;const previous=state.autoSolutions-autoSolveModules.reduce((sum,k)=>sum+(state.stats[k]?.autoSolutions||0),0);if(previous>0){const note=document.createElement('p');note.className='section-note';note.textContent='Попередні автоматичні розв’язання поза поточним розподілом: '+previous;note.style.gridColumn='1 / -1';$('profileStats').append(note)}$('profileModules').innerHTML=keys.map(k=>{const s=state.stats[k]||{attempts:0,correct:0,cells:0,good:0};return `<div class="step"><b>${names[k]}</b> — ${s.attempts} завдань · перевірок ${s.checks||0}; правильних завдань: ${s.correct}; правильних клітинок: ${s.cells?Math.round(100*s.good/s.cells):0}% · переглядів розв’язку ${s.solutionViews||0}${autoSolveModules.includes(k)?' · автоматичних розв’язань '+(s.autoSolutions||0):''}</div>`}).join('')}
+// Контрольна: відкладена перевірка усіх п'яти видів операцій.
+function randomRowAction(kind,count=3) {
+  const i=Math.floor(Math.random()*count);
+  const j=(i+1+Math.floor(Math.random()*(count-1)))%count;
+  const factors=[-3,-2,-1,1,2,3].filter(value=>kind!=='scale'||value!==1);
+  const k=factors[Math.floor(Math.random()*factors.length)];
+  const rows=Array.from({length:count},(_,index)=>'R'+'₁₂₃₄₅'[index]);
+  const factor=k<0?`(${k})`:String(k);
+  const text=kind==='swap'?`${rows[i]} ↔ ${rows[j]}`:kind==='scale'?`${rows[i]} ← ${factor} · ${rows[i]}`:`${rows[i]} ← ${rows[i]} + ${factor} · ${rows[j]}`;
+  return {kind,i,j,k,text};
+}
+function makeExam() {
+  const items = [];
+  function addItem(op,A,B,target,title,actions) {
+    items.push({op,A,B,target,title,actions,ans:target.map(row=>row.map(()=>''))});
+  }
+  for (const op of keys.filter(key=>key!=='gauss'&&key!=='row')) {
+    const A=randomMatrix(2,2,2), B=randomMatrix(2,2,2);
+    const target=op==='add'?add(A,B):op==='scale'?scale(A,q(2)):op==='linear'?add(scale(A,q(2)),scale(B,q(-1))):mult(A,B);
+    addItem(op,A,B,target,names[op]);
+  }
+  function addRowItem(title,moves,columns=4) {
+    const A=randomMatrix(3,3,2);
+    const target=moves.reduce((matrix,{kind,i,j,k})=>applyOperation(matrix,kind,i,j,q(k)),A);
+    addItem('gauss',A,null,target,title,moves);
+  }
+  addRowItem('Перестановка рядків',[randomRowAction('swap')]);
+  addRowItem('Множення рядка',[randomRowAction('scale')]);
+  addRowItem('Додавання кратного рядка',[randomRowAction('add')]);
+  const kinds=['swap','scale','add'];
+  for (let i=kinds.length-1;i>0;i--) {
+    const j=Math.floor(Math.random()*(i+1));
+    [kinds[i],kinds[j]]=[kinds[j],kinds[i]];
+  }
+  addRowItem(names.gauss,kinds.map(kind=>randomRowAction(kind)),3);
+  state.exam={items,index:0,finished:false};
+  $('examFinal').classList.add('hidden');
+  renderExam();
+}
+function renderExam(){const ex=state.exam;if(!ex){$('examWork').innerHTML='';$('examState').textContent='Ще не розпочато';return}const idx=ex.index,item=ex.items[idx];$('examState').textContent=`Завдання ${idx+1}/${ex.items.length}`;const el=$('examWork');el.innerHTML=`<div class="exam-question"><h3>${idx+1}. ${item.title}</h3><div id="examOperands" class="matrix-zone"></div><div class="section-note" id="examTask"></div><h3>Матриця-результат</h3><div id="examAnswer" class="matrix-zone"></div><div class="row"><button id="examPrev" ${idx===0?'disabled':''}>← Назад</button><button class="primary" id="examNext">${idx===ex.items.length-1?'Завершити контрольну':'Наступне →'}</button></div></div>`;const m=$('examOperands');m.append(renderMatrix(item.A,false,'A'));if(['add','linear','multiply'].includes(item.op)){const sym=document.createElement('span');sym.className='math-op';sym.textContent=item.op==='multiply'?' · ':item.op==='linear'?' + ': ' + ';m.append(sym,renderMatrix(item.B,false,'B'))}const task=$('examTask');if(item.op==='gauss'){if(item.actions.length===1){task.textContent=item.actions[0].text}else{task.innerHTML='<strong>Виконайте послідовно</strong><ol>'+item.actions.map(action=>'<li>'+escapeHTML(action.text)+'</li>').join('')+'</ol>Введіть матрицю після третьої дії.'}}else{task.textContent=item.op==='scale'?'Обчисліть 2·A':item.op==='linear'?'Обчисліть 2A − B':'Обчисліть результат операції'};$('examAnswer').append(renderMatrix(item.ans,true,'Відповідь',(i,j,v)=>item.ans[i][j]=v));$('examPrev').onclick=()=>{ex.index--;renderExam()};$('examNext').onclick=()=>{if(ex.index<ex.items.length-1){ex.index++;renderExam()}else finishExam()}}
+function finishExam(){const ex=state.exam;let good=0,total=0,matching=0;const lines=[];for(const [index,item] of ex.items.entries()){const M=item.ans.map(row=>row.map(s=>{try{return Q.of(s)}catch(_){return null}}));const count=M.length*M[0].length;
+const right=M.reduce((sum,row,i)=>sum+row.filter((v,j)=>v?.eq(item.target[i][j])).length,0);
+const points=item.op==='gauss'?(right===count?count:0):right;
+matching+=right;good+=points;total+=count;
+lines.push((index+1)+'. '+item.title+' · Бали '+points+'/'+count+' · Збіг клітинок '+right+'/'+count);}const grade=Math.round(good/total*100);$('examWork').innerHTML='';$('examState').textContent='Завершено';$('examFinal').innerHTML=`<h3>Результат контрольної: ${grade}/100</h3><p>Бали за завдання: ${good} із ${total}. Правильні клітинки: ${matching} із ${total}.</p>${lines.map(s=>`<div class="step">${escapeHTML(s)}</div>`).join('')}<p>У модулі «Елементарні перетворення» бал зараховується, якщо вся матриця збігається з результатом заданої дії або послідовності дій.</p>`;$('examFinal').classList.remove('hidden');ex.finished=true;record('Контрольна робота: '+grade+'/100')}
+$('operations').onclick=e=>{const b=e.target.closest('[data-op]');if(b)switchOp(b.dataset.op)};$('modes').onclick=e=>{const b=e.target.closest('[data-mode]');if(b)switchMode(b.dataset.mode)};document.querySelectorAll('.theme-btn').forEach(b=>b.onclick=()=>{document.body.dataset.theme=b.dataset.theme;updateProfileTheme();save()});document.querySelectorAll('[data-size][data-step]').forEach(button=>button.onclick=()=>{const input=$(button.dataset.size);if(isRowModule()&&button.dataset.step==='1'){addGaussDimension(input.id);return}input.value=Math.max(Number(input.min),Math.min(Number(input.max),n(input.id,2)+Number(button.dataset.step)))});$('generateElements').onclick=()=>generate(false,true);$('example').onclick=()=>{if(isRowModule()){$('rowsA').value=3;$('colsA').value=3}else{$('rowsA').value=2;$('colsA').value=2}$('colsB').value=2;if(['add','multiply','linear'].includes(state.op))$('rowsB').value=2;generate(true)};$('undo').onclick=()=>{if(isRowModule()&&state.stage===1)undoGauss();else clearAnswer()};$('check').onclick=check;$('clear').onclick=clearAnswer;$('hintBtn').onclick=showHint;$('solutionBtn').onclick=showSolution;$('autoSolve').onclick=showAutomaticSolution;$('gameLevels').onclick=e=>{const button=e.target.closest('[data-level]');if(!button||gameRun)return;const index=Number(button.dataset.level);if(!isGameLevelUnlocked(index))return;selectedGameLevel=index;gameResult='';renderGameMode()};$('gameStart').onclick=startGameLevel;$('gamePause').onclick=()=>{gameRun=null;state.gameStreak=0;save();gameResult='Спробу завершено. Можна запустити новий рівень.';render()};$('startExam').onclick=makeExam;$('profileBtn').onclick=profile;$('closeProfile').onclick=()=>$('profileModal').classList.add('hidden');$('saveProfile').onclick=()=>{state.username=$('profileName').value.trim();save();$('profileModal').classList.add('hidden')};$('resetStats').onclick=()=>{if(confirm('Очистити статистику і бали?')){state.stats={};state.hintsUsed=0;state.autoSolutions=0;state.solutionViews=0;state.gameXP=0;state.gameStreak=0;gameBest={};try{localStorage.removeItem('matrixChallengeEightLevelStars');localStorage.removeItem('matrixChallengeOperationStars')}catch(_){}save();renderStats();renderGameMode();profile()}};
+state.A=[[q(1),q(2)],[q(3),q(4)]];state.B=[[q(2),q(-1)],[q(0),q(3)]];state.gaussCurrent=copy(state.A);state.gaussSteps=stepGauss(state.A).steps;resetAnswer();render();renderExam();
+</script>
+</body></html>
